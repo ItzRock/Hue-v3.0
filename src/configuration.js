@@ -13,6 +13,11 @@ const config = {
 
     "supportCases": "ill add this later",
     "logChannel": "69420 gmaer",
+    
+    "defaultSettings" : {
+        "prefix": "?",
+      },
+    
 
     permissionLevels: [
         {
