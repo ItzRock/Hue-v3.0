@@ -1,0 +1,25 @@
+{
+  "name": "hue-v3.0",
+  "version": "3.0.0",
+  "description": "Hue but more epic",
+  "main": "index.js",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "discord.js": "^12.5.1",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ItzRock/Hue-v3.0.git"
+  },
+  "author": "Anthony",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ItzRock/Hue-v3.0/issues"
+  },
+  "homepage": "https://github.com/ItzRock/Hue-v3.0#readme"
+}
