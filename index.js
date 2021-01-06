@@ -25,6 +25,7 @@ client.logger.log("Configuration Has Been Loaded")
 
 /* Lets load our Functions */
 require("./src/functions/functions")(client)
+require("./src/database/users-database")(client)
 // -- //
 const boot = async function(){
     const commands = await readdir('./commands/'); // array of commands found in the commands folder of the bot.
