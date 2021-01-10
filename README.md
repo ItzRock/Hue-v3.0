@@ -89,17 +89,3 @@ Twitter - [@itzrock_](https://twitter.com/itzrock_)
 
 Project Link: [https://github.com/ItzRock/Hue-v3.0](https://github.com/ItzRock/Hue-v3.0)
 
-
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo.svg?style=for-the-badge
-[contributors-url]: https://github.com/ItzRock/Hue-v3.0/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/ItzRock/repo.svg?style=for-the-badge
-[forks-url]: https://github.com/ItzRock/Hue-v3.0/network/members
-[stars-shield]: https://img.shields.io/github/stars/ItzRock/repo.svg?style=for-the-badge
-[stars-url]: https://github.com/ItzRock/Hue-v3.0/stargazers
-[issues-shield]: https://img.shields.io/github/issues/ItzRock/Hue-v3.0.svg?style=for-the-badge
-[issues-url]: https://github.com/ItzRock/Hue-v3.0/issues
