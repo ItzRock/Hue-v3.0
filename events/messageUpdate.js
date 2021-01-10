@@ -32,7 +32,7 @@ module.exports = async (client, oldMessage, newMessage) => {
             .setAuthor(`${client.user.username}`, client.user.avatarURL())
             .addFields(
                 { name: 'Original content: ', value: `${oldMessageContent}`, inline: true},
-                { name: 'Updated content: ', value: `${newMessageContent}`, inline: true},
+                { name: 'Updated content: ', value: `[${newMessageContent}](https://discord.com/channels/${newMessage.guild.id}/${newMessage.channel.id}/${newMessage.id})`, inline: true},
                 { name: 'Message author: ', value: `${newMessage.author}`,},
                 { name: 'Channel: ', value: `${newMessage.channel}`,}
             )
