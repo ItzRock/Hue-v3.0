@@ -1,9 +1,20 @@
 /* 
+      _    _              ____         ___  
+     | |  | |            |___ \       / _ \ 
+     | |__| |_   _  ___    __) |     | | | |
+     |  __  | | | |/ _ \  |__ <      | | | |
+     | |  | | |_| |  __/  ___) |  _  | |_| |
+     |_|  |_|\__,_|\___| |____/  (_)  \___/ 
+                                        
+                                        
     Written with love by It'z Rock
     ItzRock#0002 (299682971374452739)
     @ItzRock_ (twitter)
+    --------------------
+    Based off: Hue 2.0 
+    Hue 2.0 was based off: https://github.com/AnIdiotsGuide/guidebot
 
-    Although while this is based off hue 2.0, hue 2.0 was based off of https://github.com/AnIdiotsGuide/guidebot
+    While i wrote a bunch of this, its not all me.
 */
 
 const Discord = require('discord.js'); // Discord JS will be the api we use
@@ -17,14 +28,13 @@ const Enmap = require("enmap");
 // Lets grab our library early so we can use them early on
 require("./src/lib-loader")(client)
 
-//Enmap because idk 
+//Enmap to store data
 client.settings = new Enmap({name: "settings"});
 client.commands = new Enmap();
 client.aliases = new Enmap();
 
 client.config = require('./src/configuration')
 client.logger = require('./src/functions/logger')
-client.logger.log("Configuration Has Been Loaded")
 
 /* Lets load our Functions */
 require("./src/databaseLoader")(client)
@@ -33,7 +43,6 @@ require("./src/functions/functions")(client)
 
 const boot = async function(){
     const commands = await readdir('./commands/'); // array of commands found in the commands folder of the bot.
-    client.logger.log(`Loading a total of ${commands.length} commands.`); // logs number of commands that was found using readdir
     commands.forEach(async f => { // for each of the entries in the command array]
         var stats = fs.statSync(__dirname + '\\commands\\' + f); 
         if(stats.isDirectory() == true){

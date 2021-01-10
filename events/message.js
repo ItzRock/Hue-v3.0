@@ -28,7 +28,11 @@ module.exports = async (client, message) => {
 
     if (cmd && !message.guild && cmd.conf.guildOnly)
       return message.channel.send("This command is unavailable in DMs. Please run in a Server.");
-  
+    const disabledCommands = message.settings["disabled-commands"]
+    if(disabledCommands.value.includes(cmd.help.name)){
+      return message.channel.send(`This command has been disabled in this guild! please try another guild or in DMs.`)
+    } 
+    
     if (level < client.levelCache[cmd.conf.permissionLevels]) {
       if (settings.systemNotice === "true") {
         return message.channel.send(`Invalid Permission Level.

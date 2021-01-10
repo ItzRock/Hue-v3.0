@@ -1,16 +1,5 @@
 const keys = require("./keys.json")
 const client = require("../index")
-class Setting{
-    constructor(name, value, editable, aliases){
-        this.name = name;
-        this.value = value;
-        this.editable = editable
-        if(aliases){
-            this.aliases = aliases
-        }
-        
-    }
-}
 const config = {
     "AuthorizedUsers": [ 
     /* For now this will an array like hue 2.0
@@ -22,17 +11,19 @@ const config = {
     "database": ["mongodb://localhost:27017", "Hue"],
     "token": keys.main,
 
+    "status": "dev", // static or cycle, or dev
+
     "supportCases": "ill add this later",
     "logChannel": "69420 gmaer",
     
     "defaultSettings" : {
-        "prefix": new Setting("prefix", "?", true),
-        "adminroles": new Setting("administrator role", undefined, true, ["adminrole", "admin"]),
-        "modroles": new Setting("moderator role", undefined, true, ["modrole", "mod"]),
-        "mutedrole": new Setting("muted role", undefined, true, ["muted", "mutedrole"]),
-        "logs": new Setting("logs", undefined, true),
-        "verification": new Setting("verification", undefined, true),
-        "disabled-commands": new Setting("disabled commands", [], true, ["disable"]),
+        "prefix": {name: "prefix", value: "?", editable: true},
+        "adminroles": {name: "administrator role", value: undefined, editable: true, aliases: ["adminrole", "admin"]},
+        "modroles": {name: "moderator role", value :undefined, editable: true, aliases:["modrole", "mod"]},
+        "mutedrole": {name: "muted role", value: undefined, editable: true, aliases: ["muted", "mutedrole"]},
+        "logs": {name: "logs", value: undefined, editable: true},
+        "verification": {name: "verification", value: undefined, editable: true},
+        "disabled-commands": {name: "disabled commands", value: [], editable: true, aliases:["disable"]}
     },
     permissionLevels: [
         {
