@@ -29,7 +29,7 @@
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
-
+## please note that hue 3.0 is currently not finished.
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
