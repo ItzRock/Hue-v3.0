@@ -7,13 +7,13 @@ module.exports = async (client, message) => {
   
     const prefixMention = new RegExp(`^<@!?${client.user.id}>( |)$`);
     if (message.content.match(prefixMention)) {
-      return message.reply(`:wave: my prefix is: \`${settings.prefix}\``);
+      return message.reply(`:wave: my prefix is: \`${settings.prefix.value}\``);
     }
     // not for us
-    if (message.content.indexOf(settings.prefix) !== 0) return;
+    if (message.content.indexOf(settings.prefix.value) !== 0) return;
 
     // define the arguments
-    const args = message.content.slice(settings.prefix.length).trim().split(/ +/g);
+    const args = message.content.slice(settings.prefix.value.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
   
     // If the member on a guild is invisible or not cached, fetch them.

@@ -14,6 +14,9 @@ const readdir = promisify(require("fs").readdir);
 const fs = require('fs')
 const Enmap = require("enmap");
 
+// Lets grab our library early so we can use them early on
+require("./src/lib-loader")(client)
+
 //Enmap because idk 
 client.settings = new Enmap({name: "settings"});
 client.commands = new Enmap();
@@ -24,9 +27,10 @@ client.logger = require('./src/functions/logger')
 client.logger.log("Configuration Has Been Loaded")
 
 /* Lets load our Functions */
+require("./src/databaseLoader")(client)
 require("./src/functions/functions")(client)
-require("./src/database/users-database")(client)
 // -- //
+
 const boot = async function(){
     const commands = await readdir('./commands/'); // array of commands found in the commands folder of the bot.
     client.logger.log(`Loading a total of ${commands.length} commands.`); // logs number of commands that was found using readdir

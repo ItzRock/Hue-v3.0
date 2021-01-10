@@ -6,7 +6,7 @@ fs.writeFile(`./logs/${filename}`, "[LOGS]", function(err){
   if(err){console.log("oh god something broke: " + err);}
 })
 exports.log = (content, type = "log",) => {
-  const timestamp = `[${moment().format("YYYY-MM-DD HH:mm:ss")}]:`;
+  const timestamp = `[${moment().format("YYYY-MM-DD HH:mm")}]:`;
   fs.appendFile(`./logs/${filename}`, `\n${timestamp} ${type.toUpperCase()} ${content} `, function(err){
     if(err){console.log("Failed to log: "  + err)}
   })

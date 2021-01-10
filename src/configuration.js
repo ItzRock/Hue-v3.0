@@ -1,6 +1,17 @@
 const keys = require("./keys.json")
 const client = require("../index")
-const config = { 
+class Setting{
+    constructor(name, value, editable, aliases){
+        this.name = name;
+        this.value = value;
+        this.editable = editable
+        if(aliases){
+            this.aliases = aliases
+        }
+        
+    }
+}
+const config = {
     "AuthorizedUsers": [ 
     /* For now this will an array like hue 2.0
     but once i get the database working
@@ -8,17 +19,22 @@ const config = {
     rules of the hue network admin panel */
         "299682971374452739"
     ],
-
+    "database": ["mongodb://localhost:27017", "Hue"],
     "token": keys.main,
 
     "supportCases": "ill add this later",
     "logChannel": "69420 gmaer",
     
     "defaultSettings" : {
-        "prefix": "?",
-      },
-    
-
+        
+        "prefix": new Setting("prefix", "?", true),
+        "adminroles": new Setting("Administrator Role", undefined, true, ["adminrole", "admin"]),
+        "modroles": new Setting("Moderator Role", undefined, true, ["modrole", "mod"]),
+        "mutedrole": undefined,
+        "logs": undefined,
+        "verification": undefined,
+        "disabled-commands": []
+    },
     permissionLevels: [
         {
             level: 0,
