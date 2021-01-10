@@ -51,12 +51,17 @@
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
+    <li><a href="#about-the-project">About The Project</a></li>
     <li><a href="#installation">Installation</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
 
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+Hue is a discord bot based orginally for the roblox group foliage productions and now is going under its 3rd revision.
 
 
 ### Installation
