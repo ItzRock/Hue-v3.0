@@ -37,6 +37,10 @@ Hue 3.0 while is an entirely new version, its a heavily modified version of Hue 
 and Hue 2.0 was a modified version of GuideBot which you can find here
 https://github.com/AnIdiotsGuide/guidebot
 
+## Requirements.
+- [Node.js](https://nodejs.org/)
+- [MongoDB server](https://www.mongodb.com/try/download/community)
+- And probably something else i forgot
 ### Installation
 
 1. Clone the repo
@@ -47,7 +51,6 @@ https://github.com/AnIdiotsGuide/guidebot
    ```sh
    npm install
    ```
-
 <!-- LICENSE -->
 ## License
 
