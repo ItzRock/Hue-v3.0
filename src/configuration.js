@@ -26,14 +26,13 @@ const config = {
     "logChannel": "69420 gmaer",
     
     "defaultSettings" : {
-        
         "prefix": new Setting("prefix", "?", true),
-        "adminroles": new Setting("Administrator Role", undefined, true, ["adminrole", "admin"]),
-        "modroles": new Setting("Moderator Role", undefined, true, ["modrole", "mod"]),
-        "mutedrole": undefined,
-        "logs": undefined,
-        "verification": undefined,
-        "disabled-commands": []
+        "adminroles": new Setting("administrator role", undefined, true, ["adminrole", "admin"]),
+        "modroles": new Setting("moderator role", undefined, true, ["modrole", "mod"]),
+        "mutedrole": new Setting("muted role", undefined, true, ["muted", "mutedrole"]),
+        "logs": new Setting("logs", undefined, true),
+        "verification": new Setting("verification", undefined, true),
+        "disabled-commands": new Setting("disabled commands", [], true, ["disable"]),
     },
     permissionLevels: [
         {
