@@ -33,14 +33,11 @@ module.exports = async (client, message) => {
       return message.channel.send(`This command has been disabled in this guild! please try another guild or in DMs.`)
     } 
     
-    if (level < client.levelCache[cmd.conf.permissionLevels]) {
-      if (settings.systemNotice === "true") {
+    if (level < client.levelCache[cmd.conf.permLevel]) {
         return message.channel.send(`Invalid Permission Level.
     Your permission level is ${level} (${client.config.permissionLevels.find(l => l.level === level).name})
-    This command requires level ${client.levelCache[cmd.conf.permissionLevels]} (${cmd.conf.permissionLevels})`);
-      } else {
-        return;
-      }
+    This command requires level ${client.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})`);
+      
     }
     message.author.permissionLevels = level;
     

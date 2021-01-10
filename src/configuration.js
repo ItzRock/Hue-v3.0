@@ -13,8 +13,8 @@ const config = {
     
     "defaultSettings" : {
         "prefix": {name: "prefix", value: "?", editable: true},
-        "adminroles": {name: "adminroles", value: undefined, editable: true, aliases: ["adminrole", "admin"]},
-        "modroles": {name: "modroles", value :undefined, editable: true, aliases:["modrole", "mod"]},
+        "adminrole": {name: "adminrole", value: [], editable: true, aliases: ["adminrole", "admin"]},
+        "modroles": {name: "modroles", value :[], editable: true, aliases:["modrole", "mod"]},
         "mutedrole": {name: "mutedrole", value: undefined, editable: true, aliases: ["muted"]},
         "logs": {name: "logs", value: undefined, editable: true},
         "verification": {name: "verification", value: undefined, editable: true},
@@ -37,7 +37,17 @@ const config = {
             level: 2,
             name: "Administrator",
             check: (message) => {
-                return false
+                try {
+                    try {
+                        let adminRole = message.guild.roles.cache.find(r => r.name.toLowerCase() === message.settings.adminrole.value.toLowerCase());
+                        if(adminRole == undefined) adminRole = message.guild.roles.cache.find(r => r.id === message.settings.adminrole.value.replace("<@&", ""));
+                        return (adminRole && message.member.roles.cache.has(adminRole.id));
+                      } catch (e) {
+                        return false;
+                      }
+                  } catch (e) {
+                    return false;
+                  }
             }
         },
         {
