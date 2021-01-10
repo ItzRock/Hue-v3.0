@@ -32,8 +32,10 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Hue is a discord bot based orginally for the roblox group foliage productions and now is going under its 3rd revision.
-
+Hue is a Discord bot made in the Discord.JS api, written for Node JS and is public to use.
+Hue 3.0 while is an entirely new version, its a heavily modified version of Hue 2.0
+and Hue 2.0 was a modified version of GuideBot which you can find here
+https://github.com/AnIdiotsGuide/guidebot
 
 ### Installation
 
