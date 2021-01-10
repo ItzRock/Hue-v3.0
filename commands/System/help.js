@@ -1,0 +1,87 @@
+const { MessageEmbed } = require('discord.js');
+const filename = require('path').basename(__filename).split(".")[0]
+exports.run = (client, message, args, level) => {
+    // If no specific command is called, show all filtered commands.
+    if (!args[0] || args[0] == "expanded" || args[0] == "all") {
+      // Filter all commands by which are available for the user's level, using the <Collection>.filter() method.
+      const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level &&  cmd.conf.guildOnly !== true);
+  
+      // Here we have to get the command names only, and we use that array to get the longest name.
+      // This make the help commands "aligned" in the output.
+      const commandNames = myCommands.keyArray();
+      const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
+  
+      let currentCategory = "";
+      let commandsList = ``
+      let output = new MessageEmbed()
+        .setColor(client.embedColour())
+        .setTitle(`Commands List - ${client.user.username}`)
+        .setAuthor(client.user.username, client.user.avatarURL())
+        .setDescription(`[Use ${message.settings.prefix.value}help [commandname] for details]`)
+        .setTimestamp()
+        .setFooter('Commands list updated at', client.user.avatarURL());
+  
+      if (args[0] == "expanded" || args[0] == "all") {
+        const sorted = myCommands.array().sort((p, c) => p.help.category  > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
+        sorted.forEach( c => {
+          const cat = c.help.category;
+          if (currentCategory !== cat) {
+            commandsList += `\u200b\n**• ${cat}**\n`;
+            currentCategory = cat;
+          }
+          commandsList += `${message.settings.prefix.value}${c.help.name}${" ".repeat(longest - c.help.name.length)} :: ${c.help.description}\n`;
+        
+        });
+      } else {
+        const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
+        sorted.forEach( c => {
+          const cat = c.help.category;
+          if (currentCategory !== cat) {
+            commandsList += `\u200b\n\n**• ${cat}**\n`;
+            currentCategory = cat;
+          }
+          commandsList += `\`\`${c.help.name}\`\`, `;
+        });
+      }
+  
+      output.setDescription(`\`\`[Use ${message.settings.prefix.value}help [commandname] for details]\`\` \n${commandsList}`)
+      message.channel.send(output);
+    } else {
+      // Show individual command's help.
+      let command = args[0];
+      if (client.commands.has(command)) {
+        command = client.commands.get(command);
+        if (level < client.levelCache[command.conf.permLevel]) return;
+        
+        let output = new MessageEmbed()
+            .setColor(client.embedColour())
+            .setTitle(command.help.name)
+            .setAuthor(client.user.username, client.user.avatarURL())
+            .addFields(
+                { name: 'Command name', value: `\`${command.help.name}\u200b\``, inline:true },
+                { name: 'Description', value: `\`${command.help.description}\u200b\``, inline:true },
+                { name: 'Level', value: `\`${command.conf.permLevel}\u200b\``, inline:true },
+                { name: 'Usage', value: `\`${command.help.usage}\u200b\`` , inline:true},
+                { name: 'Type', value: `\`${command.help.category}\u200b\`` , inline:true},
+                { name: 'Can Be Disabled?', value: `\`${command.conf.disablable}\u200b\`` , inline:true},
+            )
+            .setTimestamp()
+            .setFooter(`[optional] <required>\nCommand info for: "${command.help.name}" updated at`, client.user.avatarURL());
+        message.channel.send(output);
+      }
+    }
+  };
+
+exports.conf = {
+    enabled: true,
+    guildOnly: true,
+    aliases: [],
+    permLevel: "User",
+    disablable: false
+};
+exports.help = {
+    name: filename,
+    category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+    description: "helps you with getting help",
+    usage: `${filename} [command]`
+};

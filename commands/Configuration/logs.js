@@ -15,22 +15,21 @@ exports.run = async (client, message, args, level) => {
     if(off.includes(args[0].toLowerCase())) {
         client.settings.set(message.guild.id, formatize(undefined), "logs")
         return message.channel.send(`Moderation Logs have been disabled.`);
-    }
-    if (message.channel.name !== settings.logs) {
-      client.settings.set(message.guild.id, formatize(id), "logs")
-      settings = message.settings
-      message.channel.send(`Moderation logs will appear in <#${id}>`);
     } else {
-      client.settings.set(message.guild.id, formatize(undefined), "logs")
-      message.channel.send(`Moderation Logs have been disabled.`);
+        client.settings.set(message.guild.id, formatize(id), "logs")
+        settings = message.settings
+        message.channel.send(`Moderation logs will appear in <#${id}>`);
     }
+    
+    
 }
 
 exports.conf = {
     enabled: true,
     guildOnly: true,
     aliases: ["setLogs", "logChannel"],
-    permLevel: "Administrator"
+    permLevel: "Administrator",
+    disablable: false
 };
   
 exports.help = {

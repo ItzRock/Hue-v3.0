@@ -6,19 +6,19 @@ const config = {
     "database": ["mongodb://localhost:27017", "Hue"],
     "token": keys.main,
 
-    "status": "dev", // static or cycle, or dev
+    "status": "dev", // static or dev
 
     "supportCases": "ill add this later",
     "logChannel": "767976193483079690",
     
     "defaultSettings" : {
         "prefix": {name: "prefix", value: "?", editable: true},
-        "adminroles": {name: "administrator role", value: undefined, editable: true, aliases: ["adminrole", "admin"]},
-        "modroles": {name: "moderator role", value :undefined, editable: true, aliases:["modrole", "mod"]},
-        "mutedrole": {name: "muted role", value: undefined, editable: true, aliases: ["muted", "mutedrole"]},
+        "adminroles": {name: "adminroles", value: undefined, editable: true, aliases: ["adminrole", "admin"]},
+        "modroles": {name: "modroles", value :undefined, editable: true, aliases:["modrole", "mod"]},
+        "mutedrole": {name: "mutedrole", value: undefined, editable: true, aliases: ["muted"]},
         "logs": {name: "logs", value: undefined, editable: true},
         "verification": {name: "verification", value: undefined, editable: true},
-        "disabled-commands": {name: "disabled commands", value: [], editable: true, aliases:["disable"]}
+        "disabled-commands": {name: "disabled-commands", value: [], editable: true, aliases:["disable"]}
     },
     permissionLevels: [
         {
