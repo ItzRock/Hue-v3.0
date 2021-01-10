@@ -1,11 +1,6 @@
-const keys = require("./keys.json")
-const client = require("../index")
+const keys = require("./keys.json");
 const config = {
-    "AuthorizedUsers": [ 
-    /* For now this will an array like hue 2.0
-    but once i get the database working
-    we'll run this off of hue administrator 
-    rules of the hue network admin panel */
+    "AuthorizedUsers": [
         "299682971374452739"
     ],
     "database": ["mongodb://localhost:27017", "Hue"],
@@ -14,7 +9,7 @@ const config = {
     "status": "dev", // static or cycle, or dev
 
     "supportCases": "ill add this later",
-    "logChannel": "69420 gmaer",
+    "logChannel": "767976193483079690",
     
     "defaultSettings" : {
         "prefix": {name: "prefix", value: "?", editable: true},
