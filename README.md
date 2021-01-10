@@ -105,7 +105,7 @@ Distributed under the Apache License 2.0 License. See `LICENSE` for more informa
 <!-- CONTACT -->
 ## Contact
 
-ItzRock - [@twitter_handle](https://twitter.com/twitter_handle)
+Twitter - [@itzrock_](https://twitter.com/itzrock_)
 
 Project Link: [https://github.com/ItzRock/Hue-v3.0](https://github.com/ItzRock/Hue-v3.0)
 
