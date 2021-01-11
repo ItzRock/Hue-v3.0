@@ -15,7 +15,8 @@ exports.conf = {
   guildOnly: false,
   aliases: [],
   permLevel: "Hue Administrator",
-  disablable: true
+  disablable: true,
+  premium: false
 };
 
 exports.help = {

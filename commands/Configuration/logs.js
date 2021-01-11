@@ -25,7 +25,8 @@ exports.conf = {
     guildOnly: true,
     aliases: ["setLogs", "logChannel"],
     permLevel: "Administrator",
-    disablable: false
+    disablable: false,
+    premium: false
 };
   
 exports.help = {

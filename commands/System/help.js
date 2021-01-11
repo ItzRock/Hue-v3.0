@@ -77,7 +77,8 @@ exports.conf = {
     guildOnly: true,
     aliases: [],
     permLevel: "User",
-    disablable: false
+    disablable: false,
+    premium: false
 };
 exports.help = {
     name: filename,

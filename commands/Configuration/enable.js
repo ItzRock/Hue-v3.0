@@ -21,7 +21,8 @@ exports.conf = {
     guildOnly: true,
     aliases: [],
     permLevel: "Administrator",
-    disablable: false
+    disablable: false,
+    premium: false
 };
 exports.help = {
     name: filename,
