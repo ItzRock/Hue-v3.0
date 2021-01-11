@@ -39,6 +39,7 @@ client.logger = require('./src/functions/logger')
 /* Lets load our Functions */
 require("./src/databaseLoader")(client)
 require("./src/functions/functions")(client)
+require("./src/functions/server-settings")(client)
 // -- //
 
 const boot = async function(){
