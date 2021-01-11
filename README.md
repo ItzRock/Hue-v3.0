@@ -30,7 +30,7 @@
   </ol>
 </details>
 
-## please note that hue 3.0 is currently not finished.
+## Please note that hue 3.0 is currently not finished.
 there will be bugs and you will need to make some of your own commands for now
 <!-- ABOUT THE PROJECT -->
 ## About The Project
