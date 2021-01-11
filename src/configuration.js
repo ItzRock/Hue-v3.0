@@ -17,44 +17,51 @@ const config = {
             value: "?",
             catagory: "General",
             editable: true},
+
         "adminrole": {
             name: "adminrole", 
             catagory: "Moderation", 
             value: undefined, 
             editable: true, 
             aliases: ["admin"]},
+
         "modrole": {
             name: "modrole",
             catagory: "Moderation", 
             value :undefined, 
             editable: true, 
             aliases:["mod"]},
+
         "mutedrole": {
             name: "mutedrole",
             catagory: "Moderation",
             value: undefined, 
             editable: true, 
             aliases: ["muted"]},
+
         "logs": {
             name: "logs",
             catagory: "Moderation", 
             value: undefined, 
             editable: true},
+
         "verification": {
             name: "verification",
             catagory: "Verification", 
             value: undefined, 
             editable: true},
+
         "premium": {
             name: "premium",
-            catagory: "", 
             value: false, 
             editable: false},
+
         "disabled-commands": {
             name: "disabled-commands", 
             value: [], 
             editable: false, 
             aliases:["disable"]}
+
     },
     permissionLevels: [
         {
