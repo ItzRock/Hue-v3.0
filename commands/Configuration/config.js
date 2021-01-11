@@ -14,22 +14,29 @@ exports.run = async (client, message, args, level) => {
             .setTimestamp()
         // Get the catagories
         const catagories = []
+        const catagoryNames = []
         settings.forEach(setting => {
             const catagory = setting.catagory
             if(catagory == "" || catagory == undefined) return;
             if(setting.editable == false) return "Not editable."
-            if(catagories.includes(catagory)) return "Already have that catagory."
+            if(catagoryNames.includes(catagory)) return "Already have that catagory."
             catagories.push({name: catagory, fields: []})
+            catagoryNames.push(catagory)
         })
+        console.log(catagories);
         // Add the keys to the catagories
         catagories.forEach(catagory =>{
             settings.forEach(key =>{
                 if(key.disablable == false) return
-                catagory.fields.push(`\`${key.name}:\`\n${key.value}\n`)
+                if(key.catagory != catagory.name) return
+                if(key.value == undefined) key.value = `Value not set.`
+                catagory.fields.push(`**${key.name}:**\n\`${key.value}\`\n`)
             })
         })
-        console.log(catagories);
+
+
         catagories.forEach(catagory => {
+            console.log(catagory);
             embed.addField(`${catagory.name}`, catagory.fields.join("\n"), true)
         })
 

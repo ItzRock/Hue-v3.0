@@ -19,7 +19,7 @@ const config = {
             editable: true},
 
         "adminrole": {
-            name: "adminrole", 
+            name: "adminrole",
             catagory: "Moderation", 
             value: undefined, 
             editable: true, 
