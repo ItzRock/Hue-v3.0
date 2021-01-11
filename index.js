@@ -18,6 +18,7 @@
 
     Contributors:
     HarryXChen3 https://github.com/HarryXChen3
+    
 */
 
 const Discord = require('discord.js'); // Discord JS will be the api we use
