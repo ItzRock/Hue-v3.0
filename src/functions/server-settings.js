@@ -75,7 +75,6 @@ module.exports = (client) => {
         keyValue.forEach(keyVal => { 
             if(keyVal !== value) currentKey.value.push(keyVal)
         })
-        console.log(currentKey);
         client.settings.set(guild.id, currentKey, key)
         return ["success", true]
     }

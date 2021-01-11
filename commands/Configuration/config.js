@@ -42,6 +42,8 @@ exports.run = async (client, message, args, level) => {
         })
 
         message.channel.send(embed)
+    } else{ // Setting a key
+
     }
 }
 
