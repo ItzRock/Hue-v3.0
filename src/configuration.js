@@ -48,7 +48,7 @@ const config = {
         "verification": {
             name: "verification",
             catagory: "Verification", 
-            value: undefined, 
+            value: false, 
             editable: true},
 
         "premium": {

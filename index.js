@@ -15,6 +15,10 @@
     Hue 2.0 was based off: https://github.com/AnIdiotsGuide/guidebot
 
     While i wrote a bunch of this, its not all me.
+
+    Contributors:
+    HarryXChen3 https://github.com/HarryXChen3
+    
 */
 
 const Discord = require('discord.js'); // Discord JS will be the api we use

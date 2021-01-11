@@ -1,11 +1,11 @@
-/*
-    I want to say this is the most confusing part of the bot so i ill document it.
-*/
 const { MessageEmbed } = require('discord.js');
+const { type } = require('os');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
     if (!client.settings.has(message.guild.id)) client.settings.set(message.guild.id, {});
     const settings = Object.values(message.settings) // Grabs current server settings and puts it into an array
+    const defaults = client.settings.get("default");
+    if (!client.settings.has(message.guild.id)) client.settings.set(message.guild.id, {});
     if(!args[0]){ // Show All Settings.
         const embed = new MessageEmbed()
             .setColor(client.embedColour())
@@ -32,6 +32,8 @@ exports.run = async (client, message, args, level) => {
                 if(key.disablable == false) return
                 if(key.catagory != catagory.name) return
                 if(key.value == undefined) key.value = `Value not set.`
+                if(key.value == true) key.value = `Enabled.`
+                if(key.value == false) key.value = `Disabled.`
                 catagory.fields.push(`**${key.name}:**\n\`${key.value}\`\n`)
             })
         })
@@ -43,7 +45,23 @@ exports.run = async (client, message, args, level) => {
 
         message.channel.send(embed)
     } else{ // Setting a key
+        if (!defaults[args[0]]) return message.reply("This key does not exist in the settings");
+        
+        // find key to see if editable.
+        keys = []
+        settings.forEach(key =>{
+            if(key.name == args[0]) return keys.push(key);
+        })
+        if(keys[0].editable == false) return message.reply(`This key cannot be edited`)
+        var joinedValue = args.slice(1).join(" ");
+        if(joinedValue == "" || joinedValue == undefined) return message.reply("Please provide a value.");
 
+        const objects = [true, false, true, false , true, false]
+        const strings = ["true", "false", "enable", "disable" , "enabled", "disabled"]
+
+        if(strings.includes(joinedValue)) joinedValue = objects[strings.indexOf(joinedValue)]
+        client.enmap.edit(message, joinedValue, args[0])
+        message.reply(`${args[0]} successfully edited to ${joinedValue}`);
     }
 }
 
@@ -51,13 +69,13 @@ exports.conf = {
     enabled: true,
     guildOnly: true,
     aliases: [],
-    permLevel: "User",
+    permLevel: "Administrator",
     disablable: true,
     premium: false
 };
 exports.help = {
     name: filename,
     category: __dirname.split("\\")[__dirname.split("\\").length - 1],
-    description: "",
+    description: "Modify a guild's current settings.",
     usage: `${filename} [key] [value]`
 };

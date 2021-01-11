@@ -5,9 +5,11 @@
   "main": "index.js",
   "dependencies": {
     "chalk": "^4.1.0",
+    "cleverbot-free": "^1.0.5",
     "discord.js": "^12.5.1",
     "enmap": "^5.8.2",
     "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
     "mongodb": "^3.6.3"
   },
   "devDependencies": {},

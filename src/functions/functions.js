@@ -172,7 +172,7 @@ module.exports = (client) => {
         }
     };
     client.randomNumber = function(min, max){
-        return Math.random() * (max - min) + min;
+        return Math.round(Math.random() * (max - min) + min);
     }
 
     client.getTime = function(){

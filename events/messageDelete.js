@@ -3,11 +3,6 @@ const { MessageEmbed } = require('discord.js');
 module.exports = async (client, message) => {
     if(message.author.bot == true) return;
     if(message.channel.type === "dm") return
-    const auditLogs = await message.guild.fetchAuditLogs({type: 72});
-    let entry = auditLogs.entries.first();
-    if(entry !== undefined) if(entry.executor.id == client.user.id) return;
-    if(entry.executor === undefined) entry.executor == "not found"
-
     const settings = message.settings;
     if(settings.logs.value === undefined) return// no logs
     else var logs = message.guild.channels.cache.get(`${settings.logs.value.replace("<#", "").replace(">", "")}`) // 
@@ -24,12 +19,12 @@ module.exports = async (client, message) => {
     let embed = new MessageEmbed()
         .setColor(client.embedColour())
         .setTimestamp()
-        .setFooter(client.user.username, client.user.displayAvatarURL)
+        .setAuthor(client.user.username, client.user.avatarURL())
+        .setFooter(client.user.username, client.user.avatarURL())
         .setTitle(`Message deleted!`)
         .addFields(
             { name: 'Message author: ', value: `${message.author}`, inline: true  },
-            { name: 'Action Executor: ', value: `${entry.executor}`, inline: true  },
-            { name: 'Deleted content: ', value: `${messageContent}` },
+            { name: 'Deleted content: ', value: `${messageContent}`, inline: true  },
             { name: 'Channel: ', value: `${message.channel}`  },
         )
     if (attachmentArray.length) {

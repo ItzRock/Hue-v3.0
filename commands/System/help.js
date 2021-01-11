@@ -18,32 +18,32 @@ exports.run = (client, message, args, level) => {
         .setTitle(`Commands List - ${client.user.username}`)
         .setAuthor(client.user.username, client.user.avatarURL())
         .setDescription(`[Use ${message.settings.prefix.value}help [commandname] for details]`)
+        .setThumbnail(client.user.avatarURL())
         .setTimestamp()
         .setFooter('Commands list updated at', client.user.avatarURL());
-  
-      if (args[0] == "expanded" || args[0] == "all") {
-        const sorted = myCommands.array().sort((p, c) => p.help.category  > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
-        sorted.forEach( c => {
-          const cat = c.help.category;
-          if (currentCategory !== cat) {
-            commandsList += `\u200b\n**• ${cat}**\n`;
-            currentCategory = cat;
-          }
-          commandsList += `${message.settings.prefix.value}${c.help.name}${" ".repeat(longest - c.help.name.length)} :: ${c.help.description}\n`;
         
-        });
-      } else {
         const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
-        sorted.forEach( c => {
-          const cat = c.help.category;
-          if (currentCategory !== cat) {
-            commandsList += `\u200b\n\n**• ${cat}**\n`;
-            currentCategory = cat;
-          }
-          commandsList += `\`\`${c.help.name}\`\`, `;
-        });
-      }
-  
+        // Get the catagories
+        const catagories = []
+        const catagoryNames = []
+        sorted.forEach(sorted => {
+            const catagory = sorted.help.category 
+            if(catagoryNames.includes(catagory)) return "Already have that catagory."
+            catagories.push({name: catagory, fields: []})
+            catagoryNames.push(catagory)
+        })
+        // Add the keys to the catagories
+        catagories.forEach(catagory =>{
+          sorted.forEach(command =>{
+              //if(command.premium == true && message.settings.premium.value == false) return; // premium command.
+              if(command.help.category != catagory.name) return; // incorrect catagory
+              catagory.fields.push(`\`${command.help.name}\`, `)
+          })
+      })
+      catagories.forEach(catagory => {
+        output.addField(`${catagory.name}`, catagory.fields.join(""), true)
+      })
+
       output.setDescription(`\`\`[Use ${message.settings.prefix.value}help [commandname] for details]\`\` \n${commandsList}`)
       message.channel.send(output);
     } else {
