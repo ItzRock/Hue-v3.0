@@ -100,7 +100,6 @@ module.exports = (client) => {
             .on("error", error => {return serverQueue.textChannel.send(`Unable to play: \`${song.title}\``)});
         
         dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-        console.log(song);
         const embed = new MessageEmbed()
             .setAuthor(client.user.username, client.user.avatarURL())
             .setFooter(client.user.username, client.user.avatarURL())
