@@ -63,6 +63,6 @@ exports.conf = {
 exports.help = {
     name: filename,
     category: __dirname.split("\\")[__dirname.split("\\").length - 1],
-    description: "",
-    usage: `${filename} [optional] <required>`
+    description: "Play's a youtube video!",
+    usage: `${filename} <video link or video search>`
 };

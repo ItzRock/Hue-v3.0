@@ -3,6 +3,8 @@ const ytdl = require("ytdl-core")
 module.exports = (client) => {
     client.music = {}
     client.music.queue = new Map();
+    client.music.skips = new Map();
+    client.music.skipsUser = new Map();
     client.music.execute = async (message, serverQueue) => {
         const args = message.content.split(" ");
         const voiceChannel = message.member.voice.channel;
@@ -85,6 +87,8 @@ module.exports = (client) => {
     }
     client.music.play = (guild, song) => {
         const serverQueue = client.music.queue.get(guild.id);
+        client.music.skipsUser.delete(guild.id);
+        client.music.skips.delete(guild.id);
         if (!song) {
             serverQueue.voiceChannel.leave();
             client.music.queue.delete(guild.id);

@@ -17,6 +17,6 @@ exports.conf = {
 exports.help = {
     name: filename,
     category: __dirname.split("\\")[__dirname.split("\\").length - 1],
-    description: "",
+    description: "Ask a question and it returns an answer!",
     usage: `${filename} <question>`
 };

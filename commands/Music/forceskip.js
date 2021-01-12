@@ -1,20 +1,23 @@
 const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
-    console.log(await require('youtube-search-api').GetListByKeyword("rawr x3"));
+    const serverQueue = client.music.queue.get(message.guild.id);
+    client.music.skip(message, serverQueue);
+    message.channel.send(`Skipping current song.`)
+    return;
 }
 
 exports.conf = {
     enabled: true,
     guildOnly: true,
     aliases: [],
-    permLevel: "User",
+    permLevel: "Moderator",
     disablable: true,
     premium: false
 };
 exports.help = {
     name: filename,
     category: __dirname.split("\\")[__dirname.split("\\").length - 1],
-    description: "",
-    usage: `${filename} [optional] <required>`
+    description: "Force skips videos in the queue",
+    usage: `${filename}`
 };
