@@ -32,7 +32,7 @@
 
 ## Please note that hue 3.0 is currently not finished.
 There will be bugs and you will need to make some of your own commands for now;
-Although if you would like to report a bug you can either use the "Issues" panel for the repo, or just join our public development discord to directly talk to us (<a href="#contact">Contact</a>).
+Although if you would like to report a bug you can either use the <a href="https://github.com/ItzRock/Hue-v3.0/issues">Issues</a> panel for the repo, or just join our public development discord to directly talk to us (<a href="#contact">Contact</a>).
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
