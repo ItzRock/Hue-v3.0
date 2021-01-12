@@ -4,16 +4,23 @@ module.exports = (client) => {
     client.music.queue = new Map();
     client.music.execute = async (message, serverQueue) => {
         const args = message.content.split(" ");
-
         const voiceChannel = message.member.voice.channel;
         if (!voiceChannel)
             return message.channel.send("You need to be in a voice channel to play music!");
+        //if(message.channel.type = "dm") return message.channel.send(`You need to be in a guild in order to run this command`)
         const permissions = voiceChannel.permissionsFor(message.client.user);
         if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
         return message.channel.send("I need the permissions to join and speak in your voice channel!");
         }
 
-        const songInfo = await ytdl.getInfo(args[1]);
+        var songInfo
+        try {
+            songInfo = await ytdl.getInfo(args[1]);
+        } catch (error) {
+            console.log(error);
+            return message.channel.send(`Error, cannot play that video. is it a valid youtube domain?`)
+        }
+        if(songInfo.videoDetails.isLive == true || songInfo.videoDetails.isLiveContent == true) return message.channel.send(`I cannot play live streams!`)
         const song = {
             title: songInfo.videoDetails.title,
             url: songInfo.videoDetails.video_url,
@@ -38,13 +45,12 @@ module.exports = (client) => {
             queueContruct.connection = connection;
             client.music.play(message.guild, queueContruct.songs[0]);
         } catch (err) {
-            console.log(err);
             client.music.queue.delete(message.guild.id);
             return message.channel.send(err);
         }
         } else {
             serverQueue.songs.push(song);
-            return message.channel.send(`${song.title} has been added to the queue!`);
+            return message.channel.send(`\`${song.title}\` has been added to the queue!`);
         }
     }
     client.music.skip = async (message, serverQueue) => {
@@ -62,10 +68,12 @@ module.exports = (client) => {
             return message.channel.send("There is no song that I could stop!");
         
         serverQueue.songs = [];
-        serverQueue.connection.dispatcher.end();
+       try{serverQueue.connection.dispatcher.end();}
+       catch(err){
+
+       }
     }
     client.music.play = (guild, song) => {
-        console.log(song);
         const serverQueue = client.music.queue.get(guild.id);
         if (!song) {
             serverQueue.voiceChannel.leave();
@@ -79,8 +87,9 @@ module.exports = (client) => {
                 serverQueue.songs.shift();
                 client.music.play(guild, serverQueue.songs[0]);
             })
-            .on("error", error => console.error(error));
+            .on("error", error => {return serverQueue.textChannel.send(`Unable to play: \`${song.title}\``)});
+        
         dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-        serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+        serverQueue.textChannel.send(`Start playing: \`${song.title}\``);
     }
 }

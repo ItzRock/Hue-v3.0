@@ -40,6 +40,8 @@ Hue 3.0 while is an entirely new version, its a heavily modified version of Hue 
 and Hue 2.0 was a modified version of GuideBot which you can find here
 https://github.com/AnIdiotsGuide/guidebot
 
+I also want to thank https://gabrieltanner.org/blog/dicord-music-bot for the music commands 
+as i am too stupid to do it by myself
 ## Requirements.
 - git
 - [Node.js](https://nodejs.org/)

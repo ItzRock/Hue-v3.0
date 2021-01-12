@@ -15,6 +15,7 @@
     "moment-duration-format": "^2.3.2",
     "mongodb": "^3.6.3",
     "node-pre-gyp": "^0.17.0",
+    "youtube-search-api": "^1.0.8",
     "ytdl-core": "^4.4.2"
   },
   "devDependencies": {},
