@@ -61,7 +61,7 @@ as i am too stupid to do it by myself
 <!-- LICENSE -->
 ## License
 
-Distributed under the Apache License 2.0 License. See `LICENSE` for more information.
+Distributed under the Apache License 2.0 License. See `Git only\LICENSE` for more information.
 
 
 
