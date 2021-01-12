@@ -4,13 +4,18 @@
   "description": "Hue but more epic",
   "main": "index.js",
   "dependencies": {
+    "@discordjs/opus": "^0.3.3",
     "chalk": "^4.1.0",
     "cleverbot-free": "^1.0.5",
     "discord.js": "^12.5.1",
     "enmap": "^5.8.2",
+    "ffmpeg": "0.0.4",
+    "fluent-ffmpeg": "^2.1.2",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
-    "mongodb": "^3.6.3"
+    "mongodb": "^3.6.3",
+    "node-pre-gyp": "^0.17.0",
+    "ytdl-core": "^4.4.2"
   },
   "devDependencies": {},
   "scripts": {

@@ -12,56 +12,53 @@ const config = {
     "logChannel": "767976193483079690",
     
     "defaultSettings" : {
+        // ohmygod i miss spelled category aaaaaaaaaaaa
         "prefix": {
             name: "prefix",
             value: "?",
             catagory: "General",
-            editable: true},
-
+            editable: true
+        },
         "adminrole": {
             name: "adminrole",
             catagory: "Moderation", 
             value: undefined, 
-            editable: true, 
-            aliases: ["admin"]},
-
+            editable: true,
+        },
         "modrole": {
             name: "modrole",
             catagory: "Moderation", 
             value :undefined, 
-            editable: true, 
-            aliases:["mod"]},
-
+            editable: true,
+        },
         "mutedrole": {
             name: "mutedrole",
             catagory: "Moderation",
             value: undefined, 
-            editable: true, 
-            aliases: ["muted"]},
-
+            editable: true,
+        },
         "logs": {
             name: "logs",
             catagory: "Moderation", 
             value: undefined, 
-            editable: true},
-
+            editable: true
+        },
         "verification": {
             name: "verification",
             catagory: "Verification", 
             value: false, 
-            editable: true},
-
+            editable: true
+        },
         "premium": {
             name: "premium",
             value: false, 
-            editable: false},
-
+            editable: false
+        },
         "disabled-commands": {
             name: "disabled-commands", 
             value: [], 
-            editable: false, 
-            aliases:["disable"]}
-
+            editable: false
+        }
     },
     permissionLevels: [
         {
