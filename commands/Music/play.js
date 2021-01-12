@@ -8,14 +8,26 @@ exports.run = async (client, message, args, level) => {
         const serverQueue = client.music.queue.get(message.guild.id);
         client.music.execute(message, serverQueue);
     } catch (error) {
-        const raw = await searchFor(args.join(" "));
+        let raw
+        try {
+            raw = await searchFor(args.join(" "));
+        } catch (error) {
+            return message.channel.send(`Could not find a video.`)
+        }
         const items = raw.items
         if(items.length === 0 ) return message.channel.send(`Could not find a video.`)
         let search = ""
         const videos = []
-        for (let index = 0; index < 10; index++) {
-            videos.push({ title: items[index].title, id: items[index].id, thumbnail: items[index].thumbnail.thumbnails[0]})
-            search = `${search}\nVideo #${index + 1}: \`${items[index].title}\``
+        if(items.length >= 10){
+            for (let index = 0; index < 10; index++) {
+                videos.push({ title: items[index].title, id: items[index].id, thumbnail: items[index].thumbnail.thumbnails[0]})
+                search = `${search}\nVideo #${index + 1}: \`${items[index].title}\``
+            }
+        } else{
+            for (let index = 0; index < items.length; index++) {
+                videos.push({ title: items[index].title, id: items[index].id, thumbnail: items[index].thumbnail.thumbnails[0]})
+                search = `${search}\nVideo #${index + 1}: \`${items[index].title}\``
+            }
         }
         const embed = new MessageEmbed()
             .setAuthor(client.user.username, client.user.avatarURL())
@@ -30,8 +42,12 @@ exports.run = async (client, message, args, level) => {
             if(trackNumber == undefined) return message.channel.send(`Invalid video number`)
             const serverQueue = client.music.queue.get(message.guild.id);
             const video = message
-            video.content = `string https://www.youtube.com/watch?v=${videos[trackNumber].id}`
-            client.music.execute(video, serverQueue);
+            try {
+                video.content = `string https://www.youtube.com/watch?v=${videos[trackNumber].id}`
+                client.music.execute(video, serverQueue);   
+            } catch (error) {
+                return message.channel.send(`Invalid video number`)
+            }
         }
     }
 }

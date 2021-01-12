@@ -1,3 +1,4 @@
+const { MessageEmbed } = require("discord.js");
 const ytdl = require("ytdl-core")
 module.exports = (client) => {
     client.music = {}
@@ -24,6 +25,7 @@ module.exports = (client) => {
         const song = {
             title: songInfo.videoDetails.title,
             url: songInfo.videoDetails.video_url,
+            other: songInfo.videoDetails
         };
 
         if (!serverQueue) {
@@ -50,7 +52,15 @@ module.exports = (client) => {
         }
         } else {
             serverQueue.songs.push(song);
-            return message.channel.send(`\`${song.title}\` has been added to the queue!`);
+            const embed = new MessageEmbed()
+                .setAuthor(client.user.username, client.user.avatarURL())
+                .setFooter(client.user.username, client.user.avatarURL())
+                .setTimestamp()
+                .setColor(client.embedColour())
+                .setTitle(`${client.user.username} Music System`)
+                .setDescription(`Queued **${song.title}**\nBy: ${song.other.author.name}`)
+                .setThumbnail(song.other.thumbnails[song.other.thumbnails.length - 1].url)
+            return message.channel.send(embed);
         }
     }
     client.music.skip = async (message, serverQueue) => {
@@ -90,6 +100,15 @@ module.exports = (client) => {
             .on("error", error => {return serverQueue.textChannel.send(`Unable to play: \`${song.title}\``)});
         
         dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-        serverQueue.textChannel.send(`Start playing: \`${song.title}\``);
+        console.log(song);
+        const embed = new MessageEmbed()
+            .setAuthor(client.user.username, client.user.avatarURL())
+            .setFooter(client.user.username, client.user.avatarURL())
+            .setTimestamp()
+            .setColor(client.embedColour())
+            .setTitle(`${client.user.username} Music System`)
+            .setDescription(`Now Playing **${song.title}**\nBy: ${song.other.author.name}`)
+            .setThumbnail(song.other.thumbnails[song.other.thumbnails.length - 1].url)
+        serverQueue.textChannel.send(embed);
     }
 }
