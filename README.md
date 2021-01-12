@@ -30,7 +30,8 @@
   </ol>
 </details>
 
-## Please note that hue 3.0 is currently not finished.
+## Hue 3.0's Current State
+Hue 3.0 is currently in a "NOT FINISHED" state, which means that:
 There will be bugs and you will need to make some of your own commands for now;
 Although if you would like to report a bug you can either use the <a href="https://github.com/ItzRock/Hue-v3.0/issues">Issues</a> panel for the repo, or just join our public development discord to directly talk to us (<a href="#contact">Contact</a>).
 <!-- ABOUT THE PROJECT -->
@@ -43,7 +44,7 @@ https://github.com/AnIdiotsGuide/guidebot
 
 I also want to thank https://gabrieltanner.org/blog/dicord-music-bot for the music commands 
 as i am too stupid to do it by myself
-## Requirements.
+## Requirements
 - git
 - [Node.js](https://nodejs.org/)
 - [MongoDB server](https://www.mongodb.com/try/download/community)
@@ -59,10 +60,17 @@ as i am too stupid to do it by myself
    ```sh
    npm install
    ```
+## About the Repository
+- <a href="https://github.com/ItzRock/Hue-v3.0/tree/main/commands">commands</a> (Directory) Does what you would expect a commands folder to do; Stores all the command files/functions
+- <a href="https://github.com/ItzRock/Hue-v3.0/tree/main/events">events</a> (Directory) Stores the discord.js event handlers to be used on that specific event (The name of the file)
+- <a href="https://github.com/ItzRock/Hue-v3.0/tree/main/git%20only">git only</a> (Directory) Stores some github dependencies such as this documents header image
+- <a href="https://github.com/ItzRock/Hue-v3.0/tree/main/src">src</a> (Directory) Includes the interally used functions and configuration/database files
+- <a href="https://github.com/ItzRock/Hue-v3.0/blob/main/index.js">index.js</a> Main application
+
 <!-- LICENSE -->
 ## License
 
-Distributed under the Apache License 2.0 License. See `Git only\LICENSE` for more information.
+Distributed under the Apache License 2.0 License. See `git only\LICENSE` for more information.
 
 
 
