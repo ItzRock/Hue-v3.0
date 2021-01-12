@@ -69,3 +69,4 @@ Twitter - [@itzrock_](https://twitter.com/itzrock_)
 
 Project Link: [https://github.com/ItzRock/Hue-v3.0](https://github.com/ItzRock/Hue-v3.0)
 
+Discord server (Public): [Hue](https://discord.com/invite/QwgnZ83XD3)
