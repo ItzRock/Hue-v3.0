@@ -6,7 +6,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/ItzRock/Hue-v3.0">
-    <img src="images/logo.png" alt="Logo" width="200" height="200">
+    <img src="Git only/images/logo.png" alt="Logo" width="200" height="200">
   </a>
   <p align="center">
     <br />
