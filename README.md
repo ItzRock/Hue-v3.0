@@ -44,6 +44,7 @@ https://github.com/AnIdiotsGuide/guidebot
 - git
 - [Node.js](https://nodejs.org/)
 - [MongoDB server](https://www.mongodb.com/try/download/community)
+- [FFmpeg](https://ffmpeg.org/)
 - And probably something else i forgot
 ### Installation
 

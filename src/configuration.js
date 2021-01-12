@@ -73,7 +73,7 @@ const config = {
                 try {
                     try {
                         let adminRole = message.guild.roles.cache.find(r => r.name.toLowerCase() === message.settings.modrole.value.toLowerCase());
-                        if(adminRole == undefined) adminRole = message.guild.roles.cache.find(r => r.id === message.settings.modrole.value.replace("<@&", ""));
+                        if(adminRole == undefined) adminRole = message.guild.roles.cache.find(r => r.id === message.settings.modrole.value.replace("<@&", "").replace(">", ""));
                         return (adminRole && message.member.roles.cache.has(adminRole.id));
                       } catch (e) {
                         return false;
