@@ -41,6 +41,7 @@ client.config = require('./src/configuration')
 client.logger = require('./src/functions/logger')
 /* Lets load our Functions */
 require("./src/databaseLoader")(client)
+require("./src/api-loader")(client)
 require("./src/functions/functions")(client)
 require("./src/functions/server-settings")(client)
 require('./src/functions/music')(client)

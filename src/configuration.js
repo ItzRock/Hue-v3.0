@@ -5,7 +5,7 @@ const config = {
     ],
     "database": ["mongodb://localhost:27017", "Hue"],
     "token": keys.main,
-
+    "apiKeys": {"yt": keys.ytSearchAPI},
     "status": "dev", // static or dev
 
     "supportCases": "ill add this later",

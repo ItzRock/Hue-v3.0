@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const ytdl = require("ytdl-core")
+
 module.exports = (client) => {
     client.music = {}
     client.music.queue = new Map();
@@ -29,7 +30,6 @@ module.exports = (client) => {
             url: songInfo.videoDetails.video_url,
             other: songInfo.videoDetails
         };
-
         if (!serverQueue) {
         const queueContruct = {
             textChannel: message.channel,
@@ -50,10 +50,12 @@ module.exports = (client) => {
             client.music.play(message.guild, queueContruct.songs[0]);
         } catch (err) {
             client.music.queue.delete(message.guild.id);
-            return message.channel.send(err);
+            client.logger.error(err)
+            return message.channel.send(`Error, this has been reported.`);
         }
         } else {
             serverQueue.songs.push(song);
+            console.log(song);
             const embed = new MessageEmbed()
                 .setAuthor(client.user.username, client.user.avatarURL())
                 .setFooter(client.user.username, client.user.avatarURL())

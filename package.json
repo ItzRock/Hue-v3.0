@@ -10,13 +10,15 @@
     "discord.js": "^12.5.1",
     "enmap": "^5.8.2",
     "ffmpeg": "0.0.4",
+    "ffmpeg-static": "^4.2.7",
     "fluent-ffmpeg": "^2.1.2",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "mongodb": "^3.6.3",
     "node-pre-gyp": "^0.17.0",
+    "youtube-search": "^1.1.4",
     "youtube-search-api": "^1.0.8",
-    "ytdl-core": "^4.4.2"
+    "ytdl-core": "^4.4.3"
   },
   "devDependencies": {},
   "scripts": {
