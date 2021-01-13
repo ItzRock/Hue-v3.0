@@ -1,8 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
-    if (!message.member.voice.channel)
-            return message.channel.send("You have to be in a voice channel to stop the music!");
+    if (!message.member.voice.channel) return message.channel.send("You have to be in a voice channel to stop the music!");
     var votedUsers = client.music.skipsUser.get(message.guild.id)
     if(votedUsers == undefined) client.music.skipsUser.set(message.guild.id, [])
     votedUsers = client.music.skipsUser.get(message.guild.id)

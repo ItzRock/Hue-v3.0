@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 const ytdl = require("ytdl-core")
 exports.run = async (client, message, args, level) => {
-    
+    if (!message.member.voice.channel) return message.channel.send("You have to be in a voice channel to play music!");
     try {
         const songInfo = await ytdl.getInfo(args.join(" "));
         const serverQueue = client.music.queue.get(message.guild.id);

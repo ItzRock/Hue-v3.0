@@ -55,7 +55,6 @@ module.exports = (client) => {
         }
         } else {
             serverQueue.songs.push(song);
-            console.log(song);
             const embed = new MessageEmbed()
                 .setAuthor(client.user.username, client.user.avatarURL())
                 .setFooter(client.user.username, client.user.avatarURL())
