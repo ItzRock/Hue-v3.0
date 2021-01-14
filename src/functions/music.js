@@ -4,6 +4,7 @@ const ytdl = require("ytdl-core")
 module.exports = (client) => {
     client.music = {}
     client.music.queue = new Map();
+    client.music.nowPlaying = new Map();
     client.music.skips = new Map();
     client.music.skipsUser = new Map();
     client.music.execute = async (message, serverQueue) => {
@@ -91,11 +92,14 @@ module.exports = (client) => {
         client.music.skipsUser.delete(guild.id);
         client.music.skips.delete(guild.id);
         if (!song) {
+
             serverQueue.voiceChannel.leave();
+            serverQueue.textChannel.send(`No more songs queued, leaving channel.`)
             client.music.queue.delete(guild.id);
             return;
         }
-
+        client.music.nowPlaying.delete(guild.id)
+        client.music.nowPlaying.set(guild.id, song)
         const dispatcher = serverQueue.connection
             .play(ytdl(song.url))
             .on("finish", () => {
