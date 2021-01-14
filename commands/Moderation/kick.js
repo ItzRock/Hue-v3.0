@@ -1,0 +1,76 @@
+const { MessageEmbed } = require('discord.js');
+const filename = require('path').basename(__filename).split(".")[0]
+exports.run = async (client, message, args, level) => {
+    const settings = message.settings
+    const logsValue = settings.logs.value.replace("<#", "").replace(">", "")
+    let logs
+    if(logsValue.match(/^[0-9]+$/) != null){
+        // Contains Numbers
+        logs = client.channels.cache.get(logsValue)
+    }else{
+        // Is a String
+        logs = guild.channels.cache.find(channel => channel.name === logsValue)
+    }
+    if(logsValue == undefined)
+    if(!args[0]) {
+      return message.channel.send(`No user provided. Usage: \`${client.commands.get(`${filename}`).help.usage}\``);
+    };
+    const user = client.findUser(message, args[0])
+    if(user[0] == false) return message.channel.send(`${user[1]}`)
+    if (user[1].user.id === message.guild.owner.id) {
+        return message.channel.send(`You cannot ${filename} the owner!`)
+    };
+    if (user[1].user.id === client.user.id) {
+        return message.channel.send(`I'd prefer you don't ${filename} me`)
+    };
+    if (user[1].user.id === message.author.id) {
+        return message.channel.send(`I don't think you want to ${filename} yourself`)
+    };
+    if (user[1].roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID) {
+        return message.channel.send(`You can't kick people higher role than yourself!`);
+    };
+    //if (!user.kickable) return message.channel.send(`User cannot be ${filename}ed.`);
+    let reason = args.slice(1).join(" ");
+    const permissionLevel = client.config.permissionLevels.find(l => l.level === level).name;
+    const endEXT = `${permissionLevel} ${message.author.tag}`
+    if(!reason) reason = `No Reason Provided`
+    const LOGreason = `${reason} -- ${endEXT}`
+
+    const DM = new MessageEmbed()
+        .setAuthor(`${client.user.username} Moderation Action`, client.user.avatarURL())
+        .setFooter(`${client.user.username}`, client.user.avatarURL())
+        .setTitle(`You have been ${filename}ed from \`${message.guild.name}\``)
+        .setColor(client.embedColour())
+        .setThumbnail(message.guild.iconURL())
+        .setTimestamp()
+        .setDescription(`Reason: \`${reason}\`\nModerator: \`${endEXT}\``)
+    const LOGEmbed = new MessageEmbed()
+        .setAuthor(`${client.user.username} Moderation Action`, client.user.avatarURL())
+        .setFooter(`${client.user.username}`, client.user.avatarURL())
+        .setTitle(`\`${user[1].user.tag}\` has been ${filename}ed from \`${message.guild.name}\``)
+        .setColor(client.embedColour())
+        .setThumbnail(message.guild.iconURL())
+        .setTimestamp()
+        .setDescription(`Reason: \`${reason}\`\nModerator: \`${endEXT}\``)
+    user[1].send(DM)
+    message.channel.send(LOGEmbed)
+    user[1].kick(LOGreason)
+    if(logs !== undefined){
+        logs.send(LOGEmbed)
+    }
+}
+
+exports.conf = {
+    enabled: true,
+    guildOnly: true,
+    aliases: [],
+    permLevel: "Moderator",
+    disablable: true,
+    premium: false
+};
+exports.help = {
+    name: filename,
+    category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+    description: "Kick a user from a guild",
+    usage: `${filename} <User> [Reason]`
+};

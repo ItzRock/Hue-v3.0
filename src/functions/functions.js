@@ -26,7 +26,7 @@ module.exports = (client) => {
                 return [false, "That user doesn't seem to exist. Try again!"]
             user = users[0];
         };
-        return user;
+        return [true, user];
     } 
     client.clean = async (client, text) => {
         if (text && text.constructor.name == "Promise")
@@ -90,7 +90,7 @@ module.exports = (client) => {
             return guild.roles.cache.find(c => c.id == role.replace("<#", "").replace(">", ""))
         }else return guild.roles.cache.find(c => c.name == role)
     }
-    client.embedGen = function(title, description, color, authorExtText){
+    client.embedGen = function(title, description, color = client.embedColour(), authorExtText = ""){
         const clientUser = client.user.username
         const avatar = client.user.avatarURL()
         const embed = new MessageEmbed()
