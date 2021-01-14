@@ -1,7 +1,9 @@
 const keys = require("./keys.json");
 const config = {
     "AuthorizedUsers": [
-        "299682971374452739"
+        "299682971374452739", // Me
+        "412729903893708801", // Harry
+        "468791748739596298", // fingerPlace
     ],
     "database": ["mongodb://localhost:27017", "Hue"],
     "token": keys.main,

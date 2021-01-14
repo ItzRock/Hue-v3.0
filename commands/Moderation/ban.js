@@ -26,7 +26,7 @@ exports.run = async (client, message, args, level) => {
         return message.channel.send(`I don't think you want to ${filename} yourself`)
     };
     if (user[1].roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID) {
-        return message.channel.send(`You can't kick people higher role than yourself!`);
+        return message.channel.send(`You can't ${filename} people higher role than yourself!`);
     };
     let reason = args.slice(1).join(" ");
     const permissionLevel = client.config.permissionLevels.find(l => l.level === level).name;
@@ -37,22 +37,22 @@ exports.run = async (client, message, args, level) => {
     const DM = new MessageEmbed()
         .setAuthor(`${client.user.username} Moderation Action`, client.user.avatarURL())
         .setFooter(`${client.user.username}`, client.user.avatarURL())
-        .setTitle(`You have been ${filename}ed from \`${message.guild.name}\``)
+        .setTitle(`You have been ${filename}ned from \`${message.guild.name}\``)
         .setColor(client.embedColour())
         .setThumbnail(message.guild.iconURL())
         .setTimestamp()
-        .setDescription(`Reason: \`${reason}\`\nModerator: \`${endEXT}\``)
+        .setDescription(`Reason: \`${reason}\`\nAdministrator: \`${endEXT}\``)
     const LOGEmbed = new MessageEmbed()
         .setAuthor(`${client.user.username} Moderation Action`, client.user.avatarURL())
         .setFooter(`${client.user.username}`, client.user.avatarURL())
-        .setTitle(`\`${user[1].user.tag}\` has been ${filename}ed from \`${message.guild.name}\``)
+        .setTitle(`\`${user[1].user.tag}\` has been ${filename}ned from \`${message.guild.name}\``)
         .setColor(client.embedColour())
         .setThumbnail(message.guild.iconURL())
         .setTimestamp()
-        .setDescription(`Reason: \`${reason}\`\nModerator: \`${endEXT}\``)
+        .setDescription(`Reason: \`${reason}\`\nAdministrator: \`${endEXT}\``)
     user[1].send(DM)
     message.channel.send(LOGEmbed)
-    user[1].kick(LOGreason)
+    user[1].ban({reason : LOGreason})
     if(logs !== undefined){
         logs.send(LOGEmbed)
     }
@@ -62,13 +62,13 @@ exports.conf = {
     enabled: true,
     guildOnly: true,
     aliases: [],
-    permLevel: "Moderator",
+    permLevel: "Administrator",
     disablable: true,
     premium: false
 };
 exports.help = {
     name: filename,
     category: __dirname.split("\\")[__dirname.split("\\").length - 1],
-    description: "Kick a user from a guild",
+    description: "Ban a user from a guild",
     usage: `${filename} <User> [Reason]`
 };

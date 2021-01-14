@@ -55,6 +55,7 @@ module.exports = (client) => {
           });
           return false;
         } catch (e) {
+          client.logger.error(e)
           return `Unable to load command ${commandName}: ${e}`;
         }
     };
