@@ -29,9 +29,6 @@ const readdir = promisify(require("fs").readdir);
 const fs = require('fs')
 const Enmap = require("enmap");
 
-// Lets grab our library early so we can use them early on
-require("./src/lib-loader")(client)
-
 //Enmap to store data
 client.settings = new Enmap({name: "settings"});
 client.commands = new Enmap();
