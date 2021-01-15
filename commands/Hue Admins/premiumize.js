@@ -1,5 +1,3 @@
-const { MessageEmbed } = require('discord.js');
-const { valueOf } = require('ffmpeg-static');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
     const value = message.settings.premium.value
