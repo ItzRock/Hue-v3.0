@@ -1,8 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
-    message.channel.send(`owo`);
-    return
+    return message.channel.send(`owo`);
 }
 
 exports.conf = {
