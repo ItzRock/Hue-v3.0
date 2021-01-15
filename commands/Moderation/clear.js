@@ -1,9 +1,7 @@
 exports.run = async (client, message, args, level) => {
   var amount = args.join(" ");
   if (!amount)
-    return message.reply(
-      "You haven't given an amount of messages which should be deleted!"
-    );
+    return message.reply("You haven't given an amount of messages which should be deleted!");
   if (isNaN(amount)) return message.reply("You Crazy? That isn't a number!");
 
   if (amount > 100)
