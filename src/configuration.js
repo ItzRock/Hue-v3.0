@@ -45,12 +45,46 @@ const config = {
             value: undefined, 
             editable: true
         },
+
+        // Verification Keys
+
         "verification": {
             name: "verification",
             catagory: "Verification", 
             value: false, 
             editable: true
         },
+        "groupID": {
+            name: "groupID",
+            catagory: "Verification", 
+            value: undefined, 
+            editable: true
+        },
+        "setnick": {
+            name: "setnick",
+            catagory: "Verification", 
+            value: false, 
+            editable: true
+        },
+        "unverifiedRole": {
+            name: "unverifiedRole",
+            catagory: "Verification", 
+            value: false, 
+            editable: true
+        },
+        "verifiedRole": {
+            name: "verifiedRole",
+            catagory: "Verification", 
+            value: false, 
+            editable: true
+        },
+        "GroupJoinRequired": {
+            name: "GroupJoinRequired",
+            catagory: "Verification", 
+            value: false, 
+            editable: true
+        },
+        //
         "premium": {
             name: "premium",
             value: false, 

@@ -37,6 +37,7 @@ exports.run = (client, message, args, level) => {
           sorted.forEach(command =>{
               //if(command.premium == true && message.settings.premium.value == false) return; // premium command.
               if(command.help.category != catagory.name) return; // incorrect catagory
+              if(command.conf.premium == true && message.settings.premium.value == false) return;
               catagory.fields.push(`\`${command.help.name}\`, `)
           })
       })
