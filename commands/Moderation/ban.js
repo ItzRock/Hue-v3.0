@@ -3,8 +3,7 @@ const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
     if(!args[0]) {
         return message.channel.send(`No user provided. Usage: \`${client.commands.get(`${filename}`).help.usage}\``);
-      };
-    const settings = message.settings
+    };
     const guild = message.guild
     // Logs
     let logsValue
@@ -51,13 +50,18 @@ exports.run = async (client, message, args, level) => {
         .setTimestamp()
         .setDescription(`Reason: \`${reason}\`\nAdministrator: \`${endEXT}\``)
     const LOGEmbed = new MessageEmbed()
-        .setAuthor(`${client.user.username} Moderation Action`, client.user.avatarURL())
-        .setFooter(`${client.user.username}`, client.user.avatarURL())
-        .setTitle(`\`${user[1].user.tag}\` has been ${filename}ned from \`${message.guild.name}\``)
-        .setColor(client.embedColour())
-        .setThumbnail(message.guild.iconURL())
-        .setTimestamp()
-        .setDescription(`Reason: \`${reason}\`\nAdministrator: \`${endEXT}\``)
+      .setAuthor(
+        `${client.user.username} Moderation Action`,
+        client.user.avatarURL()
+      )
+      .setFooter(`${client.user.username}`, client.user.avatarURL())
+      .setTitle(
+        `\`${user[1].user.tag}\` has been ${filename}ned from \`${message.guild.name}\``
+      )
+      .setColor(client.embedColour())
+      .setThumbnail(message.guild.iconURL())
+      .setTimestamp()
+      .setDescription(`Reason: \`${reason}\`\nAdministrator: \`${endEXT}\``);
     user[1].send(DM)
     message.channel.send(LOGEmbed)
     user[1].ban({reason : LOGreason})
