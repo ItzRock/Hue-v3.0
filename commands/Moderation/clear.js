@@ -1,4 +1,3 @@
-const { Message } = require("discord.js");
 exports.run = async (client, message, args, level) => {
   var amount = args.join(" ");
   if (!amount)
