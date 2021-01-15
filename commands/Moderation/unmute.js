@@ -56,7 +56,6 @@ exports.run = async (client, message, args, level) => {
     let bool
     for (let i = 0; i < muted.length; i++) {
         const mutedUser = muted[i];
-        console.log(mutedUser);
         if(mutedUser.member.id == user[1].user.id) bool = true; else bool = false
         
     }
