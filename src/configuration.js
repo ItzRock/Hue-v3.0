@@ -60,7 +60,12 @@ const config = {
             name: "disabled-commands", 
             value: [], 
             editable: false
-        }
+        },
+        "mutedUsers": {
+            name: "mutedUsers", 
+            value: [], 
+            editable: false
+        },
     },
     permissionLevels: [
         {

@@ -5,15 +5,23 @@ exports.run = async (client, message, args, level) => {
         return message.channel.send(`No user provided. Usage: \`${client.commands.get(`${filename}`).help.usage}\``);
       };
     const settings = message.settings
-    const logsValue = settings.logs.value.replace("<#", "").replace(">", "")
+    const guild = message.guild
+    // Logs
+    let logsValue
+    try {
+        logsValue = message.settings.logs.value.replace("<#", "").replace(">", "")
+    } catch (error) {
+        // doesnt exist in key
+    }
     let logs
+    if(logsValue !== undefined){
     if(logsValue.match(/^[0-9]+$/) != null){
         // Contains Numbers
         logs = client.channels.cache.get(logsValue)
     }else{
         // Is a String
         logs = guild.channels.cache.find(channel => channel.name === logsValue)
-    }
+    }}
     const user = client.findUser(message, args[0])
     if(user[0] == false) return message.channel.send(`${user[1]}`)
     if (user[1].user.id === message.guild.owner.id) {
