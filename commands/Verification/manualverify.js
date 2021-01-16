@@ -39,7 +39,7 @@ exports.run = async (client, message, args, level) => {
         // line 27 wont work corrently for me without a unverified role so this is just to counter it.
     }
     // Get the user
-    const userLookup = client.findUser(message, args.join(" "))
+    const userLookup = client.findUser(message, args[0])
     if(userLookup[0] == false) return message.channel.send(userLookup[1]);
     const user = userLookup[1]
 

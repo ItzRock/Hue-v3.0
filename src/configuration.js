@@ -10,7 +10,6 @@ const config = {
     "apiKeys": {"yt": keys.ytSearchAPI},
     "status": "dev", // static or dev
 
-    "supportCases": "ill add this later",
     "logChannel": "767976193483079690",
     
     "defaultSettings" : {
