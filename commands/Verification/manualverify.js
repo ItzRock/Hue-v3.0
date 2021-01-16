@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, UserFlags, GuildMember } = require('discord.js');
 const noblox = require('noblox.js')
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
@@ -63,6 +63,20 @@ exports.run = async (client, message, args, level) => {
     if(results[0] == false) return message.channel.send(results[1]);
     message.channel.send(`Successfully Verified \`${user.user.tag}\` as \`${RobloxUsername}\``)
     client.database.verify.event(user.user.tag, RobloxUsername, UserID, "Manual Verification", `Verified By ${message.author.tag}`)
+    // Edit roles
+    if(unverifiedRole !== undefined) user.roles.remove(unverifiedRole);
+    try {
+        user.roles.add(verifiedRole)
+    } catch (error) {
+        message.channel.send(`An error has occured and the role was not added. ${error.name}: ${error.message}`)
+    }
+    if(message.settings.setnick.value == true) {
+        try {
+            user.setNickname(RobloxUsername)
+        } catch (error) {
+            
+        }
+    }
 }
 
 exports.conf = {
