@@ -7,10 +7,11 @@ exports.run = async (client, message, args, level) => {
     
     if(!args[0] || !args[1]) return message.channel.send(`Invalid arguments. Usage: ${client.getArgs(filename)}`)
 
-    if(settings.verifiedRole.value == undefined) return message.channel.send(`Error: cannot find verified role. Please fix this in the config`)
+    if(settings.verifiedRole.value == undefined || settings.verifiedRole.value == false) return message.channel.send(`Error: cannot find verified role. Please fix this in the config`)
     let verifiedRole
     const roleValue = settings.verifiedRole.value.replace("<#", "").replace(">", "")
     // Find verified role
+    const guild = message.guild
     if(roleValue.match(/^[0-9]+$/) != null){
         // Contains Numbers
         verifiedRole = guild.roles.cache.get(roleValue)
@@ -21,17 +22,21 @@ exports.run = async (client, message, args, level) => {
     if(verifiedRole == undefined) return message.channel.send(`Error: cannot find verified role. Please fix this in the config`)
 
     // Find unverified role
-    let umverifiedRole
-    if(settings.unverifiedRole.value !== undefined){
-        const unverifiedroleValue = settings.unverifiedRole.value.replace("<#", "").replace(">", "")
-        // Find unverified role
-        if(unverifiedroleValue.match(/^[0-9]+$/) != null){
-            // Contains Numbers
-            umverifiedRole = guild.roles.cache.get(unverifiedroleValue)
-        }else{
-            // Is a String
-            umverifiedRole = guild.roles.cache.find((role) => role.name === unverifiedroleValue);
-        }
+    let unverifiedRole
+    try {
+        if(settings.unverifiedRole.value !== undefined || settings.unverifiedRole.value != false){
+            const unverifiedroleValue = settings.unverifiedRole.value.replace("<#", "").replace(">", "")
+            // Find unverified role
+            if(unverifiedroleValue.match(/^[0-9]+$/) != null){
+                // Contains Numbers
+                unverifiedRole = guild.roles.cache.get(unverifiedroleValue)
+            }else{
+                // Is a String
+                unverifiedRole = guild.roles.cache.find((role) => role.name === unverifiedroleValue);
+            }
+        }   
+    } catch (error) {
+        // line 27 wont work corrently for me without a unverified role so this is just to counter it.
     }
     // Get the user
     const userLookup = client.findUser(message, args.join(" "))
@@ -39,11 +44,25 @@ exports.run = async (client, message, args, level) => {
     const user = userLookup[1]
 
     // Checking to make sure they are not already verified
-    const count = client.database.verify.count(user.user.id)
+    const count = await client.database.verify.count(user.user.id)
     if(count !== 0) return message.channel.send(`This user may already be verified.`);
 
     // Get data from roblox.
-    
+    const raw = args[1]
+    let UserID
+    let RobloxUsername
+    try {
+        UserID = await noblox.getIdFromUsername(raw)
+        RobloxUsername = await noblox.getUsernameFromId(UserID)
+    } catch (error) {
+        return message.channel.send(`API ${error.name}: ${error.message}`)
+    }
+
+    // Ready to edit the keys
+    const results = await client.database.verify.write(RobloxUsername, UserID, user.user.id)
+    if(results[0] == false) return message.channel.send(results[1]);
+    message.channel.send(`Successfully Verified \`${user.user.tag}\` as \`${RobloxUsername}\``)
+    client.database.verify.event(user.user.tag, RobloxUsername, UserID, "Manual Verification", `Verified By ${message.author.tag}`)
 }
 
 exports.conf = {
