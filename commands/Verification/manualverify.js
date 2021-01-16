@@ -64,7 +64,12 @@ exports.run = async (client, message, args, level) => {
     message.channel.send(`Successfully Verified \`${user.user.tag}\` as \`${RobloxUsername}\``)
     client.database.verify.event(user.user.tag, RobloxUsername, UserID, "Manual Verification", `Verified By ${message.author.tag}`)
     // Edit roles
-    if(unverifiedRole !== undefined) user.roles.remove(unverifiedRole);
+
+    try {
+        if(unverifiedRole !== undefined) user.roles.remove(unverifiedRole);
+    } catch (error) {
+        message.channel.send(`An error has occured and the role was not removed. ${error.name}: ${error.message}`)
+    }
     try {
         user.roles.add(verifiedRole)
     } catch (error) {
