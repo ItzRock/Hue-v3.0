@@ -18,7 +18,7 @@ exports.run = async (client, message, args, level) => {
             .setColor(client.embedColour())
             .setThumbnail(thumbURL)
             .setTimestamp()
-            .setTitle(`${client.user.username} Datbase Information`)
+            .setTitle(`${client.user.username} Database Information`)
             .setDescription(`Checked User <@${message.author.id}>`)
             .addField('Roblox Username', `\`${data.RobloxUsername}\``, true)
             .addField('Roblox Username', `\`${data.RobloxID}\``, true)
