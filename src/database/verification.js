@@ -1,3 +1,4 @@
+const { MessageEmbed } = require("discord.js")
 module.exports = (client) => {
     const MongoClient = require('mongodb').MongoClient;
     const url = client.config.database[0]
@@ -12,7 +13,7 @@ module.exports = (client) => {
                 const db = client.db(dbName);
                 let query = { DiscordID: discordID.toString() };
                 db.collection(collectionName).find(query).toArray(function(err, result) {
-                    if (err) throw err;
+                    if (err) resolve([false, `${err.name}: ${err.message}`]);
                     if(result.length > 1){
                         resolve([false, 'Error: Multible Instances Found.'])
                     } else if(result.length < 1){
@@ -33,7 +34,7 @@ module.exports = (client) => {
                 const db = client.db(dbName);
                 let query = { DiscordID: discordID.toString() };
                 db.collection(collectionName).deleteOne(query, function(err, obj) {
-                    if (err) throw err;
+                    if (err) resolve([false, `${err.name}: ${err.message}`]);
                     resolve([true, 'Successfully Removed'])
                 });
             });
@@ -51,7 +52,7 @@ module.exports = (client) => {
                 const newUsername = await noblox.getUsernameFromId(robloxID)
                 let newvalues = { $set: {RobloxUsername: newUsername} };
                 db.collection(collectionName).updateOne(myquery, newvalues, function(err, res) {
-                    if (err) throw err;
+                    if (err) resolve([false, `${err.name}: ${err.message}`]);
                     resolve([true, 'Successfully Updated Item'])
                 });
             });
@@ -67,7 +68,7 @@ module.exports = (client) => {
                 const db = client.db(dbName);
                 let query = { DiscordID: discordID.toString() };
                 db.collection(collectionName).find(query).toArray(function(err, result) {
-                    if (err) throw err;
+                    if (err) resolve([false, `${err.name}: ${err.message}`]);
                     resolve(result.length)
                 });
             });
@@ -83,7 +84,7 @@ module.exports = (client) => {
                 const db = client.db(dbName);
                 let items = { RobloxUsername: username.toString(), DiscordID: discordID.toString(), RobloxID: robloxID.toString()};
                 db.collection(collectionName).insertOne(items, function(err, res) {
-                    if (err) throw err;
+                    if (err) resolve([false, `${err.name}: ${err.message}`]);
                     resolve([true, 'Successfully Added'])
                 });
             });
@@ -91,5 +92,23 @@ module.exports = (client) => {
         return promise.then((value) => {
             return value
         }); 
+    }
+
+    client.database.verify.event = async function(DiscordTag, RobloxUsername, RobloxID, type, ExtraDetails){
+        client.logger.verify(`${DiscordTag} verified as: ${RobloxUsername}. Using: ${type}. Extra Details: ${ExtraDetails}`)
+        const clientUser = client.user.username
+        const avatar = client.user.avatarURL()
+        const thumbnailRaw = await client.apis.https.get(`https://thumbnails.roblox.com/v1/users/avatar?format=Png&isCircular=false&size=720x720&userIds=${RobloxID}`)
+        const thumbURL = thumbnailRaw.data[0].imageUrl
+        let description = `\`${DiscordTag}\` verified as: \`${RobloxUsername}\`.\nUsing: \`${type}\`.\nExtra Details: \`${ExtraDetails}\``
+        const embed = new MessageEmbed()
+            .setAuthor(`${clientUser} Verification System`, avatar)
+            .setFooter(`${clientUser}`, avatar)
+            .setColor(client.embedColour())
+            .setTimestamp()
+            .setThumbnail(thumbURL)
+            .setTitle(`New Verification Entry`)
+            .setDescription(description);
+        client.channels.fetch(client.config.logChannel).then((c) => {c.send({embed})});
     }
 }

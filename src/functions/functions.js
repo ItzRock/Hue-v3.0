@@ -15,6 +15,9 @@ module.exports = (client) => {
         }
         return permlvl;
     }; 
+    client.getArgs = (commandname) =>{
+      return client.commands.get(`${commandname}`).help.usage
+    }
     client.findUser = (message, name) =>{
         let user = message.mentions.members.first();
         if (!user) {
