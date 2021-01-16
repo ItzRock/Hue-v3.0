@@ -14,12 +14,25 @@ const config = {
     
     "defaultSettings" : {
         // ohmygod i miss spelled category aaaaaaaaaaaa
+
+        // General Settings
+
         "prefix": {
             name: "prefix",
             value: "?",
             catagory: "General",
             editable: true
         },
+
+        "welcoming": {
+            name: "welcoming",
+            value: false,
+            catagory: "General",
+            editable: true
+        },
+
+        //
+
         "adminrole": {
             name: "adminrole",
             catagory: "Moderation", 
