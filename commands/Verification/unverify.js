@@ -5,14 +5,14 @@ exports.run = async (client, message, args, level) => {
     if(settings["verification"].value !== true) return message.channel.send(`This command is only available in servers with ${client.user.username}'s verification system enabled.`)
     
     if(!args[0]) return message.channel.send(`Invalid arguments. Usage: ${client.getArgs(filename)}`)
-    
+    const guild = message.guild;
     let verifiedRole
     try{
         const roleValue = settings.verifiedRole.value
           .replace("<#", "")
           .replace(">", "");
         // Find verified role
-        const guild = message.guild;
+        
     if(roleValue.match(/^[0-9]+$/) != null){
         // Contains Numbers
         verifiedRole = guild.roles.cache.get(roleValue)
@@ -35,7 +35,8 @@ exports.run = async (client, message, args, level) => {
                 unverifiedRole = guild.roles.cache.find((role) => role.name === unverifiedroleValue);
             }
         }   
-    } catch (error) {}
+    } catch (error) {
+    }
 
 
     const userLookup = client.findUser(message, args.join(" "))
