@@ -3,8 +3,7 @@ const noblox = require("noblox.js")
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
     const avatarURL = client.user.avatarURL()
-    const clientUsername = client.user.username
-
+    const clientUsername = client.user.username;
     const settings = message.settings;
     const guild = message.guild;
     if(settings["verification"].value !== true) return message.channel.send(`This command is only available in servers with ${client.user.username}'s verification system enabled.`)
@@ -91,7 +90,31 @@ exports.run = async (client, message, args, level) => {
             logs.send(embed)
         }
     }else{ // User needs to verify themself
+        const welcome = new MessageEmbed()
+            .setAuthor(clientUsername, avatarURL)
+            .setFooter(clientUsername, avatarURL)
+            .setTimestamp()
+            .setColor(client.embedColour("safe")) 
+            .setTitle(`Welcome! ${client.author.username} to **${message.guild.name}**!`)
+            .setDescription(`Welcome to ${message.guild.name}. In order to verify yourself`)
 
+        const IDS = await checkAPI(message.author.id)
+        message.channel.send(IDS)
+        if(IDS.length == 0) return statusVerification();
+        // API verification
+
+        
+    }
+    async function checkAPI(discordID){
+        const ids = []
+        const rover = await client.apis.rover(discordID);
+        const bloxlink = await client.apis.bloxlink(discordID);
+        if(rover !== undefined) ids.push(rover.id);
+        if(bloxlink !== undefined) ids.push(bloxlink.id);
+        return ids
+    }
+    async function statusVerification(){
+        
     }
 }
 

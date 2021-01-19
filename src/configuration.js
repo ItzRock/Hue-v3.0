@@ -30,7 +30,18 @@ const config = {
             catagory: "General",
             editable: true
         },
-
+        "welcoming-channel": {
+            name: "welcoming-channel",
+            value: undefined,
+            catagory: "General",
+            editable: true
+        },
+        "welcoming-text": {
+            name: "welcoming-text",
+            value: `Welcome {{user}} to {{guild}}!`,
+            catagory: "General",
+            editable: true
+        },
         //
 
         "adminrole": {

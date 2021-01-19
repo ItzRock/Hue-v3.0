@@ -175,21 +175,6 @@ module.exports = (client) => {
       return client.users.cache.get(mention);
     }
   };
-  client.findRole = function (input, message) {
-    var role;
-    role = message.guild.roles.cache.find(
-      (r) => r.name.toLowerCase() === input.toLowerCase()
-    );
-    if (!role) {
-      role = message.guild.roles.cache.get(input.toLowerCase());
-    }
-
-    if (!role) {
-      return;
-    }
-
-    return role;
-  };
   client.shuffle = (array) => {
     var currentIndex = array.length,
       temporaryValue,
