@@ -95,7 +95,7 @@ exports.run = async (client, message, args, level) => {
             .setFooter(clientUsername, avatarURL)
             .setTimestamp()
             .setColor(client.embedColour("safe")) 
-            .setTitle(`Welcome! ${client.author.username} to **${message.guild.name}**!`)
+            .setTitle(`Welcome! ${message.author.username} to **${message.guild.name}**!`)
             .setDescription(`Welcome to ${message.guild.name}. In order to verify yourself`)
 
         const IDS = await checkAPI(message.author.id)

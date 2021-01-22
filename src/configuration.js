@@ -77,6 +77,12 @@ const config = {
             value: false, 
             editable: true
         },
+        "findRoles": {
+            name: "verification",
+            catagory: "Verification", 
+            value: false, 
+            editable: true
+        },
         "groupID": {
             name: "groupID",
             catagory: "Verification", 
