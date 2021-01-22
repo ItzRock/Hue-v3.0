@@ -5,6 +5,17 @@ const config = {
         "412729903893708801", // Harry
         "468791748739596298", // fingerPlace
     ],
+
+    "bootMessage": `
+_    _              ____         ___  
+| |  | |            |___ \\       / _ \\ 
+| |__| |_   _  ___    __) |     | | | |
+|  __  | | | |/ _ \\  |__ <      | | | |
+| |  | | |_| |  __/  ___) |  _  | |_| |
+|_|  |_|\\__,_|\\___| |____/  (_)  \\___/ 
+Made By: ItzRock#0002
+    `,
+
     "database": ["mongodb://localhost:27017", "Hue"],
     "token": keys.main,
     "apiKeys": {"yt": keys.ytSearchAPI},

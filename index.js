@@ -36,6 +36,9 @@ client.aliases = new Enmap();
 
 client.config = require('./src/configuration')
 client.logger = require('./src/functions/logger')
+// Lets log a fancy boot logo so i can say "i worked on hue today"
+const logo = client.config.bootMessage;
+client.logger.log(logo)
 /* Lets load our Functions */
 require("./src/databaseLoader")(client)
 require("./src/api-loader")(client)
