@@ -6,10 +6,12 @@
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
     "aki-api": "^5.2.1",
+    "body-parser": "^1.19.0",
     "chalk": "^4.1.0",
     "cleverbot-free": "^1.0.5",
     "discord.js": "^12.5.1",
     "enmap": "^5.8.4",
+    "express": "^4.17.1",
     "ffmpeg": "0.0.4",
     "ffmpeg-static": "^4.2.7",
     "fluent-ffmpeg": "^2.1.2",

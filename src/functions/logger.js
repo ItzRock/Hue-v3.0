@@ -12,7 +12,7 @@ exports.log = (content, type = "log",) => {
   })
   switch (type) {
     case "log": {
-      return console.log(`${timestamp} ${chalk.bgCyan(type.toUpperCase())} ${content} `);
+      return console.log(`${timestamp} ${chalk.bgMagenta(type.toUpperCase())} ${content} `);
     }
     case "warn": {
       return console.log(`${timestamp} ${chalk.black.bgYellow(type.toUpperCase())} ${content} `);
@@ -24,7 +24,7 @@ exports.log = (content, type = "log",) => {
       return console.log(`${timestamp} ${chalk.green(type.toUpperCase())} ${content} `);
     }
     case "cmd": {
-      return console.log(`${timestamp} ${chalk.black.bgWhite(type.toUpperCase())} ${content}`);
+      return console.log(`${timestamp} ${chalk.bgYellow(type.toUpperCase())} ${content}`);
     }
     case "verify": {
       return console.log(`${timestamp} ${chalk.bgRed(type.toUpperCase())} ${content} `);
@@ -33,7 +33,7 @@ exports.log = (content, type = "log",) => {
         return console.log(`${timestamp} ${chalk.bgYellow(type.toUpperCase())} ${content} `);
       }
     case "ready": {
-      return console.log(`${timestamp} ${chalk.black.bgGreen(type.toUpperCase())} ${content}`);
+      return console.log(`${timestamp} ${chalk.bgBlue(type.toUpperCase())} ${content}`);
     }
     default: throw new TypeError("Logger type must be either warn, debug, log, ready, cmd or error.");
   }
