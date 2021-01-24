@@ -1,5 +1,5 @@
 module.exports = (client, app) => {
-    return app.get("/status", (_, res) =>{
+    return app.get("/api/status", (_, res) =>{
         res.json({status: "ok", code: "200"})
     })
 }

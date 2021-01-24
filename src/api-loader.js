@@ -6,6 +6,6 @@ module.exports = async (client) => {
     const dbModules = await readdir("./src/api/")
     dbModules.forEach(module => {
         require(`./api/${module}`)(client)
-        client.logger.log(`Loaded API Module: ${module}`)
+        client.logger.api(`Loaded API Module: ${module}`)
     })
 }

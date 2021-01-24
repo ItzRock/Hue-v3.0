@@ -29,6 +29,15 @@ exports.log = (content, type = "log",) => {
     case "verify": {
       return console.log(`${timestamp} ${chalk.bgRed(type.toUpperCase())} ${content} `);
     }
+    case "API": {
+      return console.log(`${timestamp} ${chalk.bgRed(type.toUpperCase())} ${content} `);
+    }
+    case "DATA": {
+      return console.log(`${timestamp} ${chalk.bgGreen(type.toUpperCase())} ${content} `);
+    }
+    case "EVENT": {
+      return console.log(`${timestamp} ${chalk.bgCyan(type.toUpperCase())} ${content} `);
+    }
     case "ai": {
         return console.log(`${timestamp} ${chalk.bgYellow(type.toUpperCase())} ${content} `);
       }
@@ -51,4 +60,8 @@ exports.debug = (...args) => this.log(...args, "debug");
 
 exports.cmd = (...args) => this.log(...args, "cmd");
 
+exports.api = (...args) => this.log(...args, "API");
+
+exports.data = (...args) => this.log(...args, "DATA");
+exports.event = (...args) => this.log(...args, "EVENT");
 exports.ready = (...args) => this.log(...args, "ready");

@@ -68,7 +68,7 @@ const boot = async function(){
     client.logger.log(`Loading a total of ${evtFiles.length} events.`); // logs number of events found
     evtFiles.forEach(file => { // for each item found in the directory it will run the following on it
         const eventName = file.split(".")[0]; // splits the name
-        client.logger.log(`Loading Event: ${eventName}`); // logs the event is being loaded
+        client.logger.event(`Loading Event: ${eventName}`); // logs the event is being loaded
         const event = require(`./events/${file}`); // requires that event
         client.on(eventName, event.bind(null, client)); // honestly, i dont know but it works.
     });

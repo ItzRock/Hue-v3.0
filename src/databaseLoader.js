@@ -7,6 +7,6 @@ module.exports = async (client) => {
     const dbModules = await readdir("./src/database/")
     dbModules.forEach(module => {
         require(`./database/${module}`)(client)
-        client.logger.log(`Loaded Database Module: ${module}`)
+        client.logger.data(`Loaded Database Module: ${module}`)
     })
 }
