@@ -1,3 +1,4 @@
+const { verify } = require('crypto');
 const { MessageEmbed } = require('discord.js');
 const noblox = require("noblox.js")
 const filename = require('path').basename(__filename).split(".")[0]
@@ -25,7 +26,7 @@ exports.run = async (client, message, args, level) => {
 
     const pending = new MessageEmbed()
         .setAuthor(clientUsername, avatarURL)
-        .setFooter(`If this takes longer than 30 seconds contact a ${clientUsername} Admin`, avatarURL)
+        .setFooter(clientUsername, avatarURL)
         .setTimestamp()
         .setColor("YELLOW")
         .setTitle(`Pending`)
@@ -87,8 +88,8 @@ exports.run = async (client, message, args, level) => {
                 .setDescription(`\`${message.author.tag}\` has verified as \`${updatedName}\``)
                 .setThumbnail(thumbURL)
             msg.edit(embed)
-            logs.send(embed)
-        }
+            if(logs !== undefined) logs.send(embed)
+        } 
     }else{ // User needs to verify themself
         const welcome = new MessageEmbed()
             .setAuthor(clientUsername, avatarURL)
@@ -96,25 +97,55 @@ exports.run = async (client, message, args, level) => {
             .setTimestamp()
             .setColor(client.embedColour("safe")) 
             .setTitle(`Welcome! ${message.author.username} to **${message.guild.name}**!`)
-            .setDescription(`Welcome to ${message.guild.name}. In order to verify yourself`)
+            .setDescription(`Welcome to ${message.guild.name}. In order to verify yourself please respond with your Roblox username`)
 
         const IDS = await checkAPI(message.author.id)
-        message.channel.send(IDS)
         if(IDS.length == 0) return statusVerification();
         // API verification
-
-        
+        const username = await noblox.getUsernameFromId(IDS[0])
+        const avatar = await client.apis.roblox.avatarURL(IDS[0])
+        await msg.delete();
+        const wouldYouLikeToVerifyAsX = new MessageEmbed()
+            .setAuthor(clientUsername, avatarURL)
+            .setFooter(clientUsername, avatarURL)
+            .setTimestamp()
+            .setThumbnail(avatar)
+            .setColor(client.embedColour("safe")) 
+            .setTitle(`Possible account found in api!`)
+            .setDescription(`Would you like to verify as \`${username}\`. (respond with \`yes\` or \`no\`)`)
+        const reply = await client.awaitReply(message, wouldYouLikeToVerifyAsX)
+        const agree = ["yes", "y", "obama",]
+        Ooogabooga()
+        if(reply){
+            if(agree.includes(reply)){
+                verify(IDS[0], username, "API Verification.")
+            }
+            else {
+                return statusVerification()
+            }
+        }
     }
     async function checkAPI(discordID){
         const ids = []
         const rover = await client.apis.rover(discordID);
         const bloxlink = await client.apis.bloxlink(discordID);
-        if(rover !== undefined) ids.push(rover.id);
-        if(bloxlink !== undefined) ids.push(bloxlink.id);
+        if(rover !== undefined) ids.push(rover.id.toString());
+        if(bloxlink !== undefined) ids.push(bloxlink.id.toString());
         return ids
     }
     async function statusVerification(){
         
+    }
+    async function verify(id, username, method){
+        const logsEmbed = new MessageEmbed()
+            .setAuthor(clientUsername, avatarURL)
+            .setFooter(clientUsername, avatarURL)
+            .setTimestamp()
+            .setColor(client.embedColour("safe"))
+            .setTitle(`Successfully Verified`)
+            .setDescription(`\`${message.author.tag}\` has verified as \`${updatedName}\``)
+            .setThumbnail(thumbURL)
+        if(logs !== undefined) logs.send(logsEmbed)
     }
 }
 

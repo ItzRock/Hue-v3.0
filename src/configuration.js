@@ -22,6 +22,7 @@ Made By: ItzRock#0002
     "status": "dev", // static or dev
 
     "logChannel": "767976193483079690",
+    "errorChannel": "803503101109338152",
     
     "defaultSettings" : {
         // ohmygod i miss spelled category aaaaaaaaaaaa

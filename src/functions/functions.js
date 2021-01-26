@@ -287,8 +287,8 @@ module.exports = (client) => {
     }
     console.error(err);
   });
-  process.on("unhandledRejection", (err) => {
-    client.logger.error(`Unhandled rejection: ${err}`);
-    console.error(err);
+  process.on("unhandledRejection", async (err) => {
+    const clean = await client.clean(client, err);
+    client.channels.cache.get(client.config.errorChannel).send(`\`\`\`js\n${clean.substring(0, 1500)}\n\`\`\``)
   });
 };
