@@ -115,10 +115,21 @@ exports.run = async (client, message, args, level) => {
             .setDescription(`Would you like to verify as \`${username}\`. (respond with \`yes\` or \`no\`)`)
         const reply = await client.awaitReply(message, wouldYouLikeToVerifyAsX)
         const agree = ["yes", "y", "obama",]
-        Ooogabooga()
         if(reply){
             if(agree.includes(reply)){
-                verify(IDS[0], username, "API Verification.")
+                if(groupJoin == true){
+                    if(isInGroup(IDS[0]) == true) return verify(IDS[0], username, avatar, "API Verification.");
+                    const groupEmbed = new MessageEmbed()
+                        .setColor("RED")
+                        .setTitle(`You aren't in the group!`)
+                        .setDescription(`The roblox user: \`${username}\` was not found in the group: https://www.roblox.com/groups/${groupID}.`)
+                        .setAuthor(clientUsername, avatarURL)
+                        .setFooter(clientUsername, avatarURL)
+                        .setTimestamp()
+                    return message.channel.send(groupEmbed)
+                } else{
+                    return verify(IDS[0], username, avatar, "API Verification.");
+                }
             }
             else {
                 return statusVerification()
@@ -129,23 +140,50 @@ exports.run = async (client, message, args, level) => {
         const ids = []
         const rover = await client.apis.rover(discordID);
         const bloxlink = await client.apis.bloxlink(discordID);
-        if(rover !== undefined) ids.push(rover.id.toString());
-        if(bloxlink !== undefined) ids.push(bloxlink.id.toString());
+        if(rover !== false) ids.push(rover.id);
+        if(bloxlink !== false) ids.push(bloxlink.id);
         return ids
     }
     async function statusVerification(){
-        
+        await msg.delete()
+        message.channel.send(`Status verification`)
     }
-    async function verify(id, username, method){
-        const logsEmbed = new MessageEmbed()
+    async function verify(id, username, thumbURL, method){
+        const embed = new MessageEmbed()
             .setAuthor(clientUsername, avatarURL)
             .setFooter(clientUsername, avatarURL)
             .setTimestamp()
             .setColor(client.embedColour("safe"))
             .setTitle(`Successfully Verified`)
-            .setDescription(`\`${message.author.tag}\` has verified as \`${updatedName}\``)
+            .setDescription(`\`${message.author.tag}\` has verified as \`${username}\``)
             .setThumbnail(thumbURL)
-        if(logs !== undefined) logs.send(logsEmbed)
+        if(logs !== undefined) logs.send(embed)
+        message.channel.send(embed)
+        client.database.verify.event(message.author.tag, username, id, method, `GUILD: ${message.guild.name} | ID: ${id}`)
+        addRoles(username)
+        // Add to db here soon
+    }
+    function addRoles(username){
+        message.member.roles.add(verifiedRole);
+        try {
+            if(unverifiedRole !== undefined || message.member.roles.get(unverifiedRole.id)) message.member.roles.remove(unverifiedRole);
+        } catch (error) {    
+            // Probably didn't have the role
+        }
+        try {
+            if(setnick == true) {
+                if(message.author.id !== message.guild.ownerID);{
+                    if((message.member.roles.highest >= message.guild.members.cache.get(client.user.id).roles.highest) == false) {
+                        message.member.setNickname(username)
+                    }
+                }
+            }
+        } catch (error) {}   
+    }
+    async function isInGroup(id){
+        if(groupID == undefined || client.isNum(groupID) == false) {msg.delete(); return message.channel.send(`The guild's configuration hasn't been properly set up. please set a valid group id.`)}
+        const groupRank = await noblox.getRankInGroup(groupID, id)
+        return groupRank !== 0
     }
 }
 
