@@ -90,15 +90,7 @@ exports.run = async (client, message, args, level) => {
             msg.edit(embed)
             if(logs !== undefined) logs.send(embed)
         } 
-    }else{ // User needs to verify themself
-        const welcome = new MessageEmbed()
-            .setAuthor(clientUsername, avatarURL)
-            .setFooter(clientUsername, avatarURL)
-            .setTimestamp()
-            .setColor(client.embedColour("safe")) 
-            .setTitle(`Welcome! ${message.author.username} to **${message.guild.name}**!`)
-            .setDescription(`Welcome to ${message.guild.name}. In order to verify yourself please respond with your Roblox username`)
-
+    }else{ // User needs to verify thyself
         const IDS = await checkAPI(message.author.id)
         if(IDS.length == 0) return statusVerification();
         // API verification
@@ -145,8 +137,40 @@ exports.run = async (client, message, args, level) => {
         return ids
     }
     async function statusVerification(){
-        await msg.delete()
-        message.channel.send(`Status verification`)
+        const welcome = new MessageEmbed()
+            .setAuthor(clientUsername, avatarURL)
+            .setFooter(clientUsername, avatarURL)
+            .setTimestamp()
+            .setColor(client.embedColour("safe")) 
+            .setTitle(`Welcome! ${message.author.username} to **${message.guild.name}**!`)
+            .setDescription(`Welcome to ${message.guild.name}. In order to verify yourself please respond with your Roblox username`)
+        try {
+            await msg.delete()
+        } catch (error) { /* Already Deleted */  }
+        const reply = await client.awaitReply(message, welcome)
+        if(reply){
+            const pendingMSG = await message.channel.send(pending)
+            const raw = reply;
+            try {
+                const test = await noblox.getIdFromUsername(raw);
+            } catch (error) {
+                const errorEmbed = new MessageEmbed()
+                    .setAuthor(clientUsername, avatarURL)
+                    .setFooter(clientUsername, avatarURL)
+                    .setTimestamp()
+                    .setColor("RED") 
+                    .setTitle(`An Error has occurred!`)
+                    .setDescription(`${error.name}: ${error.message}`)
+                await pendingMSG.delete()
+                return message.channel.send(errorEmbed)
+            }
+            const ID = await noblox.getIdFromUsername(raw);
+            const Username = await noblox.getUsernameFromId(ID);
+            await pendingMSG.delete()
+            if(groupJoin == true){
+                
+            }
+        }
     }
     async function verify(id, username, thumbURL, method){
         const embed = new MessageEmbed()
@@ -163,6 +187,7 @@ exports.run = async (client, message, args, level) => {
         addRoles(username)
         // Add to db here soon
     }
+
     function addRoles(username){
         message.member.roles.add(verifiedRole);
         try {
