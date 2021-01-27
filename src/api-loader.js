@@ -1,6 +1,5 @@
 const { promisify } = require("util");
-const readdir = promisify(require("fs").readdir); 
-const fs = require('fs')
+const readdir = promisify(require("fs").readdir);
 module.exports = async (client) => {
     client.apis = {}
     const dbModules = await readdir("./src/api/")
