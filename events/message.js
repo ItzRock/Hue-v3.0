@@ -49,7 +49,7 @@ module.exports = async (client, message) => {
     while (args[0] && args[0][0] === "-") {
       message.flags.push(args.shift().slice(1));
     }
-    client.logger.cmd(`[CMD] ${client.config.permissionLevels.find(l => l.level === level).name} ${message.author.username} (${message.author.id}) ran command ${cmd.help.name}, Arguments: ${args.join(" ")}`);
+    client.logger.cmd(`Level ${level} | GUILD: ${message.guild.name} | ${message.author.username} ran ${cmd.help.name} | Arguments: ${args.join(" ")}`);
     try {
       cmd.run(client, message, args, level); 
     } catch (error) {

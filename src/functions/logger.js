@@ -24,7 +24,7 @@ exports.log = (content, type = "log",) => {
       return console.log(`${timestamp} ${chalk.green(type.toUpperCase())} ${content} `);
     }
     case "cmd": {
-      return console.log(`${timestamp} ${chalk.bgYellow(type.toUpperCase())} ${content}`);
+      return console.log(`${timestamp} ${chalk.bgHex('#eb5a00')(type.toUpperCase())} ${content}`);
     }
     case "verify": {
       return console.log(`${timestamp} ${chalk.bgRed(type.toUpperCase())} ${content} `);
