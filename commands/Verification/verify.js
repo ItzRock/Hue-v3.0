@@ -185,6 +185,10 @@ exports.run = async (client, message, args, level) => {
         }
     }
     function setYourStatus(ID, Username, avatar){
+        const setStatusEmbed = new MessageEmbed()
+            .setAuthor(clientUsername, avatarURL)
+            .setFooter(clientUsername, avatarURL)
+            .setTimestamp()
         console.log([ID, Username, avatar]);
     }
     async function verify(id, username, thumbURL, method){
