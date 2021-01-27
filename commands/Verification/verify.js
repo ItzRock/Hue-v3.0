@@ -142,7 +142,8 @@ exports.run = async (client, message, args, level) => {
             .setFooter(clientUsername, avatarURL)
             .setTimestamp()
             .setColor(client.embedColour("safe")) 
-            .setTitle(`Welcome! ${message.author.username} to **${message.guild.name}**!`)
+            .setThumbnail(message.guild.iconURL())
+            .setTitle(`Welcome \`${message.author.username}\` to **${message.guild.name}**!`)
             .setDescription(`Welcome to ${message.guild.name}. In order to verify yourself please respond with your Roblox username`)
         try {
             await msg.delete()
@@ -166,11 +167,25 @@ exports.run = async (client, message, args, level) => {
             }
             const ID = await noblox.getIdFromUsername(raw);
             const Username = await noblox.getUsernameFromId(ID);
+            const avatar = await client.apis.roblox.avatarURL(ID)
             await pendingMSG.delete()
             if(groupJoin == true){
-                
+                if(isInGroup(ID) == true) return setYourStatus(ID, Username, avatar);
+                const groupEmbed = new MessageEmbed()
+                    .setColor("RED")
+                    .setTitle(`You aren't in the group!`)
+                    .setDescription(`The roblox user: \`${Username}\` was not found in the group: https://www.roblox.com/groups/${groupID}.`)
+                    .setAuthor(clientUsername, avatarURL)
+                    .setFooter(clientUsername, avatarURL)
+                    .setTimestamp()
+                return message.channel.send(groupEmbed)
+            } else{
+                return setYourStatus(ID, Username, avatar);
             }
         }
+    }
+    function setYourStatus(ID, Username, avatar){
+        console.log([ID, Username, avatar]);
     }
     async function verify(id, username, thumbURL, method){
         const embed = new MessageEmbed()

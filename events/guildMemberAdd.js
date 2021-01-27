@@ -9,6 +9,9 @@ module.exports = async (client, member) => {
             welcomingChannel.send(welcomeMessage)
         }
     }
+    // Auto verification may re add this later
+
+    /*
     if(settings.verification.value == true){
         const verifiedRole = client.getRole(member.guild, settings.verifiedRole.value)
         const unverifiedRole = client.getRole(member.guild, settings.unverifiedRole.value)
@@ -21,6 +24,7 @@ module.exports = async (client, member) => {
             }
         }
     }
+    */
     function customText(text){
         text = text.toString()
         return text.replace("{{user}}", `${member.user}`).replace(`{{guild}}`, member.guild.name)
