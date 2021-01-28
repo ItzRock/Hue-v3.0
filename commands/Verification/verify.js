@@ -9,7 +9,7 @@ exports.run = async (client, message, args, level) => {
     const guild = message.guild;
     if(settings["verification"].value !== true) return message.channel.send(`This command is only available in servers with ${client.user.username}'s verification system enabled.`)
    
-    const possibleKeys = ["green", "orange", "alpha", "delta", "charlie", "bravo", "yellow", "apple", "banana"]
+    const possibleKeys = ["green", "alpha", "delta", "charlie", "bravo", "yellow", "apple", "banana"]
     const status = client.shuffle(possibleKeys).join(" ")
 
     const verifiedRole = client.getRole(message.guild, message.settings.verifiedRole.value)
@@ -190,8 +190,9 @@ exports.run = async (client, message, args, level) => {
             .setFooter(clientUsername, avatarURL)
             .setTimestamp()
             .setColor(client.embedColour("safe"))
+            .setThumbnail(avatar)
             .setTitle(`Part 2: Modify your About section of your profile`)
-            .setDescription(`In order to prove you own this account, please either set or set the last line of your description to\n\`${status}\`\nand then reply with \`done\` once you have done so`)
+            .setDescription(`In order to prove you own this account, please either set or set the last line of your [**description / about**](http://cdn.itzrock.xyz/hue/example.png) to\n\`${status}\`\nand then reply with \`done\` once you have done so`)
         const waitForResponse = await client.awaitReply(message, setStatusEmbed, 300000);
         if(waitForResponse){
             return checkDescriptionIfCorrect(ID, Username, avatar)
@@ -202,7 +203,7 @@ exports.run = async (client, message, args, level) => {
         const splitBlurb = blurb.split("\n")
         const lastLine = splitBlurb[splitBlurb.length - 1]
         if(lastLine == status){
-            returnverify(ID, Username, avatar, "Standard Verification")
+            return verify(ID, Username, avatar, "Standard Verification")
         }else {
 
         const invalidStatus = new MessageEmbed()
@@ -229,6 +230,7 @@ exports.run = async (client, message, args, level) => {
         client.database.verify.event(message.author.tag, username, id, method, `GUILD: ${message.guild.name} | ID: ${id}`)
         addRoles(username)
         // Add to db here soon
+        await client.database.verify.write(username, id, message.author.id)
     }
 
     function addRoles(username){
