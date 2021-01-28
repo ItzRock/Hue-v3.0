@@ -1,4 +1,4 @@
-const { verify } = require('crypto');
+// Middle of writing this, roblox started slowly phasing out status' so anytime it refers to set your status, its actually last line of desciption
 const { MessageEmbed } = require('discord.js');
 const noblox = require("noblox.js")
 const filename = require('path').basename(__filename).split(".")[0]
@@ -9,8 +9,8 @@ exports.run = async (client, message, args, level) => {
     const guild = message.guild;
     if(settings["verification"].value !== true) return message.channel.send(`This command is only available in servers with ${client.user.username}'s verification system enabled.`)
    
-    const possibleKeys = ["green", "orange", "alpha", "delta", "charlie", "bravo", "puppy", "yellow", "apple", "banana"]
-    const status = client.shuffle(possibleKeys)
+    const possibleKeys = ["green", "orange", "alpha", "delta", "charlie", "bravo", "yellow", "apple", "banana"]
+    const status = client.shuffle(possibleKeys).join(" ")
 
     const verifiedRole = client.getRole(message.guild, message.settings.verifiedRole.value)
     const unverifiedRole = client.getRole(message.guild, message.settings.unverifiedRole.value)
@@ -184,12 +184,36 @@ exports.run = async (client, message, args, level) => {
             }
         }
     }
-    function setYourStatus(ID, Username, avatar){
+    async function setYourStatus(ID, Username, avatar){
         const setStatusEmbed = new MessageEmbed()
             .setAuthor(clientUsername, avatarURL)
             .setFooter(clientUsername, avatarURL)
             .setTimestamp()
-        console.log([ID, Username, avatar]);
+            .setColor(client.embedColour("safe"))
+            .setTitle(`Part 2: Modify your About section of your profile`)
+            .setDescription(`In order to prove you own this account, please either set or set the last line of your description to\n\`${status}\`\nand then reply with \`done\` once you have done so`)
+        const waitForResponse = await client.awaitReply(message, setStatusEmbed, 300000);
+        if(waitForResponse){
+            return checkDescriptionIfCorrect(ID, Username, avatar)
+        }
+    }
+    async function checkDescriptionIfCorrect(ID, Username, avatar){
+        const blurb = await noblox.getBlurb({userId: ID})
+        const splitBlurb = blurb.split("\n")
+        const lastLine = splitBlurb[splitBlurb.length - 1]
+        if(lastLine == status){
+            returnverify(ID, Username, avatar, "Standard Verification")
+        }else {
+
+        const invalidStatus = new MessageEmbed()
+            .setAuthor(clientUsername, avatarURL)
+            .setFooter(clientUsername, avatarURL)
+            .setTimestamp()
+            .setColor("RED")
+            .setTitle(`Error`)
+            .setDescription(`The last line did not match, Expected: \`${status}\`\n Got: \`${lastLine}\``)
+        return message.channel.send(invalidStatus);
+        }
     }
     async function verify(id, username, thumbURL, method){
         const embed = new MessageEmbed()
