@@ -17,7 +17,7 @@ module.exports = (client, guild) => {
     "title": "event: `guildDelete`",
     "description": `${client.user.username} has **left** a server.`,
     "timestamp": new Date(),
-    "color": client.embedColour(),
+    "color": "RED",
     "footer": {
       "text": `${client.user.username} Statistics Logs`
     },
