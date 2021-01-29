@@ -49,7 +49,10 @@ module.exports = async (client, message) => {
     while (args[0] && args[0][0] === "-") {
       message.flags.push(args.shift().slice(1));
     }
-    client.logger.cmd(`Level ${level} | GUILD: ${message.guild.name} | ${message.author.username} ran ${cmd.help.name} | Arguments: ${args.join(" ")}`);
+    if(message.channel.type == "dm"){
+      client.logger.cmd(`Level ${level} | GUILD: ${message.channel.type} | ${message.author.username} ran ${cmd.help.name} | Arguments: ${args.join(" ")}`);
+    }
+    else client.logger.cmd(`Level ${level} | GUILD: ${message.guild.name} | ${message.author.username} ran ${cmd.help.name} | Arguments: ${args.join(" ")}`);
     try {
       cmd.run(client, message, args, level); 
     } catch (error) {
