@@ -288,7 +288,7 @@ module.exports = (client) => {
     console.error(err);
   });
   process.on("unhandledRejection", async (err) => {
-    if(err.msg == "Missing Permissions") return // ksfhg SHUT UP ABOUT MISSING PERMISSIONS OR I WILL DROP KICK YOU IN THE BALLS
+    if(err.message == "Missing Permissions") return // ksfhg SHUT UP ABOUT MISSING PERMISSIONS OR I WILL DROP KICK YOU IN THE BALLS
     const clean = await client.clean(client, err);
     client.channels.cache.get(client.config.errorChannel).send(`\`\`\`js\n${clean.substring(0, 1500)}\n\`\`\``)
     const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
