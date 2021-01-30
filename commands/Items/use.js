@@ -27,7 +27,7 @@ exports.conf = {
     aliases: [],
     permLevel: "User",
     disablable: true,
-    premium: false
+    premium: true
 };
 exports.help = {
     name: filename,

@@ -19,7 +19,7 @@ exports.conf = {
     aliases: ["bal", "money", "wallet", "wealth"],
     permLevel: "User",
     disablable: true,
-    premium: false
+    premium: true
 };
 exports.help = {
     name: filename,

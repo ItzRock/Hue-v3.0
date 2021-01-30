@@ -14,7 +14,7 @@ exports.conf = {
     aliases: [],
     permLevel: "Hue Administrator",
     disablable: true,
-    premium: false
+    premium: true
 };
 exports.help = {
     name: filename,
