@@ -93,7 +93,7 @@ Made By: ItzRock#0002
             name: "verification",
             catagory: "Verification", 
             value: false, 
-            editable: true
+            editable: false
         },
         "groupID": {
             name: "groupID",
