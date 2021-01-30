@@ -28,7 +28,7 @@ module.exports = (client) => {
                 MongoClient.connect(url,{ useUnifiedTopology: true } , async function(err, mongoClient) {
                     const db = mongoClient.db(dbName);
                     let myquery  = { DiscordID: userID.toString() };
-                    let newvalues = { $set: {Wealth: amount} };
+                    let newvalues = { $set: {Wealth: parseInt(amount)} };
                     db.collection(collection).updateOne(myquery, newvalues, function(err, res) {
                         if (err) resolve([false, err]);
                         resolve([true])
@@ -41,7 +41,7 @@ module.exports = (client) => {
         },
         addMoney: async (userID, amount) => {
             const data = await client.database.economy.read(userID)
-            const total = parseInt(data.Wealth) + parseInt(amount)
+            const total = Math.floor(parseInt(data.Wealth) + parseInt(amount))
             const promise = new Promise((resolve, reject) => {
                 MongoClient.connect(url,{ useUnifiedTopology: true } , async function(err, mongoClient) {
                     const db = mongoClient.db(dbName);
