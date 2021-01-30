@@ -21,6 +21,7 @@
     "noblox.js": "^4.8.2",
     "node-pre-gyp": "^0.17.0",
     "nodemon": "^2.0.7",
+    "title-case": "^3.0.3",
     "youtube-search": "^1.1.4",
     "youtube-search-api": "^1.0.8",
     "ytdl-core": "^4.4.4"
