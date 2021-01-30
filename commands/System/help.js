@@ -35,17 +35,15 @@ exports.run = (client, message, args, level) => {
         // Add the keys to the catagories
         catagories.forEach(catagory =>{
           sorted.forEach(command =>{
-              //if(command.premium == true && message.settings.premium.value == false) return; // premium command.
-              if(command.help.category != catagory.name) return; // incorrect catagory
-              //if(command.conf.premium == true && message.settings.premium.value == false) return;
-              catagory.fields.push(`\`${command.help.name}\`, `)
+            if(command.help.category != catagory.name) return; // incorrect catagory
+            catagory.fields.push(`\`${command.help.name}\`, `)
           })
       })
       catagories.forEach(catagory => {
         output.addField(`${catagory.name}`, catagory.fields.join(""), true)
       })
 
-      output.setDescription(`\`\`[Use ${message.settings.prefix.value}help [commandname] for details]\`\` \n${commandsList}`)
+      output.setDescription(`\`[Use ${message.settings.prefix.value}help [commandname] for details]\` \n${commandsList}`)
       message.channel.send(output);
     } else {
       // Show individual command's help.
