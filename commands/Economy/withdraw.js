@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
     const info = await client.database.economy.read(message.author.id)
-    if(info.BankCap == 0) return message.channel.send(`You currently don't have an open account, open an account with \`${message.settings.prefix}bank open\``)
+    if(info.BankCap == 0) return message.channel.send(`You currently don't have an open account, open an account with \`${message.settings.prefix.value}bank open\``)
     if(!args[0]) return message.channel.send("Please specify an amount!");
     if(/^\d+$/.test(args[0]) == false) return message.channel.send("Please specify a number.")
     if(info.Bank - args[0] < 0) return message.channel.send("Can't withdraw more then you have!");
