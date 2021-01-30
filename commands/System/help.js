@@ -20,7 +20,7 @@ exports.run = (client, message, args, level) => {
         .setDescription(`[Use ${message.settings.prefix.value}help [commandname] for details]`)
         .setThumbnail(client.user.avatarURL())
         .setTimestamp()
-        .setFooter('Commands list updated at', client.user.avatarURL());
+        .setFooter(`${client.user.username}`, client.user.avatarURL());
         
         const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
         // Get the catagories
