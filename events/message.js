@@ -33,9 +33,8 @@ module.exports = async (client, message) => {
       return message.channel.send(`This command has been disabled in this guild! please try another guild or in DMs.`)
     } 
     const premiumServer = message.settings["premium"]
-    if(cmd.conf.premium == true && 
-      premiumServer.value == false
-      )return message.channel.send(`This command can only be used in premium servers.`)
+    if(cmd.conf.premium == true && premiumServer.value == false && !client.config.AuthorizedUsers.includes(message.author.id)) 
+      return message.channel.send(`This command can only be used in premium servers.`)
 
     if (level < client.levelCache[cmd.conf.permLevel]) {
         return message.channel.send(`Invalid Permission Level.
