@@ -32,6 +32,9 @@ exports.log = (content, type = "log",) => {
     case "API": {
       return console.log(`${timestamp} ${chalk.bgRed(type.toUpperCase())} ${content} `);
     }
+    case "module": {
+      return console.log(`${timestamp} ${chalk.bgRed(type.toUpperCase())} ${content} `);
+    }
     case "DATA": {
       return console.log(`${timestamp} ${chalk.bgGreen(type.toUpperCase())} ${content} `);
     }
@@ -64,4 +67,5 @@ exports.api = (...args) => this.log(...args, "API");
 
 exports.data = (...args) => this.log(...args, "DATA");
 exports.event = (...args) => this.log(...args, "EVENT");
+exports.module = (...args) => this.log(...args, "module");
 exports.ready = (...args) => this.log(...args, "ready");
