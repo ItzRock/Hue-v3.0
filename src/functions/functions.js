@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const noblox = require("noblox.js")
 module.exports = (client) => {
   client.permlevel = (message) => {
     let permlvl = 0;
@@ -17,6 +18,11 @@ module.exports = (client) => {
     }
     return permlvl;
   };
+  client.isInGroup = async function(id, groupID){
+    if(groupID == undefined || client.isNum(groupID) == false) {msg.delete(); return message.channel.send(`The guild's configuration hasn't been properly set up. please set a valid group id.`)}
+    const groupRank = await noblox.getRankInGroup(groupID, id)
+    return groupRank !== 0
+  } 
   client.getArgs = (commandname) => {
     return client.commands.get(`${commandname}`).help.usage;
   };

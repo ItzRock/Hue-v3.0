@@ -110,7 +110,7 @@ exports.run = async (client, message, args, level) => {
         if(reply){
             if(agree.includes(reply)){
                 if(groupJoin == true){
-                    if(isInGroup(IDS[0]) == true) return verify(IDS[0], username, avatar, "API Verification.");
+                    if(await isInGroup(IDS[0]) == true) return verify(IDS[0], username, avatar, "API Verification.");
                     const groupEmbed = new MessageEmbed()
                         .setColor("RED")
                         .setTitle(`You aren't in the group!`)
@@ -170,7 +170,7 @@ exports.run = async (client, message, args, level) => {
             const avatar = await client.apis.roblox.avatarURL(ID)
             await pendingMSG.delete()
             if(groupJoin == true){
-                if(isInGroup(ID) == true) return setYourStatus(ID, Username, avatar);
+                if(await isInGroup(ID) == true) return setYourStatus(ID, Username, avatar);
                 const groupEmbed = new MessageEmbed()
                     .setColor("RED")
                     .setTitle(`You aren't in the group!`)
