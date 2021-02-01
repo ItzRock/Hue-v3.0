@@ -19,7 +19,7 @@ Made By: ItzRock#0002
     "database": ["mongodb://localhost:27017", "Hue"],
     "token": keys.main,
     "apiKeys": {"yt": keys.ytSearchAPI},
-    "status": "dev", // static or dev
+    "status": "static", // static or dev
 
     "logChannel": "767976193483079690",
     "errorChannel": "803503101109338152",
