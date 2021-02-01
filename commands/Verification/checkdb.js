@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
+const noblox = require("noblox.js")
 exports.run = async (client, message, args, level) => {
     const settings = message.settings;
     if(settings["verification"].value !== true) return message.channel.send(`This command is only available in servers with ${client.user.username}'s verification system enabled.`)
@@ -12,15 +13,16 @@ exports.run = async (client, message, args, level) => {
         const data = rawdata[1]
         const thumbnailRaw = await client.apis.https.get(`https://thumbnails.roblox.com/v1/users/avatar?format=Png&isCircular=false&size=720x720&userIds=${data.RobloxID}`)
         const thumbURL = thumbnailRaw.data[0].imageUrl
+        const updatedUsername = await noblox.getUsernameFromId(data.RobloxID)
         const embed = new MessageEmbed()
             .setAuthor(`${client.user.username} Database Lookup`, client.user.avatarURL())
-            .setFooter(`${client.user.username}`, client.user.avatarURL())
+            .setFooter(`If anything is incorrect contact a Hue Admin`, client.user.avatarURL())
             .setColor(client.embedColour())
             .setTimestamp()
             .setThumbnail(thumbURL)
             .setTitle(`${client.user.username} Database Information`)
             .setDescription(`Checked User <@${message.author.id}>`)
-            .addField('Roblox Username', `\`${data.RobloxUsername}\``, true)
+            .addField('Roblox Username', `\`${updatedUsername}\``, true)
             .addField('Roblox ID', `\`${data.RobloxID}\``, true)
             .addField('Roblox Profile Link', `[Profile Found Here](https://www.roblox.com/users/${data.RobloxID}/profile)`, true)
         await msg.delete()
@@ -37,15 +39,16 @@ exports.run = async (client, message, args, level) => {
         const data = rawdata[1]
         const thumbnailRaw = await client.apis.https.get(`https://thumbnails.roblox.com/v1/users/avatar?format=Png&isCircular=false&size=720x720&userIds=${data.RobloxID}`)
         const thumbURL = thumbnailRaw.data[0].imageUrl
+        const updatedUsername = await noblox.getUsernameFromId(data.RobloxID)
         const embed = new MessageEmbed()
             .setAuthor(`${client.user.username} Database Lookup`, client.user.avatarURL())
-            .setFooter(`${client.user.username}`, client.user.avatarURL())
+            .setFooter(`If anything is incorrect contact a Hue Admin`, client.user.avatarURL())
             .setColor(client.embedColour())
             .setThumbnail(thumbURL)
             .setTimestamp()
             .setTitle(`${client.user.username} Database Information`)
             .setDescription(`Checked User <@${data.DiscordID}>`)
-            .addField('Roblox Username', `\`${data.RobloxUsername}\``, true)
+            .addField('Roblox Username', `\`${updatedUsername}\``, true)
             .addField('Roblox ID', `\`${data.RobloxID}\``, true)
             .addField('Roblox Profile Link', `[Profile Found Here](https://www.roblox.com/users/${data.RobloxID}/profile)`, true)
         await msg.delete()
