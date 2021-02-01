@@ -192,7 +192,7 @@ exports.run = async (client, message, args, level) => {
             .setColor(client.embedColour("safe"))
             .setThumbnail(avatar)
             .setTitle(`Part 2: Modify your About section of your profile`)
-            .setDescription(`In order to prove you own this account, please either set or set the last line of your [**description / about**](http://cdn.itzrock.xyz/hue/example.png) to\n\`${status}\`\nand then reply with \`done\` once you have done so`)
+            .setDescription(`In order to prove you own this account, please either set or set the last line of your [**description / about**](https://www.roblox.com/users/${ID}) to\n\`${status}\`\nand then reply with \`done\` once you have done so, [Example](http://cdn.itzrock.xyz/hue/example.png)`)
         const waitForResponse = await client.awaitReply(message, setStatusEmbed, 300000);
         if(waitForResponse){
             return checkDescriptionIfCorrect(ID, Username, avatar)
@@ -212,7 +212,7 @@ exports.run = async (client, message, args, level) => {
             .setTimestamp()
             .setColor("RED")
             .setTitle(`Error`)
-            .setDescription(`The last line did not match, Expected: \`${status}\`\n Got: \`${lastLine}\``)
+            .setDescription(`The last line did not match, Expected: \`${status}\`\n Got: \`${lastLine}\`\n**If it was tagged please try again.**`)
         return message.channel.send(invalidStatus);
         }
     }

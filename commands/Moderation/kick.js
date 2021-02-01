@@ -58,7 +58,7 @@ exports.run = async (client, message, args, level) => {
         .setThumbnail(message.guild.iconURL())
         .setTimestamp()
         .setDescription(`Reason: \`${reason}\`\nModerator: \`${endEXT}\``)
-    user[1].send(DM)
+    await user[1].send(DM)
     message.channel.send(LOGEmbed)
     user[1].kick(LOGreason)
     if(logs !== undefined){
