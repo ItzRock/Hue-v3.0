@@ -81,7 +81,9 @@ const boot = async function(){
         const thisLevel = client.config.permissionLevels[i];
         client.levelCache[thisLevel.name] = thisLevel.level;
     }
-    client.login(client.config.token);
+    client.login(client.config.token).catch(reason => {
+        client.logger.warn(`Client was unable to log in: ${reason}`)
+    });
 }
 boot()
 module.exports = client;

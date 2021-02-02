@@ -14,5 +14,5 @@ module.exports = async client => {
                 client.user.setActivity(message, {type: "WATCHING"});
             }, 3600000)
         }
-    client.logger.ready(`Logged On As: ${client.user.tag}, Current Prefix: ${client.config.defaultSettings.prefix.value} | Hue v3.0`);
+    client.logger.ready(`Logged On As: ${await client.user.tag}, Current Prefix: ${client.config.defaultSettings.prefix.value} | Hue v3.0`);
 };

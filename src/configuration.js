@@ -31,7 +31,7 @@ Made By: ItzRock#0002
 
         "prefix": {
             name: "prefix",
-            value: "?",
+            value: ";",
             catagory: "General",
             editable: true
         },
