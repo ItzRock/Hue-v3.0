@@ -24,7 +24,6 @@ exports.run = async (client, message, args, level) => {
                 cleverbot(collected.first().content, context).then(response => {
                     context.push(collected.first().content)
                     context.push(response)
-                    client.logger.ai(`AI Chat: ${message.author.username}: ${collected.first().content}. | AI: ${response}`)
                     if(response.split(" ").includes("@everyone") || response.split(" ").includes("@here") || response.split(" ").includes("<@&")){
                         message.channel.stopTyping()
                         return message.channel.send("`Error this message included an illegal phrase and will not be send`")
