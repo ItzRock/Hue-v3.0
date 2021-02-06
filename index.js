@@ -53,12 +53,12 @@ require('./src/functions/music')(client)
 const boot = async function(){
     const commands = await readdir('./commands/'); // array of commands found in the commands folder of the bot.
     commands.forEach(async f => { // for each of the entries in the command array]
-        var stats = fs.statSync(__dirname + '\\commands\\' + f); 
+        var stats = fs.statSync(`./commands/${f}`); 
         if(stats.isDirectory() == true){
-          const catagory = await readdir(__dirname + '\\commands\\' + f);
+          const catagory = await readdir(`./commands/${f}`);
           catagory.forEach(command => {
             if(!command.endsWith(".js")) return; // if it isnt a js file then it ignores
-            const response = client.loadCommand(`${f}\\${command}`); // if it is then it tries to load the command with a load command function
+            const response = client.loadCommand(`${f}/${command}`); // if it is then it tries to load the command with a load command function
             if (response) console.log(response);
           })
         }
