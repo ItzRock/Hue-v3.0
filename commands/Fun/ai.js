@@ -9,7 +9,7 @@ exports.run = async (client, message, args, level) => {
     
     const cleverbot = require("cleverbot-free");
     activeSession.add(message.author.id);
-    message.channel.send("AI enabled, type `quit` at anytime to exit. Note: the input and output of this ai is logged.")
+    message.channel.send("AI enabled, type `quit` at anytime to exit.")
     awaitMessage() 
     const context = [`Hello, I am ${message.author.username}`, `Hello I am ${client.user.username}`]
     function awaitMessage(){
