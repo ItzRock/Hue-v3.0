@@ -62,6 +62,7 @@ exports.run = async (client, message, args, level) => {
                 }
             }
             message.member.roles.add(verifiedRole);
+            findRolesinGuild(data.RobloxID)
             const updatedName = await noblox.getUsernameFromId(data.RobloxID);
             try {
                 if(unverifiedRole !== undefined || message.member.roles.get(unverifiedRole.id)) message.member.roles.remove(unverifiedRole);
@@ -229,6 +230,7 @@ exports.run = async (client, message, args, level) => {
         message.channel.send(embed)
         client.database.verify.event(message.author.tag, username, id, method, `GUILD: ${message.guild.name} | ID: ${id}`)
         addRoles(username)
+        findRolesinGuild(id)
         // Add to db here soon
         await client.database.verify.write(username, id, message.author.id)
     }
@@ -249,6 +251,23 @@ exports.run = async (client, message, args, level) => {
                 }
             }
         } catch (error) {}   
+    }
+    async function findRolesinGuild(robloxID){
+        try {
+            if(message.settings.findRoles.value == true){
+                const groupID = message.settings.groupID.value
+                if(guild == undefined) return;
+                const rank = noblox.getRankNameInGroup(groupID, robloxID);
+                if(rank == "Guest") return;
+                message.guild.roles.cache.foreach(role => {
+                    if(role.name.toLowercase() == rank.toLowercase()){
+                        message.member.roles.add(role);
+                    }
+                })
+            }
+        } catch (error) {
+            
+        }
     }
     async function isInGroup(id){
         if(groupID == undefined || client.isNum(groupID) == false) {msg.delete(); return message.channel.send(`The guild's configuration hasn't been properly set up. please set a valid group id.`)}

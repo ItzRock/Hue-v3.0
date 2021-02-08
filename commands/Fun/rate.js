@@ -5,7 +5,10 @@ exports.run = async (client, message, args, level) => {
     const rating = client.randomNumber(0,10)
     let thing = `${args.join(" ")}`
     if(!thing.includes("<@&")){if(thing.includes("<@")) thing = message.guild.members.cache.get(args.join(" ").replace(/\D/g,'')).user.username}
-    message.channel.send(`I give \`${thing}\` a \`${rating}/10\``)
+    const embed = new MessageEmbed()
+    .setColor(client.embedColour())
+    .setDescription(`I give \`${thing}\` a \`${rating}/10\``)
+    message.channel.send(embed)
 }
 
 exports.conf = {

@@ -74,7 +74,7 @@ exports.run = (client, message, args, level) => {
 exports.conf = {
     enabled: true,
     guildOnly: false,
-    aliases: [],
+    aliases: ["cmd", "cmds", "shitspantscutely"],
     permLevel: "User",
     disablable: false,
     premium: false
