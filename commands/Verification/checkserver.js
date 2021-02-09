@@ -43,7 +43,7 @@ exports.run = async (client, message, args, level) => {
                 const username1 = await noblox.getUsernameFromId(ids[0].id)
                 const username2 = await noblox.getUsernameFromId(ids[1].id)
                 unsure++
-                client.logger.log(`UNSURE: User: ${user.username} maybe: ${username1} (${ids[0]}) or: ${username2} (${ids[1]})`)
+                client.logger.log(`UNSURE: User: ${user.username} maybe: ${username1} (${ids[0].id}) or: ${username2} (${ids[1].id})`)
             }
         } else if(ids.length == 1){
             const RO_username = await noblox.getUsernameFromId(ids[0].id)
