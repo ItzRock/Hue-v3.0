@@ -2,6 +2,9 @@ const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 const noblox = require("noblox.js")
 exports.run = async (client, message, args, level) => {
+    const settings = message.settings;
+    if(settings["verification"].value !== true) return message.channel.send(`This command is only available in servers with ${client.user.username}'s verification system enabled.`)
+    
     const avatarURL = client.user.avatarURL()
     const clientUsername = client.user.username
     

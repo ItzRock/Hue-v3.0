@@ -8,36 +8,16 @@ exports.run = async (client, message, args, level) => {
     if(!args[0] || !args[1]) return message.channel.send(`Invalid arguments. Usage: ${client.getArgs(filename)}`)
 
     if(settings.verifiedRole.value == undefined || settings.verifiedRole.value == false) return message.channel.send(`Error: cannot find verified role. Please fix this in the config`)
-    let verifiedRole
     const roleValue = settings.verifiedRole.value.replace("<#", "").replace(">", "")
+    const verifiedRole = client.getRole(message.guild, roleValue)
     // Find verified role
     const guild = message.guild
-    if(roleValue.match(/^[0-9]+$/) != null){
-        // Contains Numbers
-        verifiedRole = guild.roles.cache.get(roleValue)
-    }else{
-        // Is a String
-        verifiedRole = guild.roles.cache.find(role => role.name === roleValue)
-    }
     if(verifiedRole == undefined) return message.channel.send(`Error: cannot find verified role. Please fix this in the config`)
 
     // Find unverified role
-    let unverifiedRole
-    try {
-        if(settings.unverifiedRole.value !== undefined || settings.unverifiedRole.value != false){
-            const unverifiedroleValue = settings.unverifiedRole.value.replace("<#", "").replace(">", "")
-            // Find unverified role
-            if(unverifiedroleValue.match(/^[0-9]+$/) != null){
-                // Contains Numbers
-                unverifiedRole = guild.roles.cache.get(unverifiedroleValue)
-            }else{
-                // Is a String
-                unverifiedRole = guild.roles.cache.find((role) => role.name === unverifiedroleValue);
-            }
-        }   
-    } catch (error) {
-        // line 27 wont work corrently for me without a unverified role so this is just to counter it.
-    }
+    const roleValue2 = settings.unverifiedRole.value.replace("<#", "").replace(">", "")
+    const unverifiedRole = client.getRole(message.guild, roleValue2)
+
     // Get the user
     const userLookup = client.findUser(message, args[0])
     if(userLookup[0] == false) return message.channel.send(userLookup[1]);

@@ -5,11 +5,13 @@ exports.run = async (client, message, args, level) => {
     
     const channel = message.guild.channels.cache.get(args[0].replace("<#", "").replace(">", ""))
     if(channel == undefined) return message.channel.send(`Invalid channel, please mention the channel you want to send the message to`)
+    const rawtitle = args[1].split("-")
+    const title = rawtitle.join(" ")
     const embed = new MessageEmbed()
         .setAuthor(message.author.username, message.author.avatarURL())
         .setFooter(client.user.username, client.user.avatarURL())
         .setTimestamp()
-        .setTitle(args[1])
+        .setTitle(title)
         .setColor(client.embedColour())
         .setDescription(args.slice(2).join(" "));
     message.channel.send(`Successfully Sent!`);

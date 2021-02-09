@@ -96,10 +96,10 @@ Made By: ItzRock#0002
             editable: false
         },
         "findGroupRoles": {
-            name: "verification",
+            name: "depreitcated",
             catagory: "Verification", 
             value: false, 
-            editable: true
+            editable: false
         },
         "groupID": {
             name: "groupID",
