@@ -256,7 +256,7 @@ exports.run = async (client, message, args, level) => {
         try {
             if(message.settings.findRoles.value == true){
                 const groupID = message.settings.groupID.value
-                if(guild == undefined) return;
+                if(groupID == undefined) return;
                 const rank = noblox.getRankNameInGroup(groupID, robloxID);
                 if(rank == "Guest") return;
                 message.guild.roles.cache.foreach(role => {

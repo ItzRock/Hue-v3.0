@@ -230,9 +230,9 @@ module.exports = (client) => {
       await command.shutdown(client);
     }
     const mod =
-      require.cache[require.resolve(`../commands/${command.help.name}`)];
+      require.cache[require.resolve(`../../commands/${command.help.category}/${command.help.name}`)];
     delete require.cache[
-      require.resolve(`../commands/${command.help.name}.js`)
+      require.resolve(`../../commands/${command.help.category}/${command.help.name}.js`)
     ];
     for (let i = 0; i < mod.parent.children.length; i++) {
       if (mod.parent.children[i] === mod) {

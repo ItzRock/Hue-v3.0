@@ -33,7 +33,7 @@ exports.run = async (client, message, [action, key, ...value], level) => { // es
     if (!defaults[key]) return message.reply("This key does not exist in the settings");
     if (value.length < 1) return message.reply("Please specify a new value");
 
-    defaults[key] = value.join(" ");
+    defaults[key].value = value.join(" ");
 
     client.settings.set("default", defaults);
     message.reply(`${key} successfully edited to ${value.join(" ")}`);

@@ -93,6 +93,12 @@ Made By: ItzRock#0002
             name: "verification",
             catagory: "Verification", 
             value: false, 
+            editable: false
+        },
+        "findGroupRoles": {
+            name: "verification",
+            catagory: "Verification", 
+            value: false, 
             editable: true
         },
         "groupID": {
