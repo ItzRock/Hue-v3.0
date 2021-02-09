@@ -257,16 +257,16 @@ exports.run = async (client, message, args, level) => {
             if(message.settings.findRoles.value == true){
                 const groupID = message.settings.groupID.value
                 if(groupID == undefined) return;
-                const rank = noblox.getRankNameInGroup(groupID, robloxID);
+                const rank = await noblox.getRankNameInGroup(groupID, robloxID);
                 if(rank == "Guest") return;
-                message.guild.roles.cache.foreach(role => {
-                    if(role.name.toLowercase() == rank.toLowercase()){
+                message.guild.roles.cache.forEach(role => {
+                    if(role.name.toLowerCase() == rank.toLowerCase()){
                         message.member.roles.add(role);
                     }
                 })
             }
         } catch (error) {
-            
+            console.log(`\`\`\`js\n${error}\`\`\``)
         }
     }
     async function isInGroup(id){

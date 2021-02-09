@@ -90,7 +90,7 @@ Made By: ItzRock#0002
             editable: true
         },
         "findRoles": {
-            name: "verification",
+            name: "findRoles",
             catagory: "Verification", 
             value: false, 
             editable: false
