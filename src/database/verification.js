@@ -77,6 +77,20 @@ module.exports = (client) => {
             return value
         });       
     }
+    client.database.verify.countALL = function(){
+        let promise = new Promise((resolve, reject) => {
+            MongoClient.connect(url,{ useUnifiedTopology: true } , function(err, client) {
+                const db = client.db(dbName);
+                db.collection(collectionName).find().toArray(function(err, result) {
+                    if (err) resolve([false, `${err.name}: ${err.message}`]);
+                    resolve(result.length)
+                });
+            });
+        });
+        return promise.then((value) => {
+            return value
+        });       
+    }
     // Write to database
     client.database.verify.write = function(username, robloxID, discordID){
         let promise = new Promise((resolve, reject) => {

@@ -93,7 +93,7 @@ Made By: ItzRock#0002
             name: "findRoles",
             catagory: "Verification", 
             value: false, 
-            editable: false
+            editable: true
         },
         "findGroupRoles": {
             name: "depreitcated",

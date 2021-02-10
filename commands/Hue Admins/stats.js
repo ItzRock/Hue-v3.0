@@ -3,16 +3,16 @@ const moment = require("moment");
 const MessageEmbed = require("discord.js").MessageEmbed
 require("moment-duration-format");
 
-exports.run = (client, message, args, level) => {
+exports.run = async (client, message, args, level) => {
   const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
   let statisticsEmbed = new MessageEmbed()
     .setColor("GREEN")
     .setTitle(`Statistics - ${client.user.username}`)
     .setDescription('Statistics displayed: ``Mem``, ``Uptime``, ``Users``, ``Servers``, ``Channels``, ``Discord.js``, ``Node``')
     .addFields(
-      { name: `• Mem Usage`, value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, inline: true },
-      { name: `• Uptime`, value: `${duration}`, inline: true },
       { name: `• Users`, value: `${client.users.cache.size.toLocaleString()}`, inline: true },
+      { name: `• Mem Usage`, value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, inline: true },
+      { name: `• Uptime`, value: `${duration}`, inline: true },    
       { name: `• Servers`, value: `${client.guilds.cache.size.toLocaleString()}`, inline: true },
       { name: `• Channels`, value: `${client.channels.cache.size.toLocaleString()}`, inline: true },
       { name: `• Discord.js`, value: `v${version}`, inline: true },
