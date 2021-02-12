@@ -8,7 +8,7 @@ exports.run = async (client, message, args, level) => {
   let statisticsEmbed = new MessageEmbed()
     .setColor("GREEN")
     .setTitle(`Statistics - ${client.user.username}`)
-    .setDescription('Statistics displayed: ``Mem``, ``Uptime``, ``Users``, ``Servers``, ``Channels``, ``Discord.js``, ``Node``')
+    .setDescription('Statistics displayed: `Mem`, `Uptime`, `Users`, `Servers`, `Channels`, `Discord.js`, `Node`')
     .addFields(
       { name: `• Users`, value: `${client.users.cache.size.toLocaleString()}`, inline: true },
       { name: `• Mem Usage`, value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, inline: true },
