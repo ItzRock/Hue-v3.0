@@ -17,4 +17,22 @@ module.exports = (client) => {
             return data
         })
     }
+    client.database.users.getAdmins = async function(DiscordID){
+        const promisedata = new Promise((resolve, reject) => {
+            MongoClient.connect(url, { useUnifiedTopology: true }, function(err, client){
+                const database = client.db(dbName)
+                database.collection("users").find().toArray(function(err, results) {
+                    if(err) resolve(err)
+                    else resolve(results)
+                })
+            })
+        })
+        const allowedRoles = ["Hue Administrator", "Hue Operator"]
+        const data = await Promise.resolve(promisedata)
+        const usersIDs = []
+        data.forEach(user =>{
+            if(allowedRoles.includes(user.role)) usersIDs.push(user.discordID)
+        })
+        return usersIDs
+    }
 }
