@@ -35,11 +35,13 @@ exports.run = (client, message, args, level) => {
         // Add the keys to the catagories
         catagories.forEach(catagory =>{
           sorted.forEach(command =>{
+            if(command.conf.premium === true && message.settings.premium.value !== true) return; // Not premium server
             if(command.help.category != catagory.name) return; // incorrect catagory
             catagory.fields.push(`\`${command.help.name}\`, `)
           })
       })
       catagories.forEach(catagory => {
+        if(catagory.fields.length == 0) return;
         output.addField(`${catagory.name}`, catagory.fields.join(""), true)
       })
 
@@ -50,8 +52,6 @@ exports.run = (client, message, args, level) => {
       let command = args[0];
       if (client.commands.has(command)) {
         command = client.commands.get(command);
-        if (level < client.levelCache[command.conf.permLevel]) return;
-        
         let output = new MessageEmbed()
             .setColor(client.embedColour())
             .setTitle(command.help.name)
@@ -59,9 +59,10 @@ exports.run = (client, message, args, level) => {
             .addFields(
                 { name: 'Command name', value: `\`${command.help.name}\u200b\``, inline:true },
                 { name: 'Description', value: `\`${command.help.description}\u200b\``, inline:true },
-                { name: 'Level', value: `\`${command.conf.permLevel}\u200b\``, inline:true },
+                { name: 'Permission Level', value: `\`${command.conf.permLevel}\u200b\``, inline:true },
                 { name: 'Usage', value: `\`${command.help.usage}\u200b\`` , inline:true},
                 { name: 'Type', value: `\`${command.help.category}\u200b\`` , inline:true},
+                { name: 'Premium Only Command?', value: `\`${command.conf.premium}\u200b\`` , inline:true},
                 { name: 'Can Be Disabled?', value: `\`${command.conf.disablable}\u200b\`` , inline:true},
             )
             .setTimestamp()
@@ -74,7 +75,7 @@ exports.run = (client, message, args, level) => {
 exports.conf = {
     enabled: true,
     guildOnly: false,
-    aliases: ["cmd", "cmds", "shitspantscutely"],
+    aliases: ["cmds", "h", "help"],
     permLevel: "User",
     disablable: false,
     premium: false

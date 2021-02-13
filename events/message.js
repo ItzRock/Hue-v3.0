@@ -24,7 +24,9 @@ module.exports = async (client, message) => {
 
     const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
     if (!cmd) return;
-  
+    
+    const isBanned = await client.database.cmdBlacklist.isBanned(message.author.id, cmd.help.name)
+    if(isBanned == true) return;
 
     if (cmd && !message.guild && cmd.conf.guildOnly)
       return message.channel.send("This command is unavailable in DMs. Please run in a Server.");
