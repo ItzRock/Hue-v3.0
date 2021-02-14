@@ -11,7 +11,16 @@ module.exports = (client) => {
                 const output = JSON.parse(raw);
                 resolve(output)
                 })
-            })
+            }).on('error', (e) => {
+                setTimeout(()=> {
+                    https.get(url, (res) =>{
+                        res.on('data', async (raw) => { // do function when get data
+                        const output = JSON.parse(raw);
+                        resolve(output)
+                        })
+                    })
+                },2000)
+            });
         })
         return data.then(output => {
             return output;
