@@ -1,23 +1,35 @@
 const { MessageEmbed } = require('discord.js');
+const { fsync } = require('fs');
 const filename = require('path').basename(__filename).split(".")[0]
-exports.run = async (client, message, args, level) => {
-    const msg = await message.channel.send(`Preparing API check of all users.`)
+exports.run = (client, message, args, level) => {
+    return message.channel.send(`broken since i hate myself`)
     let progress = 0
+    let unverified = 0
+    let added = 0
+    let unsure = 0
+    let cantFind = 0
+
     const userAmount = client.users.cache.size
+
     const users = client.users.cache
-    await msg.edit(`Checking Users: ${percent(progress, userAmount)}%`)
+    message.channel.send(`Checking a total of \`${userAmount}\` users.`)
     const forAPI = []
     users.forEach(user => {
-        setTimeout(async () =>{
-            progress++
-            const toEdit = `Checking Users: ${percent(progress, userAmount)}% (${progress} / ${userAmount})`
-            if(msg.content !== toEdit && percent(progress, userAmount) % 25 == 0) await msg.edit(toEdit)
-            const isVerified = await client.database.verify.count(user.id) == 1
-            if(isVerified !== true) forAPI.push(user);
-        }, client.randomNumber(0,1000))
+        handleRequest(user)
     })
     function percent(min, max){
         return Math.floor((parseInt(min) / parseInt(max)) * 100)
+    }
+    async function handleRequest(user){
+        progress++
+        if(user.bot == true) return
+        const isVerified = client.database.verify.count(user.id) !== 0
+        if(isVerified === false){
+            forAPI.push(user);
+            unverified++
+        }
+        client.logger.log(`GC LOOP: Checking Users: ${percent(progress, userAmount)}% (${progress} / ${userAmount}): ${user.tag}`)
+        if(progress >= userAmount) return message.channel.send(`Global Check Loop Complete!: ${percent(progress, userAmount)}% (${progress} / ${userAmount})\nUsers Added: \`${added}\`\nUnsure of: \`${unsure}\` users\nCouldn't Find: \`${cantFind}\` users\nTotal of \`${unverified}\` were not verified before this loop.`)
     }
 }
 

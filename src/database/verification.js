@@ -12,13 +12,14 @@ module.exports = (client) => {
             MongoClient.connect(url,{ useUnifiedTopology: true } , function(err, client) {
                 const db = client.db(dbName);
                 let query = { DiscordID: discordID.toString() };
-                db.collection(collectionName).find(query).toArray(function(err, result) {
+                db.collection(collectionName).find(query).toArray(async function(err, result) {
                     if (err) resolve([false, `${err.name}: ${err.message}`]);
-                    if(result.length > 1){
-                        resolve([false, 'Error: Multible Instances Found.'])
-                    } else if(result.length < 1){
+                    if(result.length < 1){
                         resolve([false, "Error: No User Found."])
-                    } else resolve([true, result[0]])
+                    } else {
+                        result[0].RobloxUsername = await noblox.getUsernameFromId(result[0].RobloxID)
+                        resolve([true, result[0]])
+                    }
                 });
             });
         });
