@@ -9,10 +9,10 @@ exports.run = async (client, message, args, level) => {
 }
 
 exports.conf = {
-    enabled: true,
+    enabled: false,
     guildOnly: true,
     aliases: [],
-    permLevel: "User",
+    permLevel: "Hue Administrator",
     disablable: true,
     premium: true
 };
