@@ -9,19 +9,26 @@ exports.run = async (client, message, args, level) => {
     
     const cleverbot = require("cleverbot-free");
     activeSession.add(message.author.id);
-    message.channel.send("AI enabled, type `quit` at anytime to exit.")
+    message.channel.send("AI enabled, type `quit` at anytime to exit. (warning this AI may be offensive as it uses a public API)")
     awaitMessage() 
     const context = [`Hello, I am ${message.author.username}`, `Hello I am ${client.user.username}`]
+    const quit = ["quit", "quitchat", "quit chat", ";quit",]
+    let isStillActive = true
     function awaitMessage(){
         message.channel.awaitMessages(m => m.author.id == message.author.id,{max: 1, time: 300000}).then(collected => {
-            if(collected.first().content.toLowerCase() == "quit"){
+            if(quit.includes(collected.first().content.toLowerCase())){
                 client.logger.ai(`Session ${message.author.username} has ended`)
                 activeSession.delete(message.author.id);
+                isStillActive = false;
                 return message.channel.send("Session has ended");
             }
             else {
+                if(isStillActive == false) return
                 message.channel.startTyping()
                 cleverbot(collected.first().content, context).then(response => {
+                    if(isStillActive == false) {
+                        return message.channel.stopTyping()
+                    }
                     context.push(collected.first().content)
                     context.push(response)
                     if(response.split(" ").includes("@everyone") || response.split(" ").includes("@here") || response.split(" ").includes("<@&")){
