@@ -37,9 +37,9 @@ exports.run = async (client, message, args, level) => {
                     const newMoney = info.Wealth - nextLevel;
                     client.database.economy.setMoney(message.author.id, newMoney)
                     return message.channel.send(`Successfully purchassed, \`Level ${nextLevel / 100}\`, Your new limit is \`$${nextLevel}\`!`)
-                }else if(response == "no" || response == "n"){
+                }else{
                     return message.channel.send("Upgrade Cancelled!")
-                } else return message.channel.send(`Invalid Response, expected \`yes\` or \`no\` got: \`${response}\``)
+                }
             }
         }else { return message.channel.send(`Invalid arguments. Usage: \`${client.commands.get(`${filename}`).help.usage}\``); }
     }
