@@ -33,7 +33,7 @@ exports.run = async (client, message, args, level) => {
                     context.push(response)
                     if(response.split(" ").includes("@everyone") || response.split(" ").includes("@here") || response.split(" ").includes("<@&")){
                         message.channel.stopTyping()
-                        return message.channel.send("`Error this message included an illegal phrase and will not be send`")
+                        return message.channel.send("`Error this message included an illegal phrase and will not be sent`")
                     }
                     message.channel.send(response)
                     message.channel.stopTyping()
