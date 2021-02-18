@@ -62,7 +62,11 @@ exports.run = async (client, message, args, level) => {
       .setThumbnail(message.guild.iconURL())
       .setTimestamp()
       .setDescription(`Reason: \`${reason}\`\nAdministrator: \`${endEXT}\``);
-    await user[1].send(DM)
+    try {
+        await user[1].send(DM)   
+    } catch (error) {
+    // dms closed
+    }
     message.channel.send(LOGEmbed)
     user[1].ban({reason : LOGreason})
     if(logs !== undefined){
