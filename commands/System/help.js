@@ -35,6 +35,7 @@ exports.run = (client, message, args, level) => {
         // Add the keys to the catagories
         catagories.forEach(catagory =>{
           sorted.forEach(command =>{
+            if(command.conf.enabled == false) return // disabled command
             if(command.conf.premium === true && message.settings.premium.value !== true) return; // Not premium server
             if(command.help.category != catagory.name) return; // incorrect catagory
             catagory.fields.push(`\`${command.help.name}\`, `)
