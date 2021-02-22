@@ -8,7 +8,7 @@
                                         
                                         
     Written with love by It'z Rock
-    ItzRock#0002 (299682971374452739)
+    ItzRock (299682971374452739) 
     @ItzRock_ (twitter)
     Support Server : https://discord.gg/QwgnZ83XD3
     --------------------
