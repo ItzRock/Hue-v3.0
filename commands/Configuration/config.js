@@ -2,10 +2,8 @@ const { MessageEmbed } = require('discord.js');
 const { type } = require('os');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
-    if (!client.settings.has(message.guild.id)) client.settings.set(message.guild.id, {});
     const settings = Object.values(message.settings) // Grabs current server settings and puts it into an array
-    const defaults = client.settings.get("default");
-    if (!client.settings.has(message.guild.id)) client.settings.set(message.guild.id, {});
+    const defaults = client.config.defaultSettings;
     if(!args[0]){ // Show All Settings.
         const embed = new MessageEmbed()
             .setColor(client.embedColour())

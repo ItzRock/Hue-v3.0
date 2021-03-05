@@ -109,7 +109,7 @@ exports.run = async (client, message, args, level) => {
         const reply = await client.awaitReply(message, wouldYouLikeToVerifyAsX)
         const agree = ["yes", "y", "obama",]
         if(reply){
-            if(agree.includes(reply)){
+            if(agree.includes(reply.toLowerCase())){
                 if(groupJoin == true){
                     if(await isInGroup(IDS[0]) == true) return verify(IDS[0], username, avatar, "API Verification.");
                     const groupEmbed = new MessageEmbed()
@@ -245,9 +245,7 @@ exports.run = async (client, message, args, level) => {
         try {
             if(setnick == true) {
                 if(message.author.id !== message.guild.ownerID);{
-                    if((message.member.roles.highest >= message.guild.members.cache.get(client.user.id).roles.highest) == false) {
-                        message.member.setNickname(username)
-                    }
+                    message.member.setNickname(username)
                 }
             }
         } catch (error) {}   

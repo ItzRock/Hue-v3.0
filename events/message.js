@@ -3,7 +3,8 @@ module.exports = async (client, message) => {
 
     // if a bot then ignore.
     if (message.author.bot) return;
-    const settings = message.settings = client.getSettings(message.guild);
+
+    const settings = message.settings = await client.HueMap.lookUp(message.guild);
   
     const prefixMention = new RegExp(`^<@!?${client.user.id}>( |)$`);
     if (message.content.match(prefixMention)) {
@@ -28,6 +29,7 @@ module.exports = async (client, message) => {
     const isBanned = await client.database.cmdBlacklist.isBanned(message.author.id, cmd.help.name)
     if(isBanned == true) return;
 
+    if(cmd.conf.enabled == false) return;
     if (cmd && !message.guild && cmd.conf.guildOnly)
       return message.channel.send("This command is unavailable in DMs. Please run in a Server.");
     const disabledCommands = message.settings["disabled-commands"]
@@ -51,13 +53,14 @@ module.exports = async (client, message) => {
       message.flags.push(args.shift().slice(1));
     }
     if(message.channel.type == "dm"){
-      client.logger.cmd(`Level ${level} | GUILD: ${message.channel.type} | ${message.author.username} ran ${cmd.help.name} | Arguments: ${args.join(" ")}`);
+      client.logger.cmd(`GUILD:${message.channel.type} | L${level} ${message.author.username} ran ${cmd.help.name} ${args.join(" ")}`);
     }
-    else client.logger.cmd(`Level ${level} | GUILD: ${message.guild.name} | ${message.author.username} ran ${cmd.help.name} | Arguments: ${args.join(" ")}`);
+    else client.logger.cmd(`GUILD: ${message.guild.name} | L${level} ${message.author.username} ran ${cmd.help.name} ${args.join(" ")}`);
     try {
       cmd.run(client, message, args, level); 
     } catch (error) {
-      message.channel.send(`An error has occured in the command! ${error.name}: ${error.message}.`)
+      
+      message.channel.send(`An error has occured in the command! ${error.name}: ${error.message}. PLEASE REPORT THIS!`)
       client.logger.log(`COMMAND ERROR => ${error.name}: ${error.message}`)
     }
   };

@@ -4,14 +4,14 @@ exports.run = async (client, message, args, level) => {
     if(!args[0]) return message.channel.send(`Invalid Arguments. Usage: \`${client.commands.get(filename).help.usage}\``);
     const settings = message.settings;
     
-    const id = args[0].replace("<#", '').replace(">", '')
+    const id = args.join(" ")
     const off = ["off", "stop", 'none']
     if(off.includes(args[0].toLowerCase())) {
-        client.enmap.edit(message, undefined, "logs")
-        return message.channel.send(`Moderation Logs have been disabled.`);
+        client.enmap.edit(message, client.config.defaultSettings.prefix.value, "prefix")
+        return message.channel.send(`The prefix is now \`${id}\`.`);
     } else {
-        client.enmap.edit(message, id, "logs")
-        message.channel.send(`Moderation logs will appear in <#${id}>`);
+        client.enmap.edit(message, id, "prefix")
+        message.channel.send(`The prefix is now \`${id}\``);
     }
     
     
@@ -20,7 +20,7 @@ exports.run = async (client, message, args, level) => {
 exports.conf = {
     enabled: true,
     guildOnly: true,
-    aliases: ["setLogs", "logChannel"],
+    aliases: [],
     permLevel: "Administrator",
     disablable: false,
     premium: false
@@ -29,6 +29,6 @@ exports.conf = {
 exports.help = {
     name: filename,
     category: __dirname.split("\\")[__dirname.split("\\").length - 1],
-    description: "Change the bot's logs location. make sure you either mention a channel or use the channel id, it might not work correctly if you just use a channel name.",
-    usage: "logs <channel mention>"
+    description: "Modify the prefix to how you like it",
+    usage: "prefix <new prefix>"
 };

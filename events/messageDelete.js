@@ -5,8 +5,7 @@ module.exports = async (client, message) => {
     if(message.channel.type === "dm") return
     const settings = message.settings;
     if(settings.logs.value === undefined) return// no logs
-    else var logs = message.guild.channels.cache.get(`${settings.logs.value.replace("<#", "").replace(">", "")}`) // 
-    if(logs === undefined) logs = message.guild.channels.cache.get(channel => channel.name === settings.logs.value);
+    const logs = client.getChannel(message.guild, message.settings.logs.value);
     if(logs === undefined) return // Logs is not set up correctly
     
     const attachmentArray = message.attachments.array()

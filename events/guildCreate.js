@@ -12,7 +12,7 @@ module.exports = (client, guild) => {
       "title": "event: `guildCreate`",
       "description": `${client.user.username} has **joined** another server!`,
       "timestamp": new Date(),
-      "color": client.embedColour(),
+      "color": client.embedColour("safe"),
       "footer": {
         "text": `${client.user.username} Statistics Logs`
       },

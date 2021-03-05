@@ -7,8 +7,7 @@ module.exports = async (client, oldMessage, newMessage) => {
     oldMessage.channel.messages.fetch({ limit: 1 }).then(messages => {
         const settings = oldMessage.settings;
         if(settings.logs.value === undefined) return// no logs
-        else var logs = oldMessage.guild.channels.cache.get(`${settings.logs.value.replace("<#", "").replace(">", "")}`) // 
-        if(logs === undefined) logs = oldMessage.guild.channels.cache.get(channel => channel.name === settings.logs.value);
+        const logs = client.getChannel(oldMessage.guild, oldMessage.settings.logs.value);
         if(logs === undefined) return // Logs is not set up correctly
 
         const attachmentArray = oldMessage.attachments.array()

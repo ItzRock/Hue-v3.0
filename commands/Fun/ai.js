@@ -11,7 +11,7 @@ exports.run = async (client, message, args, level) => {
     activeSession.add(message.author.id);
     message.channel.send("AI enabled, type `quit` at anytime to exit. (warning this AI may be offensive as it uses a public API)")
     awaitMessage() 
-    const context = [`Hello, I am ${message.author.username}`, `Hello I am ${client.user.username}`]
+    const context = []
     const quit = ["quit", "quitchat", "quit chat", ";quit",]
     let isStillActive = true
     function awaitMessage(){

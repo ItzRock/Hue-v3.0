@@ -3,15 +3,16 @@ const filename = require('path').basename(__filename).split(".")[0]
 exports.run = (client, message, args, level) => {
     // If no specific command is called, show all filtered commands.
     if (!args[0] || args[0] == "expanded" || args[0] == "all") {
-      // Filter all commands by which are available for the user's level, using the <Collection>.filter() method.
-      const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level &&  cmd.conf.guildOnly !== true);
+      
+      const myCommands = [];
+      client.commands.forEach(cmd => {
+        if(client.levelCache[cmd.conf.permLevel] > level) return
+        if(message.channel.type == "dm" && cmd.conf.guildOnly !== true) return
+        myCommands.push(cmd)
+      });
+
+      //const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level &&  cmd.conf.guildOnly !== true);
   
-      // Here we have to get the command names only, and we use that array to get the longest name.
-      // This make the help commands "aligned" in the output.
-      const commandNames = myCommands.keyArray();
-      const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
-  
-      let currentCategory = "";
       let commandsList = ``
       let output = new MessageEmbed()
         .setColor(client.embedColour())
@@ -22,19 +23,17 @@ exports.run = (client, message, args, level) => {
         .setTimestamp()
         .setFooter(`${client.user.username}`, client.user.avatarURL());
         
-        const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
-        // Get the catagories
         const catagories = []
         const catagoryNames = []
-        sorted.forEach(sorted => {
-            const catagory = sorted.help.category 
+        myCommands.forEach(cmd => {
+            const catagory = cmd.help.category 
             if(catagoryNames.includes(catagory)) return "Already have that catagory."
             catagories.push({name: catagory, fields: []})
             catagoryNames.push(catagory)
         })
         // Add the keys to the catagories
         catagories.forEach(catagory =>{
-          sorted.forEach(command =>{
+          myCommands.forEach(command =>{
             if(command.conf.enabled == false) return // disabled command
             if(command.conf.premium === true && message.settings.premium.value !== true) return; // Not premium server
             if(command.help.category != catagory.name) return; // incorrect catagory

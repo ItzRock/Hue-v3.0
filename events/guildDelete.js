@@ -2,9 +2,6 @@ module.exports = (client, guild) => {
     if (!guild.available) return; // if the server is having an outage like a loser
    
    client.logger.cmd(`[GUILD LEAVE] ${guild.name} (${guild.id}) removed the bot.`);
-   if (client.settings.has(guild.id)) {
-     client.settings.delete(guild.id);
-   }
    const owner = client.users.cache.get(guild.ownerID)
    var adminCount = 0
     guild.members.cache.forEach(member => {

@@ -243,10 +243,7 @@ module.exports = (client) => {
     return false;
   };
   client.getSettings = (guild) => {
-    client.settings.ensure("default", client.config.defaultSettings);
-    if (!guild) return client.settings.get("default");
-    const guildConf = client.settings.get(guild.id) || {};
-    return { ...client.settings.get("default"), ...guildConf };
+    return client.HueMap.lookUp(guild).then(value => {return value})
   };
   client.awaitReply = async (msg, question, limit = 60000) => {
     const filter = (m) => m.author.id === msg.author.id;

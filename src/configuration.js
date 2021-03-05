@@ -8,13 +8,13 @@ const config = {
     ],
 
     "bootMessage": `
-_    _              ____         ___  
-| |  | |            |___ \\       / _ \\ 
-| |__| |_   _  ___    __) |     | | | |
-|  __  | | | |/ _ \\  |__ <      | | | |
-| |  | | |_| |  __/  ___) |  _  | |_| |
-|_|  |_|\\__,_|\\___| |____/  (_)  \\___/ 
-Made By: ItzRock#0002
+    _    _              ____        __  
+    | |  | |            |___ \\      /_ | 
+    | |__| |_   _  ___    __) |      | | 
+    |  __  | | | |/ _ \\  |__ <       | | 
+    | |  | | |_| |  __/  ___) |  _   | | 
+    |_|  |_|\\__,_|\\___| |____/  (_)  |_| 
+Made By: ItzRock (299682971374452739): https://discord.com/invite/QwgnZ83XD3
     `,
 
     "database": ["mongodb://localhost:27017", "Hue"],
@@ -95,12 +95,6 @@ Made By: ItzRock#0002
             catagory: "Verification", 
             value: false, 
             editable: true
-        },
-        "findGroupRoles": {
-            name: "depreitcated",
-            catagory: "Verification", 
-            value: false, 
-            editable: false
         },
         "groupID": {
             name: "groupID",

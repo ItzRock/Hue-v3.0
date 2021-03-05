@@ -1,7 +1,8 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = async (client, member) => {
-    const settings = client.getSettings(member.guild);
+    const settings = await client.getSettings(member.guild);
+    console.log(settings);
     if(settings.welcoming.value == true){
         const welcomingChannel = client.getChannel(member.guild, settings["welcoming-channel"].value);
         if(welcomingChannel !== undefined){

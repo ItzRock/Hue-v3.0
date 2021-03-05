@@ -1,11 +1,12 @@
 /* 
-      _    _              ____         ___  
-     | |  | |            |___ \       / _ \ 
-     | |__| |_   _  ___    __) |     | | | |
-     |  __  | | | |/ _ \  |__ <      | | | |
-     | |  | | |_| |  __/  ___) |  _  | |_| |
-     |_|  |_|\__,_|\___| |____/  (_)  \___/ 
-                                        
+  _    _              ____        __  
+ | |  | |            |___ \      /_ | 
+ | |__| |_   _  ___    __) |      | | 
+ |  __  | | | |/ _ \  |__ <       | | 
+ | |  | | |_| |  __/  ___) |  _   | | 
+ |_|  |_|\__,_|\___| |____/  (_)  |_| 
+                                
+                                
                                         
     Written with love by It'z Rock
     ItzRock (299682971374452739) 
@@ -28,16 +29,16 @@ const client = new Discord.Client(); // Init a client.
 const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir); 
 const fs = require('fs')
-const Enmap = require("enmap");
 
 //Enmap to store data
-client.settings = new Enmap({name: "settings"});
-client.commands = new Enmap();
-client.aliases = new Enmap();
+client.settings = require('./src/functions/settings')(client)
+client.commands = new Map();
+client.aliases = new Map();
 
 client.config = require('./src/configuration')
+console.log(`Loading Logger. if you see a bunch of errors create a logs folder`);
 client.logger = require('./src/functions/logger')
-// Lets log a fancy boot logo so i can say "i worked on hue today"
+// Lets log a fancy boot logo so i can say  "i worked on hue today"
 const logo = client.config.bootMessage;
 client.logger.log(logo)
 /* Lets load our Functions */
@@ -48,6 +49,7 @@ require("./src/gamesLoader")(client)
 require("./src/functions/functions")(client)
 require("./src/functions/server-settings")(client)
 require('./src/functions/music')(client)
+
 // -- //
 
 const boot = async function(){
