@@ -8,6 +8,21 @@ module.exports = async (client, message) => {
     const logs = client.getChannel(message.guild, message.settings.logs.value);
     if(logs === undefined) return // Logs is not set up correctly
     
+    const fetchedLogs = await message.guild.fetchAuditLogs({
+        limit: 6,
+        type: 'MESSAGE_DELETE'
+    }).catch(() => ({
+        entries: []
+    }));
+    
+    const auditEntry = fetchedLogs.entries.find(a =>
+        a.target.id === message.author.id &&
+        a.extra.channel.id === message.channel.id &&
+        Date.now() - a.createdTimestamp < 20000
+    );
+
+
+    
     const attachmentArray = message.attachments.array()
 
     var messageContent = `*None*`
