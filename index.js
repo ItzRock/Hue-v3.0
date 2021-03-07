@@ -31,17 +31,20 @@ const readdir = promisify(require("fs").readdir);
 const fs = require('fs')
 
 //Enmap to store data
-client.settings = require('./src/functions/settings')(client)
+client.settings = {}
 client.commands = new Map();
 client.aliases = new Map();
 
+
 client.config = require('./src/configuration')
+
 console.log(`Loading Logger. if you see a bunch of errors create a logs folder`);
 client.logger = require('./src/functions/logger')
 // Lets log a fancy boot logo so i can say  "i worked on hue today"
 const logo = client.config.bootMessage;
 client.logger.log(logo)
-/* Lets load our Functions */
+/* Lets load our Functions */ // Writing this at hue v3.2 i know this is a cluster fuck and ill deal with this another date
+require("./src/functions/verificationfunctions")(client)
 require("./src/databaseLoader")(client)
 require("./src/api-loader")(client)
 require("./src/module-loader")(client)

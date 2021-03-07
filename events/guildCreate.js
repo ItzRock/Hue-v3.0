@@ -1,5 +1,6 @@
 module.exports = (client, guild) => {
     const owner = client.users.cache.get(guild.ownerID)
+    client.HueMap.create(guild.id)
     client.logger.cmd(`[GUILD JOIN] ${guild.name} (${guild.id}) added the bot. Owner: ${owner.tag} (${guild.ownerID})`);
     var adminCount = 0
     guild.members.cache.forEach(member => {

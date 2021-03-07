@@ -3,7 +3,7 @@ module.exports = async (client, message) => {
 
     // if a bot then ignore.
     if (message.author.bot) return;
-
+    try {client.HueMap.lookUp(message.guild);} catch (error) {} // initialize it
     const settings = message.settings = await client.HueMap.lookUp(message.guild);
   
     const prefixMention = new RegExp(`^<@!?${client.user.id}>( |)$`);

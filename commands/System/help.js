@@ -14,14 +14,12 @@ exports.run = (client, message, args, level) => {
       //const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level &&  cmd.conf.guildOnly !== true);
   
       let commandsList = ``
-      let output = new MessageEmbed()
+      let output = client.defaultEmbed()
         .setColor(client.embedColour())
         .setTitle(`Commands List - ${client.user.username}`)
-        .setAuthor(client.user.username, client.user.avatarURL())
         .setDescription(`[Use ${message.settings.prefix.value}help [commandname] for details]`)
         .setThumbnail(client.user.avatarURL())
         .setTimestamp()
-        .setFooter(`${client.user.username}`, client.user.avatarURL());
         
         const catagories = []
         const catagoryNames = []
@@ -52,10 +50,9 @@ exports.run = (client, message, args, level) => {
       let command = args[0];
       if (client.commands.has(command)) {
         command = client.commands.get(command);
-        let output = new MessageEmbed()
+        let output = client.defaultEmbed()
             .setColor(client.embedColour())
             .setTitle(command.help.name)
-            .setAuthor(client.user.username, client.user.avatarURL())
             .addFields(
                 { name: 'Command name', value: `\`${command.help.name}\u200b\``, inline:true },
                 { name: 'Description', value: `\`${command.help.description}\u200b\``, inline:true },

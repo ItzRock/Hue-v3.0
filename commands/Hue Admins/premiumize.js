@@ -2,7 +2,7 @@ const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
     const value = message.settings.premium.value
     client.enmap.edit(message, !value, "premium")
-    message.channel.send(`Set this server's premium status to \`${!value}\``)
+    message.channel.send(`${client.config.emojis.check} Premium status of this guild is now set to: \`${!value}\``)
 }
 
 exports.conf = {

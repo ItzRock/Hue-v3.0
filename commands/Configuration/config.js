@@ -19,7 +19,7 @@ exports.run = async (client, message, args, level) => {
         settings.forEach(setting => {
             const catagory = setting.catagory 
             if(catagory == "" || catagory == undefined) return;
-            if(setting.editable == false) return "Not editable."
+            if(setting.editable === false) return "Not editable."
             if(catagoryNames.includes(catagory)) return "Already have that catagory."
             catagories.push({name: catagory, fields: []})
             catagoryNames.push(catagory)
@@ -43,23 +43,23 @@ exports.run = async (client, message, args, level) => {
 
         message.channel.send(embed)
     } else{ // Setting a key
-        if (!defaults[args[0]]) return message.reply("This key does not exist in the settings");
+        if (!defaults[args[0]]) return message.reply(client.config.emojis.x+" This key does not exist in the settings");
         
         // find key to see if editable.
         keys = []
         settings.forEach(key =>{
             if(key.name == args[0]) return keys.push(key);
         })
-        if(keys[0].editable == false) return message.reply(`This key cannot be edited`)
+        if(keys[0].editable == false) return message.reply(`${client.config.emojis.x} This key cannot be edited`)
         var joinedValue = args.slice(1).join(" ");
-        if(joinedValue == "" || joinedValue == undefined) return message.reply("Please provide a value.");
+        if(joinedValue == "" || joinedValue == undefined) return message.reply(client.config.emojis.exclamation + "Please provide a value.");
 
         const objects = [true, false, true, false , true, false]
         const strings = ["true", "false", "enable", "disable" , "enabled", "disabled"]
 
         if(strings.includes(joinedValue)) joinedValue = objects[strings.indexOf(joinedValue)]
         client.enmap.edit(message, joinedValue, args[0])
-        message.reply(`${args[0]} successfully edited to ${joinedValue}`);
+        message.reply(`${client.config.emojis.check} ${args[0]} successfully edited to ${joinedValue}`);
     }
 }
 

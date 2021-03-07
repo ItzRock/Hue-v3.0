@@ -1,6 +1,8 @@
+const { Timestamp } = require("bson");
 const { MessageEmbed } = require("discord.js");
 const noblox = require("noblox.js")
 module.exports = (client) => {
+  
   client.permlevel = (message) => {
     let permlvl = 0;
 
@@ -34,10 +36,10 @@ module.exports = (client) => {
       if (users.length > 1)
         return [
           false,
-          "Found multiple users! Please be more specific or mention the user instead.",
+          client.config.emojis.x +" Found multiple users! Please be more specific or mention the user instead.",
         ];
       else if (users.length == 0)
-        return [false, "That user doesn't seem to exist. Try again!"];
+        return [false, client.config.emojis.x + " That user doesn't seem to exist. Try again!"];
       user = users[0];
     }
     return [true, user];
@@ -120,12 +122,12 @@ module.exports = (client) => {
       .setFooter(clientUsername, avatarURL)
       .setTimestamp()
       .setColor("RED")
-      .setTitle(`An Error has occurred`)
+      .setTitle(`${client.config.emojis.x} An Error has occurred`)
       .setDescription(`${error.name}: ${error.message}`)
     return embed
   }
-  client.isNum = (string) => {
-    if(string == undefined) return;
+  client.isNum = client.isNumeric = (string) => {
+    if(string == undefined) return false;
     string = string.toString()
     return string.match(/^[0-9]+$/) != null;
   }
@@ -168,6 +170,20 @@ module.exports = (client) => {
       .setDescription(description);
     return embed;
   };
+  client.defaultEmbed = function(){
+    const defaults = {
+      color: client.embedColour(),
+      author: client.user.username,
+      footer: client.user.username,
+      authorIMG: client.user.avatarURL()
+    }
+    const embed = new MessageEmbed()
+      .setTimestamp()
+      .setColor(defaults.color)
+      .setAuthor(defaults.author, defaults.authorIMG)
+      .setFooter(`${defaults.author}`, defaults.authorIMG, )
+    return embed
+  }
   client.getUserFromMention = (mention) => {
     if (!mention) return;
 

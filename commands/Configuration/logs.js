@@ -1,17 +1,17 @@
 const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
-    if(!args[0]) return message.channel.send(`Invalid Arguments. Usage: \`${client.commands.get(filename).help.usage}\``);
+    if(!args[0]) return message.channel.send(`${client.config.emojis.x} Invalid Arguments. Usage: \`${client.commands.get(filename).help.usage}\``);
     const settings = message.settings;
     
     const id = args[0].replace("<#", '').replace(">", '')
     const off = ["off", "stop", 'none']
     if(off.includes(args[0].toLowerCase())) {
         client.enmap.edit(message, undefined, "logs")
-        return message.channel.send(`Moderation Logs have been disabled.`);
+        return message.channel.send(`${client.config.emojis.check} Moderation Logs have been disabled.`);
     } else {
         client.enmap.edit(message, id, "logs")
-        message.channel.send(`Moderation logs will appear in <#${id}>`);
+        message.channel.send(`${client.config.emojis.check} Moderation logs will appear in <#${id}>`);
     }
     
     

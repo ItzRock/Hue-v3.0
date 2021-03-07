@@ -15,7 +15,7 @@ module.exports = (client) => {
                 db.collection(collectionName).find(query).toArray(async function(err, result) {
                     if (err) resolve([false, `${err.name}: ${err.message}`]);
                     if(result.length < 1){
-                        resolve([false, "Error: No User Found."])
+                        resolve([false, " Error: This user was not found in the database."])
                     } else {
                         result[0].RobloxUsername = await noblox.getUsernameFromId(result[0].RobloxID)
                         resolve([true, result[0]])
@@ -27,7 +27,26 @@ module.exports = (client) => {
             return value
         });  
     }
-
+    client.database.verify.readROBLOXID = function(robloxID){
+        let promise = new Promise((resolve, reject) => {
+            MongoClient.connect(url,{ useUnifiedTopology: true } , function(err, client) {
+                const db = client.db(dbName);
+                let query = { RobloxID: robloxID.toString() };
+                db.collection(collectionName).find(query).toArray(async function(err, result) {
+                    if (err) resolve([false, `${err.name}: ${err.message}`]);
+                    if(result.length < 1){
+                        resolve([false, " Error: This user was not found in the database."])
+                    } else {
+                        result[0].RobloxUsername = await noblox.getUsernameFromId(result[0].RobloxID)
+                        resolve([true, result[0]])
+                    }
+                });
+            });
+        });
+        return promise.then((value) => {
+            return value
+        });  
+    }
     // Remove a user from the database
     client.database.verify.remove = function(discordID){
         let promise = new Promise((resolve, reject) => {
@@ -36,7 +55,7 @@ module.exports = (client) => {
                 let query = { DiscordID: discordID.toString() };
                 db.collection(collectionName).deleteOne(query, function(err, obj) {
                     if (err) resolve([false, `${err.name}: ${err.message}`]);
-                    resolve([true, 'Successfully Removed'])
+                    resolve([true, ' Successfully Removed'])
                 });
             });
         });

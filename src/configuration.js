@@ -8,14 +8,21 @@ const config = {
     ],
 
     "bootMessage": `
-    _    _              ____        __  
-    | |  | |            |___ \\      /_ | 
-    | |__| |_   _  ___    __) |      | | 
-    |  __  | | | |/ _ \\  |__ <       | | 
-    | |  | | |_| |  __/  ___) |  _   | | 
-    |_|  |_|\\__,_|\\___| |____/  (_)  |_| 
+  _    _              ____        ___  
+ | |  | |            |___ \\      |__ \\ 
+ | |__| |_   _  ___    __) |        ) |
+ |  __  | | | |/ _ \\  |__ <        / / 
+ | |  | | |_| |  __/  ___) |  _   / /_ 
+ |_|  |_|\\__,_|\\___| |____/  (_) |____|
+                                       
 Made By: ItzRock (299682971374452739): https://discord.com/invite/QwgnZ83XD3
     `,
+
+    "emojis": {
+        check: "<:checkmark:818183944116764703>",
+        exclamation: "<:exclamationMark:818183943777943553>",
+        x: "<:x_:818183944192655360>"
+    },
 
     "database": ["mongodb://localhost:27017", "Hue"],
     "token": keys.main,
@@ -29,6 +36,13 @@ Made By: ItzRock (299682971374452739): https://discord.com/invite/QwgnZ83XD3
         // ohmygod i miss spelled category aaaaaaaaaaaa
 
         // General Settings
+
+        "autorole": {
+            name: "autorole",
+            value: false,
+            catagory: "General",
+            editable: true
+        },        
 
         "prefix": {
             name: "prefix",
@@ -83,15 +97,19 @@ Made By: ItzRock (299682971374452739): https://discord.com/invite/QwgnZ83XD3
         },
 
         // Verification Keys
-
-        "verification": {
-            name: "verification",
+        "findRoles": {
+            name: "findRoles",
             catagory: "Verification", 
             value: false, 
             editable: true
         },
-        "findRoles": {
-            name: "findRoles",
+        "binds": {
+            name: "binds",
+            value: [], 
+            editable: false
+        },
+        "verification": {
+            name: "verification",
             catagory: "Verification", 
             value: false, 
             editable: true

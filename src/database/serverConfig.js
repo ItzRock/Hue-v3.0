@@ -134,7 +134,6 @@ module.exports = (client) => {
         });
         return await promise;
   };
-
   create = async function (guildID, defaults) {
     if (defaults == undefined) defaults = client.config.defaultSettings;
     const promise = new Promise((resolve, reject) => {

@@ -6,15 +6,14 @@ exports.run = async (client, message, args, level) => {
     const avatarURL = client.user.avatarURL()
     const clientUsername = client.user.username;
     const settings = message.settings;
-    const guild = message.guild;
-    if(settings["verification"].value !== true) return message.channel.send(`This command is only available in servers with ${client.user.username}'s verification system enabled.`)
+    if(settings["verification"].value !== true) return message.channel.send(`${client.config.emojis.exclamation} This command is only available in servers with ${client.user.username}'s verification system enabled.`)
    
-    const possibleKeys = ["green", "alpha", "delta", "charlie", "bravo", "yellow", "apple", "banana"]
+    const possibleKeys = ["alpha", "delta", "bravo", "yellow", "apple", "banana", "verify", "hue"]
     const status = client.shuffle(possibleKeys).join(" ")
 
     const verifiedRole = client.getRole(message.guild, message.settings.verifiedRole.value)
     const unverifiedRole = client.getRole(message.guild, message.settings.unverifiedRole.value)
-    if(verifiedRole == undefined) return message.channel.send(`The guild's configuration hasn't been properly set up. please set a valid verified role.`);
+    if(verifiedRole == undefined) return message.channel.send(`${client.config.emojis.x} This guild's configuration hasn't been properly set up. please set a valid verified role.`);
     
     const groupID = settings.groupID.value
     const setnick = settings.setnick.value
@@ -29,68 +28,23 @@ exports.run = async (client, message, args, level) => {
         .setFooter(clientUsername, avatarURL)
         .setTimestamp()
         .setColor("YELLOW")
-        .setTitle(`Pending`)
+        .setTitle(`${client.config.emojis.exclamation} Pending`)
         .setDescription(`Your request is pending.`)
     const msg = await message.channel.send(pending)
 
 
     if(alreadyInDB === true){ // If user is already in the database and just needs roles
         if(client.hasRole(message.member, message.settings.verifiedRole.value) == true){ // Has roles. doesn't need to run this again
-            const embed = new MessageEmbed()
-                .setAuthor(clientUsername, avatarURL)
-                .setFooter(clientUsername, avatarURL)
-                .setTimestamp()
-                .setColor("RED")
-                .setTitle(`Already Verified`)
-                .setDescription(`You already are in our database and have the verified roles!`)
-            await msg.edit({embed})
-        } else { // Needs roles
             const rawdata = await client.database.verify.read(message.author.id);
             const data = rawdata[1]
-            if(groupJoin == true) {
-                if(groupID == undefined || client.isNum(groupID) == false) {msg.delete(); return message.channel.send(`The guild's configuration hasn't been properly set up. please set a valid group id.`)}
-                const groupRank = await noblox.getRankInGroup(groupID, data.RobloxID)
-                if(groupRank == 0){
-                    const groupEmbed = new MessageEmbed()
-                        .setColor("RED")
-                        .setTitle(`You aren't in the group!`)
-                        .setDescription(`The roblox user: \`${data.RobloxUsername}\` was not found in the group: https://www.roblox.com/groups/${groupID}.`)
-                        .setAuthor(clientUsername, avatarURL)
-                        .setFooter(clientUsername, avatarURL)
-                        .setTimestamp()
-                    return msg.edit(groupEmbed)
-                }
-            }
-            message.member.roles.add(verifiedRole);
-            findRolesinGuild(data.RobloxID)
-            const updatedName = await noblox.getUsernameFromId(data.RobloxID);
-            try {
-                if(unverifiedRole !== undefined || message.member.roles.get(unverifiedRole.id)) message.member.roles.remove(unverifiedRole);
-            } catch (error) {    
-                // Probably didn't have the role
-            }
-            try {
-                if(setnick == true) {
-                    if(message.author.id !== message.guild.ownerID);{
-                        if((message.member.roles.highest >= message.guild.members.cache.get(client.user.id).roles.highest) == false) {
-                            message.member.setNickname(updatedName)
-                        }
-                    }
-                }
-            } catch (error) {}
-            const thumbnailRaw = await client.apis.https.get(`https://thumbnails.roblox.com/v1/users/avatar?format=Png&isCircular=false&size=720x720&userIds=${data.RobloxID}`)
-            const thumbURL = thumbnailRaw.data[0].imageUrl
-            const embed = new MessageEmbed()
-                .setAuthor(clientUsername, avatarURL)
-                .setFooter(clientUsername, avatarURL)
-                .setTimestamp()
-                .setColor(client.embedColour("safe"))
-                .setTitle(`Successfully Verified`)
-                .setDescription(`\`${message.author.tag}\` has verified as \`${updatedName}\``)
-                .setThumbnail(thumbURL)
-            msg.edit(embed)
-            if(logs !== undefined) logs.send(embed)
-        } 
+            const thumb = (await noblox.getPlayerThumbnail([data.RobloxID], 720, "png", false))[0].imageUrl
+            const embed = client.defaultEmbed()
+                .setColor("RED")
+                .setThumbnail(thumb)
+                .setTitle(`${client.config.emojis.x} Already Verified as \`${data.RobloxUsername}\``)
+                .setDescription(`If you want to verify as another account run \`;unlink\`.\nOr if you want to fix your roles / nick run \`;update\`.`)
+            await msg.edit({embed})
+        } else return verifiedNeedRoles() 
     }else{ // User needs to verify thyself
         const IDS = await checkAPI(message.author.id)
         if(IDS.length == 0) return statusVerification();
@@ -104,7 +58,7 @@ exports.run = async (client, message, args, level) => {
             .setTimestamp()
             .setThumbnail(avatar)
             .setColor(client.embedColour("safe")) 
-            .setTitle(`Possible account found in api!`)
+            .setTitle(`${client.config.emojis.exclamation} Possible account found in api!`)
             .setDescription(`Would you like to verify as \`${username}\`. (respond with \`yes\` or \`no\`)`)
         const reply = await client.awaitReply(message, wouldYouLikeToVerifyAsX)
         const agree = ["yes", "y", "obama",]
@@ -114,7 +68,7 @@ exports.run = async (client, message, args, level) => {
                     if(await isInGroup(IDS[0]) == true) return verify(IDS[0], username, avatar, "API Verification.");
                     const groupEmbed = new MessageEmbed()
                         .setColor("RED")
-                        .setTitle(`You aren't in the group!`)
+                        .setTitle(`${client.config.emojis.x} You aren't in the group!`)
                         .setDescription(`The roblox user: \`${username}\` was not found in the group: https://www.roblox.com/groups/${groupID}.`)
                         .setAuthor(clientUsername, avatarURL)
                         .setFooter(clientUsername, avatarURL)
@@ -144,7 +98,7 @@ exports.run = async (client, message, args, level) => {
             .setTimestamp()
             .setColor(client.embedColour("safe")) 
             .setThumbnail(message.guild.iconURL())
-            .setTitle(`Welcome \`${message.author.username}\` to **${message.guild.name}**!`)
+            .setTitle(`${client.config.emojis.check} Welcome \`${message.author.username}\` to **${message.guild.name}**!`)
             .setDescription(`Welcome to ${message.guild.name}. In order to verify yourself please respond with your Roblox username`)
         try {
             await msg.delete()
@@ -161,7 +115,7 @@ exports.run = async (client, message, args, level) => {
                     .setFooter(clientUsername, avatarURL)
                     .setTimestamp()
                     .setColor("RED") 
-                    .setTitle(`An Error has occurred!`)
+                    .setTitle(`${client.config.emojis.x} An Error has occurred!`)
                     .setDescription(`${error.name}: ${error.message}`)
                 await pendingMSG.delete()
                 return message.channel.send(errorEmbed)
@@ -174,7 +128,7 @@ exports.run = async (client, message, args, level) => {
                 if(await isInGroup(ID) == true) return setYourStatus(ID, Username, avatar);
                 const groupEmbed = new MessageEmbed()
                     .setColor("RED")
-                    .setTitle(`You aren't in the group!`)
+                    .setTitle(`${client.config.emojis.x} You aren't in the group!`)
                     .setDescription(`The roblox user: \`${Username}\` was not found in the group: https://www.roblox.com/groups/${groupID}.`)
                     .setAuthor(clientUsername, avatarURL)
                     .setFooter(clientUsername, avatarURL)
@@ -212,7 +166,7 @@ exports.run = async (client, message, args, level) => {
             .setFooter(clientUsername, avatarURL)
             .setTimestamp()
             .setColor("RED")
-            .setTitle(`Error`)
+            .setTitle(`${client.config.emojis.x} Error`)
             .setDescription(`The last line did not match, Expected: \`${status}\`\n Got: \`${lastLine}\`\n**If it was tagged please try again.**`)
         return message.channel.send(invalidStatus);
         }
@@ -223,7 +177,7 @@ exports.run = async (client, message, args, level) => {
             .setFooter(clientUsername, avatarURL)
             .setTimestamp()
             .setColor(client.embedColour("safe"))
-            .setTitle(`Successfully Verified`)
+            .setTitle(`${client.config.emojis.check} Successfully Verified`)
             .setDescription(`\`${message.author.tag}\` has verified as \`${username}\``)
             .setThumbnail(thumbURL)
         if(logs !== undefined) logs.send(embed)
@@ -231,6 +185,7 @@ exports.run = async (client, message, args, level) => {
         client.database.verify.event(message.author.tag, username, id, method, `GUILD: ${message.guild.name} | ID: ${id}`)
         addRoles(username)
         findRolesinGuild(id)
+        client.verification.bindRoles(message.member, id)
         // Add to db here soon
         await client.database.verify.write(username, id, message.author.id)
     }
@@ -271,6 +226,42 @@ exports.run = async (client, message, args, level) => {
         if(groupID == undefined || client.isNum(groupID) == false) {msg.delete(); return message.channel.send(`The guild's configuration hasn't been properly set up. please set a valid group id.`)}
         const groupRank = await noblox.getRankInGroup(groupID, id)
         return groupRank !== 0
+    }
+
+    async function verifiedNeedRoles(){ // Needs roles
+        const rawdata = await client.database.verify.read(message.author.id);
+        const data = rawdata[1]
+        if(groupJoin == true) {
+            if(groupID == undefined || client.isNum(groupID) == false) {msg.delete(); return message.channel.send(`The guild's configuration hasn't been properly set up. please set a valid group id.`)}
+            const groupRank = await noblox.getRankInGroup(groupID, data.RobloxID)
+            if(groupRank == 0){
+                const groupEmbed = new MessageEmbed()
+                    .setColor("RED")
+                    .setTitle(`${client.config.emojis.x} You aren't in the group!`)
+                    .setDescription(`The roblox user: \`${data.RobloxUsername}\` was not found in the group: https://www.roblox.com/groups/${groupID}.`)
+                    .setAuthor(clientUsername, avatarURL)
+                    .setFooter(clientUsername, avatarURL)
+                    .setTimestamp()
+                return msg.edit(groupEmbed)
+            }
+        }
+        message.member.roles.add(verifiedRole);
+        findRolesinGuild(data.RobloxID)
+        client.verification.bindRoles(message.member, data.RobloxID)
+        const updatedName = data.RobloxUsername
+        addRoles(updatedName)
+        const thumbnailRaw = await client.apis.https.get(`https://thumbnails.roblox.com/v1/users/avatar?format=Png&isCircular=false&size=720x720&userIds=${data.RobloxID}`)
+        const thumbURL = thumbnailRaw.data[0].imageUrl
+        const embed = new MessageEmbed()
+            .setAuthor(clientUsername, avatarURL)
+            .setFooter(clientUsername, avatarURL)
+            .setTimestamp()
+            .setColor(client.embedColour("safe"))
+            .setTitle(`${client.config.emojis.check} Successfully Verified`)
+            .setDescription(`\`${message.author.tag}\` has verified as \`${updatedName}\``)
+            .setThumbnail(thumbURL)
+        msg.edit(embed)
+        if(logs !== undefined) logs.send(embed)
     }
 }
 

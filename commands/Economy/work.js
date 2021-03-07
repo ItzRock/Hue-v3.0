@@ -3,14 +3,14 @@ const filename = require('path').basename(__filename).split(".")[0]
 const timeout = new Set();
 exports.run = async (client, message, args, level) => {
     if(timeout.has(message.author.id)) {
-        return message.channel.send("Cannot work again! you have not waited your full five minute cooldown.");
+        return message.channel.send(client.config.emojis.x +" Cannot work again! you have not waited your full five minute cooldown.");
     } else {
         const jobs = ["Mechanic", "Programmer", "Cashier", "Butcher", "Uber", "Chicken nugget scientist", "Retail worker", "Fast food employee"]
         const value = Math.round(client.randomNumber(0, jobs.length -1))
         const job = jobs[value]
         const earned = Math.round(client.randomNumber(10, 50))
         client.database.economy.addMoney(message.author.id, earned);
-        message.channel.send(`You worked as a ${job} and earned $${earned}`);
+        message.channel.send(`${client.config.emojis.check} You worked as a ${job} and earned $${earned}`);
         timeout.add(message.author.id);
         setTimeout(() => {
           // Removes the user from the set after a minute

@@ -1,17 +1,17 @@
 const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
-    if(!args[0]) return message.channel.send(`Invalid Arguments. Usage: \`${client.commands.get(filename).help.usage}\``);
+    if(!args[0]) return message.channel.send(`${client.config.emojis.x} Invalid Arguments. Usage: \`${client.commands.get(filename).help.usage}\``);
     const settings = message.settings;
     
     const id = args.join(" ")
     const off = ["off", "stop", 'none']
     if(off.includes(args[0].toLowerCase())) {
         client.enmap.edit(message, client.config.defaultSettings.prefix.value, "prefix")
-        return message.channel.send(`The prefix is now \`${id}\`.`);
+        return message.channel.send(`${client.config.emojis.check} The prefix is now \`${id}\`.`);
     } else {
         client.enmap.edit(message, id, "prefix")
-        message.channel.send(`The prefix is now \`${id}\``);
+        message.channel.send(`${client.config.emojis.check} The prefix is now \`${id}\``);
     }
     
     
