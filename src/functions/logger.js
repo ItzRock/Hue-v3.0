@@ -1,5 +1,11 @@
 const chalk = require("chalk");
 const moment = require("moment");
+const discord = require('discord.js')
+const client = new discord.Client()
+client.login(require("../keys.json").main)
+
+const channelLogging = "819036071777140746" // CHANGE OR ELSE THIS WILL NOT WORK FOR YOU
+
 const fs = require("fs")
 const filename = `${moment().format("YYYY-MM-DD HH;mm;ss")}.txt`.toString();
 fs.writeFile(`./logs/${filename}`, "[LOGS]", function(err){
@@ -7,6 +13,8 @@ fs.writeFile(`./logs/${filename}`, "[LOGS]", function(err){
 })
 exports.log = (content, type = "log",) => {
   const timestamp = `[${moment().format("YYYY-MM-DD HH:mm")}]:`;
+  const full = `${timestamp} ${type.toUpperCase()} ${content}` 
+  try{client.channels.cache.get(channelLogging).send(`\`\`\`js\n${full.substring(0,1900)}\`\`\``)}catch(err){}
   fs.appendFile(`./logs/${filename}`, `\n${timestamp} ${type.toUpperCase()} ${content} `, function(err){
     if(err){console.log("Failed to log: "  + err)}
   })

@@ -135,7 +135,7 @@ module.exports = (client) => {
     role = role.toString();
     const isAllNumber =
       role
-        .replace("<#", "")
+        .replace("<@&", "")
         .replace(">", "")
         .match(/^[0-9]+$/) != null;
     if (isAllNumber == true) {

@@ -27,7 +27,7 @@ exports.run = async (client, message, args, level) => {
         const embed = client.defaultEmbed()
             .setTitle(`Info on \`${playerInfo.username}\``)
             .setThumbnail((await noblox.getPlayerThumbnail([user], 720, "png", false))[0].imageUrl)
-            .addField("Roblox Username", playerInfo.username, true)
+            .addField("Roblox Username", `[${playerInfo.username}](https://www.roblox.com/users/${user}/profile)`, true)
             .addField("Roblox ID", user, true)
             .addField("Account Age", `${playerInfo.age} Days\n(${playerInfo.joinDate.getFullYear()}-${playerInfo.joinDate.getMonth() + 1}-${playerInfo.joinDate.getDate()})`, true)
             .addField("Old Names", `\`${OldNames.substring(0, 999)}\``, true)
