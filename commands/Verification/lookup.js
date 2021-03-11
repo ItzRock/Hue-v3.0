@@ -43,7 +43,7 @@ exports.run = async (client, message, args, level) => {
 
 exports.conf = {
     enabled: true,
-    guildOnly: true,
+    guildOnly: false,
     aliases: ["robloxsearch", "find", "rblxseach"],
     permLevel: "User",
     disablable: true,

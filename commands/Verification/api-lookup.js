@@ -50,7 +50,7 @@ exports.run = async (client, message, args, level) => {
 
 exports.conf = {
     enabled: true,
-    guildOnly: true,
+    guildOnly: false,
     aliases: ["api", "apilookup", "lookupapi"],
     permLevel: "User",
     disablable: true,
