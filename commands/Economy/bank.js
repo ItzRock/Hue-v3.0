@@ -55,7 +55,7 @@ exports.conf = {
 };
 exports.help = {
     name: filename,
-    category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+    category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
     description: "open and account, upgrade your account, or just look at your bank info",
     usage: `${filename} [open / upgrade / info]`
 };

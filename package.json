@@ -15,15 +15,15 @@
     "fluent-ffmpeg": "^2.1.2",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
-    "mongodb": "^3.6.3",
+    "mongodb": "^3.6.4",
     "nekos.life": "^2.0.7",
-    "noblox.js": "^4.8.2",
+    "noblox.js": "^4.8.4",
     "node-pre-gyp": "^0.17.0",
     "nodemon": "^2.0.7",
     "title-case": "^3.0.3",
-    "youtube-search": "^1.1.4",
-    "youtube-search-api": "^1.0.8",
-    "ytdl-core": "^4.4.4"
+    "youtube-search": "^1.1.6",
+    "youtube-search-api": "^1.0.10",
+    "ytdl-core": "^4.5.0"
   },
   "devDependencies": {},
   "scripts": {

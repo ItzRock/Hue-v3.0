@@ -29,7 +29,7 @@ exports.conf = {
 
 exports.help = {
   name: "clear",
-  category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+  category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
   description: "cleans the chat what you say.",
   usage: "clear [value]",
 };

@@ -28,7 +28,7 @@ exports.conf = {
   
 exports.help = {
     name: filename,
-    category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+    category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
     description: "Change the bot's logs location. make sure you either mention a channel or use the channel id, it might not work correctly if you just use a channel name.",
     usage: "logs <channel mention>"
 };

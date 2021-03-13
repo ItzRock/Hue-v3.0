@@ -66,7 +66,7 @@ exports.conf = {
 };
 exports.help = {
     name: filename,
-    category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+    category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
     description: "Find if a user is linked to the hue database",
     usage: `${filename} [Discord User]`
 };

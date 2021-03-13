@@ -28,7 +28,7 @@ exports.conf = {
   
 exports.help = {
     name: filename,
-    category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+    category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
     description: "Modify the prefix to how you like it",
     usage: "prefix <new prefix>"
 };

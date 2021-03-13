@@ -16,7 +16,7 @@ exports.run = async (client, message, args, level) => {
   
   exports.help = {
     name: "reboot",
-    category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+    category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
     description: "Shuts down the bot. If running under PM2, bot will restart automatically.",
     usage: "reboot"
   };

@@ -21,7 +21,7 @@ exports.run = async (client, message, args, level) => {
   
   exports.help = {
     name: "reload",
-    category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+    category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
     description: "Reloads a command that\"s been modified.",
     usage: "reload <command>"
   };

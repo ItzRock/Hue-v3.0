@@ -21,7 +21,7 @@ exports.conf = {
 
 exports.help = {
   name: "eval",
-  category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+  category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
   description: "Evaluates arbitrary javascript.",
   usage: "eval [...code]"
 };

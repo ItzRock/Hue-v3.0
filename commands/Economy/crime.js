@@ -35,7 +35,7 @@ exports.conf = {
 };
 exports.help = {
     name: filename,
-    category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+    category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
     description: "criminal!",
     usage: `${filename}`
 };

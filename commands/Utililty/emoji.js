@@ -18,7 +18,7 @@ exports.conf = {
 };
 exports.help = {
     name: filename,
-    category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+    category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
     description: "get url and id of specified emoji.",
     usage: `${filename} <emoji>`
 };

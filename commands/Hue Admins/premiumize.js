@@ -15,7 +15,7 @@ exports.conf = {
 };
 exports.help = {
     name: filename,
-    category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+    category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
     description: "Gives access to servers to use premium commands. (please get anthony's approval first)",
     usage: `${filename}`
 };

@@ -16,7 +16,7 @@ exports.run = async (client, message, args, level) => {
   
   exports.help = {
     name: filename,
-    category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+    category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
     description: "Tells you your permission level for the current message location.",
     usage: `${filename}`
   };

@@ -14,7 +14,7 @@ exports.run = async (client, message, args, level) => {
   
   exports.help = {
     name: "ping",
-    category: __dirname.split("\\")[__dirname.split("\\").length - 1],
+    category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
     description: "Check's the latency of the bot.",
     usage: "ping"
   };
