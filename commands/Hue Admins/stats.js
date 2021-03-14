@@ -1,7 +1,7 @@
 const { version } = require("discord.js");
-const moment = require("moment");
 const MessageEmbed = require("discord.js").MessageEmbed
 const os = require("os")
+const moment = require("moment");
 require("moment-duration-format");
 
 exports.run = async (client, message, args, level) => {

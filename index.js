@@ -1,14 +1,4 @@
-/* 
-  _    _              ____        __  
- | |  | |            |___ \      /_ | 
- | |__| |_   _  ___    __) |      | | 
- |  __  | | | |/ _ \  |__ <       | | 
- | |  | | |_| |  __/  ___) |  _   | | 
- |_|  |_|\__,_|\___| |____/  (_)  |_| 
-                                
-                                
-                                        
-    Written with love by It'z Rock
+/*
     ItzRock (299682971374452739) 
     @ItzRock_ (twitter)
     Support Server : https://discord.gg/QwgnZ83XD3

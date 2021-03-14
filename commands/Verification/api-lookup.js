@@ -26,13 +26,13 @@ exports.run = async (client, message, args, level) => {
     let roverMessage = ``
     if(rover !== false){
         IDs.push(rover.id)
-        roverMessage = `Rover: Username: \`${await noblox.getUsernameFromId(rover.id)}\`\nID: \`${rover.id}\``
+        roverMessage = `Rover Username: \`${await noblox.getUsernameFromId(rover.id)}\`\nID: \`${rover.id}\``
     }else roverMessage = `Rover: \`not found\``
 
     let bloxlinkMessage = ``
     if(bloxlink !== false){
         IDs.push(bloxlink.id)
-        bloxlinkMessage = `Bloxlink: Username: \`${await noblox.getUsernameFromId(bloxlink.id)}\`\nID: \`${bloxlink.id}\``
+        bloxlinkMessage = `Bloxlink Username: \`${await noblox.getUsernameFromId(bloxlink.id)}\`\nID: \`${bloxlink.id}\``
     }else bloxlinkMessage = `Bloxlink: \`not found\``
 
     const embed = client.defaultEmbed()

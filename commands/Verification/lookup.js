@@ -1,6 +1,9 @@
 const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 const noblox = require("noblox.js")
+const moment = require("moment");
+require("moment-duration-format");
+
 exports.run = async (client, message, args, level) => {
     const settings = message.settings;
     if(settings["verification"].value !== true) return message.channel.send(`${client.config.emojis.exclamation} This command is only available in servers with ${client.user.username}'s verification system enabled.`)
@@ -24,12 +27,16 @@ exports.run = async (client, message, args, level) => {
         }
         let desc = "No Description"
         if(playerInfo.blurb.substring(0, 999) !== "") desc = playerInfo.blurb.substring(0, 999)
+
+        const miliseconds = parseInt(playerInfo.age) * 24 * 60 * 60 * 1000;
+        const duration = moment.duration(miliseconds).format("Y [years], M [months]");
+
         const embed = client.defaultEmbed()
             .setTitle(`Info on \`${playerInfo.username}\``)
             .setThumbnail((await noblox.getPlayerThumbnail([user], 720, "png", false))[0].imageUrl)
             .addField("Roblox Username", `[${playerInfo.username}](https://www.roblox.com/users/${user}/profile)`, true)
             .addField("Roblox ID", user, true)
-            .addField("Account Age", `${playerInfo.age} Days\n(${playerInfo.joinDate.getFullYear()}-${playerInfo.joinDate.getMonth() + 1}-${playerInfo.joinDate.getDate()})`, true)
+            .addField("Account Age", `${duration} old\n(${playerInfo.joinDate.getFullYear()}-${playerInfo.joinDate.getMonth() + 1}-${playerInfo.joinDate.getDate()})`, true)
             .addField("Old Names", `\`${OldNames.substring(0, 999)}\``, true)
             .addField("Stats", `Friends: \`${playerInfo.friendCount}\`\nFollowers: \`${playerInfo.followerCount}\``, true)
             .addField("Hue DB Info", `${hueDesc}`, true)
