@@ -11,8 +11,8 @@ module.exports = (client) => {
   }
   client.HueMap.read = async function (id) {
     let promise = new Promise((resolve, reject) => {
-      MongoClient.connect(url,{ useUnifiedTopology: true },function (err, client) {
-          const db = client.db(dbName);
+      MongoClient.connect(url,{ useUnifiedTopology: true },function (err, mongoClient) {
+          const db = mongoClient.db(dbName);
           const query = { GuildID: id.toString() };
           db.collection(collection).find(query).toArray(async function (err, result) {
               if (err) throw err;
