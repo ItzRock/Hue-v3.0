@@ -18,7 +18,7 @@ module.exports = (client) => {
                         resolve([false, " Error: This user was not found in the database."])
                     } else {
                         result[0].RobloxUsername = await noblox.getUsernameFromId(result[0].RobloxID)
-                        resolve([true, result[0]])
+                        return resolve([true, result[0]])
                     }
                 });
             });
@@ -38,7 +38,7 @@ module.exports = (client) => {
                         resolve([false, " Error: This user was not found in the database."])
                     } else {
                         result[0].RobloxUsername = await noblox.getUsernameFromId(result[0].RobloxID)
-                        resolve([true, result[0]])
+                        return resolve([true, result[0]])
                     }
                 });
             });
@@ -55,7 +55,7 @@ module.exports = (client) => {
                 let query = { DiscordID: discordID.toString() };
                 db.collection(collectionName).deleteOne(query, function(err, obj) {
                     if (err) resolve([false, `${err.name}: ${err.message}`]);
-                    resolve([true, ' Successfully Removed'])
+                    return resolve([true, ' Successfully Removed'])
                 });
             });
         });
@@ -73,7 +73,7 @@ module.exports = (client) => {
                 let newvalues = { $set: {RobloxUsername: newUsername} };
                 db.collection(collectionName).updateOne(myquery, newvalues, function(err, res) {
                     if (err) resolve([false, `${err.name}: ${err.message}`]);
-                    resolve([true, 'Successfully Updated Item'])
+                    return resolve([true, 'Successfully Updated Item'])
                 });
             });
         });
@@ -89,7 +89,7 @@ module.exports = (client) => {
                 let query = { DiscordID: discordID.toString() };
                 db.collection(collectionName).find(query).toArray(function(err, result) {
                     if (err) resolve([false, `${err.name}: ${err.message}`]);
-                    resolve(result.length)
+                    return resolve(result.length)
                 });
             });
         });
@@ -103,7 +103,7 @@ module.exports = (client) => {
                 const db = client.db(dbName);
                 db.collection(collectionName).find().toArray(function(err, result) {
                     if (err) resolve([false, `${err.name}: ${err.message}`]);
-                    resolve(result.length)
+                    return resolve(result.length)
                 });
             });
         });
@@ -119,7 +119,7 @@ module.exports = (client) => {
                 let items = { RobloxUsername: username.toString(), DiscordID: discordID.toString(), RobloxID: robloxID.toString()};
                 db.collection(collectionName).insertOne(items, function(err, res) {
                     if (err) resolve([false, `${err.name}: ${err.message}`]);
-                    resolve([true, 'Successfully Added'])
+                    return resolve([true, 'Successfully Added'])
                 });
             });
         });

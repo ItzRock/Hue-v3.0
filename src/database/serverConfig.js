@@ -18,11 +18,11 @@ module.exports = (client) => {
               if (err) throw err;
               if (result.length < 1) {
                 create(id).then(async _ =>{
-                  resolve(await client.HueMap.read(id));
+                  return resolve(await client.HueMap.read(id));
                 })
               } else {
                 checkup(id, result[0].Settings)
-                resolve(await finalRead(id));
+                return resolve(await finalRead(id));
               }
             });
         }
@@ -37,7 +37,7 @@ module.exports = (client) => {
             const query = { GuildID: id.toString() };
             db.collection(collection).find(query).toArray(async function (err, result) {
                 if (err) throw err;
-                resolve(result[0].Settings);
+                return resolve(result[0].Settings);
             });
           }
         );
@@ -71,7 +71,7 @@ module.exports = (client) => {
                 const DB_values = { $set: {Settings: data} };
                 db.collection(collection).updateOne(search_Query, DB_values, function(err, res) {
                     if (err) resolve([false, `${err.name}: ${err.message}`]);
-                    resolve([true, 'Successfully Updated Item'])
+                    return resolve([true, 'Successfully Updated Item'])
                 });
             });
         });
@@ -85,7 +85,7 @@ module.exports = (client) => {
             const DB_values = { $set: {Settings: wholeSettingsTable} };
             db.collection(collection).updateOne(search_Query, DB_values, function(err, res) {
                 if (err) resolve([false, `${err.name}: ${err.message}`]);
-                resolve([true, 'Successfully Updated Item'])
+                return resolve([true, 'Successfully Updated Item'])
             });
         });
     });
@@ -106,7 +106,7 @@ module.exports = (client) => {
                 const DB_values = { $set: {Settings: data} };
                 db.collection(collection).updateOne(search_Query, DB_values, function(err, res) {
                     if (err) resolve([false, `${err.name}: ${err.message}`]);
-                    resolve([true, 'Successfully Updated Item'])
+                    return resolve([true, 'Successfully Updated Item'])
                 });
             });
         });
@@ -128,7 +128,7 @@ module.exports = (client) => {
                 const DB_values = { $set: {Settings: data} };
                 db.collection(collection).updateOne(search_Query, DB_values, function(err, res) {
                     if (err) resolve([false, `${err.name}: ${err.message}`]);
-                    resolve([true, 'Successfully Updated Item'])
+                    return resolve([true, 'Successfully Updated Item'])
                 });
             });
         });
@@ -145,7 +145,7 @@ module.exports = (client) => {
           const items = { GuildID: guildID, Settings: defaults };
           db.collection(collection).insertOne(items, function (err, res) {
             if (err) resolve(err);
-            resolve(true);
+            return resolve(true);
           });
         }
       );

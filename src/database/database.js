@@ -8,7 +8,7 @@ module.exports = (client) => {
                 const database = client.db(dbName)
                 database.collection(collection).find().toArray(function(err, results) {
                     if(err) resolve(err)
-                    else resolve(results)
+                    else return resolve(results)
                 })
             })
         })

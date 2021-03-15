@@ -63,4 +63,5 @@ module.exports = async (client, message) => {
       message.channel.send(`An error has occured in the command! ${error.name}: ${error.message}. PLEASE REPORT THIS!`)
       client.logger.log(`COMMAND ERROR => ${error.name}: ${error.message}`)
     }
+    return
   };
