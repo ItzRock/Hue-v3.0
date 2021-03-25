@@ -46,41 +46,45 @@ exports.run = async (client, message, args, level) => {
             await msg.edit({embed})
         } else return verifiedNeedRoles() 
     }else{ // User needs to verify thyself
-        const IDS = await checkAPI(message.author.id)
-        if(IDS.length == 0) return statusVerification();
-        // API verification
-        const username = await noblox.getUsernameFromId(IDS[0])
-        const avatar = await client.apis.roblox.avatarURL(IDS[0])
-        await msg.delete();
-        const wouldYouLikeToVerifyAsX = new MessageEmbed()
-            .setAuthor(clientUsername, avatarURL)
-            .setFooter(clientUsername, avatarURL)
-            .setTimestamp()
-            .setThumbnail(avatar)
-            .setColor(client.embedColour("safe")) 
-            .setTitle(`${client.config.emojis.exclamation} Possible account found in api!`)
-            .setDescription(`Would you like to verify as \`${username}\`. (respond with \`yes\` or \`no\`)`)
-        const reply = await client.awaitReply(message, wouldYouLikeToVerifyAsX)
-        const agree = ["yes", "y", "obama",]
-        if(reply){
-            if(agree.includes(reply.toLowerCase())){
-                if(groupJoin == true){
-                    if(await isInGroup(IDS[0]) == true) return verify(IDS[0], username, avatar, "API Verification.");
-                    const groupEmbed = new MessageEmbed()
-                        .setColor("RED")
-                        .setTitle(`${client.config.emojis.x} You aren't in the group!`)
-                        .setDescription(`The roblox user: \`${username}\` was not found in the group: https://www.roblox.com/groups/${groupID}.`)
-                        .setAuthor(clientUsername, avatarURL)
-                        .setFooter(clientUsername, avatarURL)
-                        .setTimestamp()
-                    return message.channel.send(groupEmbed)
-                } else{
-                    return verify(IDS[0], username, avatar, "API Verification.");
+        try{
+            const IDS = await checkAPI(message.author.id)
+            if(IDS.length == 0) return statusVerification();
+            // API verification
+            const username = await noblox.getUsernameFromId(IDS[0])
+            const avatar = await client.apis.roblox.avatarURL(IDS[0])
+            await msg.delete();
+            const wouldYouLikeToVerifyAsX = new MessageEmbed()
+                .setAuthor(clientUsername, avatarURL)
+                .setFooter(clientUsername, avatarURL)
+                .setTimestamp()
+                .setThumbnail(avatar)
+                .setColor(client.embedColour("safe")) 
+                .setTitle(`${client.config.emojis.exclamation} Possible account found in api!`)
+                .setDescription(`Would you like to verify as \`${username}\`. (respond with \`yes\` or \`no\`)`)
+            const reply = await client.awaitReply(message, wouldYouLikeToVerifyAsX)
+            const agree = ["yes", "y", "obama",]
+            if(reply){
+                if(agree.includes(reply.toLowerCase())){
+                    if(groupJoin == true){
+                        if(await isInGroup(IDS[0]) == true) return verify(IDS[0], username, avatar, "API Verification.");
+                        const groupEmbed = new MessageEmbed()
+                            .setColor("RED")
+                            .setTitle(`${client.config.emojis.x} You aren't in the group!`)
+                            .setDescription(`The roblox user: \`${username}\` was not found in the group: https://www.roblox.com/groups/${groupID}.`)
+                            .setAuthor(clientUsername, avatarURL)
+                            .setFooter(clientUsername, avatarURL)
+                            .setTimestamp()
+                        return message.channel.send(groupEmbed)
+                    } else{
+                        return verify(IDS[0], username, avatar, "API Verification");
+                    }
+                }
+                else {
+                    return statusVerification()
                 }
             }
-            else {
-                return statusVerification()
-            }
+        }catch(err){
+            return statusVerification();
         }
     }
     async function checkAPI(discordID){
@@ -123,9 +127,12 @@ exports.run = async (client, message, args, level) => {
             const ID = await noblox.getIdFromUsername(raw);
             const Username = await noblox.getUsernameFromId(ID);
             const avatar = await client.apis.roblox.avatarURL(ID)
+            if(!client.activeVerifications.has(ID.toString())){
+                client.activeVerifications.set(ID.toString(), {robloxID: ID.toString(), user: message.author})
+            }
             await pendingMSG.delete()
             if(groupJoin == true){
-                if(await isInGroup(ID) == true) return setYourStatus(ID, Username, avatar);
+                if(await isInGroup(ID) == true) return chooseMethod(ID, Username, avatar);
                 const groupEmbed = new MessageEmbed()
                     .setColor("RED")
                     .setTitle(`${client.config.emojis.x} You aren't in the group!`)
@@ -135,10 +142,57 @@ exports.run = async (client, message, args, level) => {
                     .setTimestamp()
                 return message.channel.send(groupEmbed)
             } else{
-                return setYourStatus(ID, Username, avatar);
+                return chooseMethod(ID, Username, avatar);
             }
         }
     }
+
+    async function chooseMethod(ID, Username, avatar){
+        const embed = client.defaultEmbed()
+            .setTitle(`Step 2. Pick a method of verification.`)
+            .setDescription(`**Please pick a method of verification.**\nReact with 🎮 for game verification.\nReact with 📄 for description verification.`)
+        
+        const msg = await message.channel.send(embed)
+        msg.react("🎮"); msg.react("📄");
+        const filter = (reaction, user) => {
+            return ['🎮', '📄'].includes(reaction.emoji.name) && user.id === message.author.id;
+        };
+        msg.awaitReactions(filter, { max: 1, time: 60000, errors: ["time"]}).then(async collected => {
+            const reaction = collected.first();
+
+            if (reaction.emoji.name === '🎮') {
+                gameVerification(ID, Username, avatar)
+                return await msg.delete()
+            } else {
+                setYourStatus(ID, Username, avatar)
+                return await msg.delete()
+            }
+        }).catch(collected => {
+		message.reply('Timeout error: to continue verification and try again.');
+	    });
+    }
+
+    async function gameVerification(ID, Username, avatar){
+        const joinGame = client.defaultEmbed()
+            .setTitle("Step 3: Game Verification")
+            .setDescription(`In order to verify [please join this game here](https://www.roblox.com/games/6555983329/Hue-Verification) and follow the provided steps. Once finished you should be automatically verified.`);
+        message.channel.send(joinGame)
+        const interval = setInterval(check, 250)
+        function check(){
+            if(client.clearToVerify.has(message.author.id)){
+                const data = client.clearToVerify.get(message.author.id)
+                if(ID.toString() == data.robloxID){
+                    clearInterval(interval)
+                    client.clearToVerify.delete(message.author.id)
+                    return verify(ID, Username, avatar, "Game Verification")
+                } else {
+                    client.clearToVerify.delete(message.author.id)
+                    return message.channel.send(`Error: the Roblox ID sent back did not match the one fetched locally. Please run \`${message.settings.prefix.value}verify\` again`)
+                }
+            }
+        }
+    }
+
     async function setYourStatus(ID, Username, avatar){
         const setStatusEmbed = new MessageEmbed()
             .setAuthor(clientUsername, avatarURL)
@@ -146,7 +200,7 @@ exports.run = async (client, message, args, level) => {
             .setTimestamp()
             .setColor(client.embedColour("safe"))
             .setThumbnail(avatar)
-            .setTitle(`Part 2: Modify your About section of your profile`)
+            .setTitle(`Step 3: Modify your About section of your profile`)
             .setDescription(`In order to prove you own this account, please either set or set the last line of your [**description / about**](https://www.roblox.com/users/${ID}) to\n\`${status}\`\nand then reply with \`done\` once you have done so, [Example](http://cdn.itzrock.xyz/hue/example.png)`)
         const waitForResponse = await client.awaitReply(message, setStatusEmbed, 300000);
         if(waitForResponse){
@@ -160,7 +214,9 @@ exports.run = async (client, message, args, level) => {
         if(lastLine == status){
             return verify(ID, Username, avatar, "Standard Verification")
         }else {
-
+        if(client.activeVerifications.has(ID.toString())){
+            client.activeVerifications.delete(ID.toString())
+        }
         const invalidStatus = new MessageEmbed()
             .setAuthor(clientUsername, avatarURL)
             .setFooter(clientUsername, avatarURL)
@@ -172,6 +228,9 @@ exports.run = async (client, message, args, level) => {
         }
     }
     async function verify(id, username, thumbURL, method){
+        if(client.activeVerifications.has(id.toString())){
+            client.activeVerifications.delete(id.toString())
+        }
         const embed = new MessageEmbed()
             .setAuthor(clientUsername, avatarURL)
             .setFooter(clientUsername, avatarURL)
@@ -190,17 +249,17 @@ exports.run = async (client, message, args, level) => {
         await client.database.verify.write(username, id, message.author.id)
     }
 
-    function addRoles(username){
-        message.member.roles.add(verifiedRole);
+    async function addRoles(username){
+        await message.member.roles.add(verifiedRole);
         try {
-            if(unverifiedRole !== undefined || message.member.roles.get(unverifiedRole.id)) message.member.roles.remove(unverifiedRole);
+            if(unverifiedRole !== undefined || message.member.roles.get(unverifiedRole.id)) await message.member.roles.remove(unverifiedRole);
         } catch (error) {    
             // Probably didn't have the role
         }
         try {
             if(setnick == true) {
                 if(message.author.id !== message.guild.ownerID);{
-                    message.member.setNickname(username)
+                    await message.member.setNickname(username)
                 }
             }
         } catch (error) {}   

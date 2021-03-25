@@ -2,10 +2,6 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = async (client, member) => {
     const settings = await client.getSettings(member.guild);
-    if(settings.autorole.value !== false) {
-        const role = await client.getRole(member.guild, settings.autorole.value);
-        if(role !== undefined) member.roles.add(role)
-    }
     if(settings.welcoming.value == true){
         const welcomingChannel = client.getChannel(member.guild, settings["welcoming-channel"].value);
         if(welcomingChannel !== undefined){
@@ -40,7 +36,11 @@ module.exports = async (client, member) => {
     }
     if(settings.unverifiedRole.value !== undefined || settings.unverifiedRole.value !== false){
         const role = await client.getRole(member.guild, settings.unverifiedRole.value);
-        if(role !== undefined) member.roles.add(role)
+        if(role !== undefined) await member.roles.add(role)
+    }
+    if(settings.autorole.value !== false) {
+        const role = await client.getRole(member.guild, settings.autorole.value);
+        if(role !== undefined) await member.roles.add(role)
     }
     function customText(text){
         text = text.toString()

@@ -24,7 +24,8 @@ const fs = require('fs')
 client.settings = {}
 client.commands = new Map();
 client.aliases = new Map();
-
+client.activeVerifications = new Map()
+client.clearToVerify = new Map()
 
 client.config = require('./src/configuration')
 

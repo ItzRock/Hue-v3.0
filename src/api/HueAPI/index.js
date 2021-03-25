@@ -3,7 +3,7 @@ module.exports = (client) => {
     const app = express();
     const bodyParser = require('body-parser')
     const port = 555
-    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(bodyParser.urlencoded({ extended: true }))
     app.use(bodyParser.json());
     const { promisify } = require("util");
     const readdir = promisify(require("fs").readdir); 

@@ -25,7 +25,7 @@ exports.run = async (client, message, args, level) => {
             else {
                 if(isStillActive == false) return
                 message.channel.startTyping()
-                cleverbot(collected.first().content, context).then(response => {
+                try{cleverbot(collected.first().content, context).then(response => {
                     if(isStillActive == false) {
                         return message.channel.stopTyping()
                     }
@@ -38,7 +38,14 @@ exports.run = async (client, message, args, level) => {
                     message.channel.send(response)
                     message.channel.stopTyping()
                 });
-                return awaitMessage();
+                return awaitMessage();}
+                catch( err ) {
+                    const embed = client.errorEmbed(err)
+                        .setTitle(`AI timeout`)
+                        .setDescription(`The AI has timed out. It will continue to run but your message \`${collected.first().content}\` failed to get through.`)
+                    message.channel.send(embed)
+                    message.channel.stopTyping()
+                }
             }          
         }).catch(() => {
             message.reply('No activity after 5 minutes session ended.');
