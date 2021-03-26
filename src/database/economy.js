@@ -13,7 +13,8 @@ module.exports = (client) => {
                     let items = { DiscordID: userID.toString(), Wealth: "0", Bank: "0", BankCap: "0"};
                     db.collection(collection).insertOne(items, function(err, res) {
                         if (err) resolve(err);
-                        return resolve(true)
+                        resolve(true)
+                        return mongoClient.close()
                     });
                 });
             });
@@ -31,7 +32,8 @@ module.exports = (client) => {
                     let newvalues = { $set: {Wealth: parseInt(amount)} };
                     db.collection(collection).updateOne(myquery, newvalues, function(err, res) {
                         if (err) resolve([false, err]);
-                        return resolve([true])
+                        resolve([true])
+                        return mongoClient.close()
                     });
                 });
             });
@@ -49,7 +51,8 @@ module.exports = (client) => {
                     let newvalues = { $set: {Wealth: total} };
                     db.collection(collection).updateOne(myquery, newvalues, function(err, res) {
                         if (err) resolve([false, err]);
-                        return resolve([true])
+                        resolve([true])
+                        return mongoClient.close()
                     });
                 });
             });
@@ -67,7 +70,8 @@ module.exports = (client) => {
                     let newvalues = { $set: {Wealth: total} };
                     db.collection(collection).updateOne(myquery, newvalues, function(err, res) {
                         if (err) resolve([false, err]);
-                        return resolve([true])
+                        resolve([true])
+                        return mongoClient.close()
                     });
                 });
             });
@@ -86,6 +90,7 @@ module.exports = (client) => {
                             const result = await client.database.economy.newUser(userID)
                             if(result) return resolve(await client.database.economy.read(userID))
                         } else resolve(result[0])
+                        return mongoClient.close()
                     });
                 });
             });
@@ -104,7 +109,8 @@ module.exports = (client) => {
                     let newvalues = { $set: {Bank: money} };
                     db.collection("economies").updateOne(myquery, newvalues, function(err, res) {
                         if (err) resolve([false, err]);
-                        return resolve([true])
+                        else resolve([true])
+                        return mongoClient.close()
                     });
                 });
             });
@@ -132,7 +138,8 @@ module.exports = (client) => {
                     let newvalues = { $set: {BankCap: money} };
                     db.collection("economies").updateOne(myquery, newvalues, function(err, res) {
                         if (err) resolve([false, err]);
-                        return resolve([true])
+                        else resolve([true])
+                        return mongoClient.close()
                     });
                 });
             });
