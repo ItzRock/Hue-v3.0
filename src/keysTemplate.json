@@ -1,5 +1,4 @@
 
 {
-    "main": "Put your token in here and then resave to keys.json ",
-    "ytSearchAPI": "https://console.developers.google.com/apis/credentials/ for the music bot"
+    "main": "Put your token in here and then resave to keys.json "
 }

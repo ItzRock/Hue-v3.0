@@ -42,7 +42,6 @@ require("./src/module-loader")(client)
 require("./src/gamesLoader")(client)
 require("./src/functions/functions")(client)
 require("./src/functions/server-settings")(client)
-require('./src/functions/music')(client)
 
 // -- //
 

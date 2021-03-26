@@ -10,9 +10,6 @@
     "cleverbot-free": "^1.0.5",
     "discord.js": "^12.5.1",
     "express": "^4.17.1",
-    "ffmpeg": "0.0.4",
-    "ffmpeg-static": "^4.2.7",
-    "fluent-ffmpeg": "^2.1.2",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "mongodb": "^3.6.4",
@@ -20,12 +17,8 @@
     "noblox.js": "^4.8.4",
     "node-pre-gyp": "^0.17.0",
     "nodemon": "^2.0.7",
-    "title-case": "^3.0.3",
-    "youtube-search": "^1.1.6",
-    "youtube-search-api": "^1.0.10",
-    "ytdl-core": "^4.5.0"
+    "title-case": "^3.0.3"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "node ."
   },

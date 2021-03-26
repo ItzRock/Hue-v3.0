@@ -25,9 +25,6 @@ module.exports = async (client, message) => {
 
     const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
     if (!cmd) return;
-    
-    const isBanned = await client.database.cmdBlacklist.isBanned(message.author.id, cmd.help.name)
-    if(isBanned == true) return;
 
     if(cmd.conf.enabled == false) return;
     if (cmd && !message.guild && cmd.conf.guildOnly)

@@ -26,7 +26,6 @@ Made By: ItzRock (299682971374452739): https://discord.com/invite/QwgnZ83XD3
 
     "database": ["mongodb://localhost:27017", "Hue"],
     "token": keys.main,
-    "apiKeys": {"yt": keys.ytSearchAPI},
     "status": "static", // static or dev
 
     "logChannel": "767976193483079690",
