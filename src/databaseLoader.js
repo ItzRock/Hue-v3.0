@@ -6,7 +6,11 @@ module.exports = async (client) => {
     client.database.users = {}
     const dbModules = await readdir("./src/database/")
     dbModules.forEach(module => {
-        require(`./database/${module}`)(client)
-        client.logger.data(`Loaded Database Module: ${module}`)
+        client.logger.data(`Loading Database Module: ${module}`)
+        try {
+            require(`./database/${module}`)(client)
+        } catch (error) {
+            client.logger.error(`Failed to load Database Module: ${module}. (${error.name} : ${error.message})`)
+        }
     })
 }
