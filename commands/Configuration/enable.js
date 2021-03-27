@@ -8,7 +8,7 @@ exports.run = async (client, message, args, level) => {
     if(cmd.conf.disablable == false) return message.channel.send(client.config.emojis.x + " You are unable to modify this command")
     if(!message.settings["disabled-commands"].value.includes(cmd.help.name)) return message.channel.send(client.config.emojis.exclamation + " This command is not disabled")
     client.enmap.remove(message, cmd.help.name, "disabled-commands")
-    return message.channel.send(`${client.config.emojis.exclamation} Successfully enabled \`${cmd.help.name}\``)
+    return message.channel.send(`${client.config.emojis.check} Successfully enabled \`${cmd.help.name}\``)
 }
 
 exports.conf = {

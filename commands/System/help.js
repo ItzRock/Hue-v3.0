@@ -3,47 +3,43 @@ const filename = require('path').basename(__filename).split(".")[0]
 exports.run = (client, message, args, level) => {
     // If no specific command is called, show all filtered commands.
     if (!args[0] || args[0] == "expanded" || args[0] == "all") {
-      
       const myCommands = [];
+      const disabledCommands = message.settings["disabled-commands"].value;
       client.commands.forEach(cmd => {
         if(client.levelCache[cmd.conf.permLevel] > level) return
         if(message.channel.type == "dm" && cmd.conf.guildOnly !== true) return
         myCommands.push(cmd)
       });
-
-      //const myCommands = message.guild ? client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level) : client.commands.filter(cmd => client.levelCache[cmd.conf.permLevel] <= level &&  cmd.conf.guildOnly !== true);
-  
-      let commandsList = ``
       let output = client.defaultEmbed()
         .setColor(client.embedColour())
         .setTitle(`Commands List - ${client.user.username}`)
-        .setDescription(`[Use ${message.settings.prefix.value}help [commandname] for details]`)
+        .setDescription(`\`[Use ${message.settings.prefix.value}help [commandname] for details]\``)
         .setThumbnail(client.user.avatarURL())
-        .setTimestamp()
-        
-        const catagories = []
-        const catagoryNames = []
-        myCommands.forEach(cmd => {
-            const catagory = cmd.help.category 
-            if(catagoryNames.includes(catagory)) return "Already have that catagory."
-            catagories.push({name: catagory, fields: []})
-            catagoryNames.push(catagory)
-        })
+        .setTimestamp();
+      if(disabledCommands.length !== 0) output.setDescription(`\`[Use ${message.settings.prefix.value}help [commandname] for details]\`\n\`Note: ${disabledCommands.length} Commands are disabled in this guild.\``)
+      const catagories = []
+      const catagoryNames = []
+      myCommands.forEach(cmd => {
+        const catagory = cmd.help.category 
+        if(catagoryNames.includes(catagory)) return "Already have that catagory."
+        catagories.push({name: catagory, fields: []})
+        catagoryNames.push(catagory)
+      })
         // Add the keys to the catagories
-        catagories.forEach(catagory =>{
-          myCommands.forEach(command =>{
-            if(command.conf.enabled == false) return // disabled command
-            if(command.conf.premium === true && message.settings.premium.value !== true) return; // Not premium server
-            if(command.help.category != catagory.name) return; // incorrect catagory
-            catagory.fields.push(`\`${command.help.name}\`, `)
-          })
+      catagories.forEach(catagory =>{
+        myCommands.forEach(command =>{
+          if(disabledCommands.includes(command.help.name)) return; // disabled in guild
+          if(command.conf.enabled == false) return // disabled command
+          if(command.conf.premium === true && message.settings.premium.value !== true) return; // Not premium server
+          if(command.help.category != catagory.name) return; // incorrect catagory
+          catagory.fields.push(`\`${command.help.name}\`, `)
+        })
       })
       catagories.forEach(catagory => {
         if(catagory.fields.length == 0) return;
         output.addField(`${catagory.name}`, catagory.fields.join(""), true)
       })
 
-      output.setDescription(`\`[Use ${message.settings.prefix.value}help [commandname] for details]\` \n${commandsList}`)
       message.channel.send(output);
     } else {
       // Show individual command's help.

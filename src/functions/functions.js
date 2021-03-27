@@ -2,7 +2,7 @@ const { Timestamp } = require("bson");
 const { MessageEmbed } = require("discord.js");
 const noblox = require("noblox.js")
 module.exports = (client) => {
-  
+
   client.permlevel = (message) => {
     let permlvl = 0;
 
@@ -20,11 +20,11 @@ module.exports = (client) => {
     }
     return permlvl;
   };
-  client.isInGroup = async function(id, groupID){
-    if(groupID == undefined || client.isNum(groupID) == false) {msg.delete(); return message.channel.send(`The guild's configuration hasn't been properly set up. please set a valid group id.`)}
+  client.isInGroup = async function (id, groupID) {
+    if (groupID == undefined || client.isNum(groupID) == false) { msg.delete(); return message.channel.send(`The guild's configuration hasn't been properly set up. please set a valid group id.`) }
     const groupRank = await noblox.getRankInGroup(groupID, id)
     return groupRank !== 0
-  } 
+  }
   client.getArgs = (commandname) => {
     return client.commands.get(`${commandname}`).help.usage;
   };
@@ -36,7 +36,7 @@ module.exports = (client) => {
       if (users.length > 1)
         return [
           false,
-          client.config.emojis.x +" Found multiple users! Please be more specific or mention the user instead.",
+          client.config.emojis.x + " Found multiple users! Please be more specific or mention the user instead.",
         ];
       else if (users.length == 0)
         return [false, client.config.emojis.x + " That user doesn't seem to exist. Try again!"];
@@ -86,7 +86,7 @@ module.exports = (client) => {
       b = guild.members.cache.find((x) => x.displayName.toLowerCase() == query);
       if (!b)
         guild.members.cache.find((x) => x.user.username.toLowerCase() == query);
-    } catch (err) {}
+    } catch (err) { }
     if (b) a.push(b);
     guild.members.cache.forEach((member) => {
       if (
@@ -100,7 +100,7 @@ module.exports = (client) => {
     return a;
   };
   client.getChannel = function (guild, channel) {
-    if(channel == undefined) return undefined
+    if (channel == undefined) return undefined
     channel = channel.toString();
     const isAllNumber =
       channel
@@ -114,7 +114,7 @@ module.exports = (client) => {
     } else return guild.channels.cache.find((c) => c.name == channel);
   };
 
-  client.errorEmbed = (error) =>{
+  client.errorEmbed = (error) => {
     const avatarURL = client.user.avatarURL()
     const clientUsername = client.user.username
     const embed = new MessageEmbed()
@@ -127,7 +127,7 @@ module.exports = (client) => {
     return embed
   }
   client.isNum = client.isNumeric = (string) => {
-    if(string == undefined) return false;
+    if (string == undefined) return false;
     string = string.toString()
     return string.match(/^[0-9]+$/) != null;
   }
@@ -170,7 +170,7 @@ module.exports = (client) => {
       .setDescription(description);
     return embed;
   };
-  client.defaultEmbed = function(){
+  client.defaultEmbed = function () {
     const defaults = {
       color: client.embedColour(),
       author: client.user.username,
@@ -181,7 +181,7 @@ module.exports = (client) => {
       .setTimestamp()
       .setColor(defaults.color)
       .setAuthor(defaults.author, defaults.authorIMG)
-      .setFooter(`${defaults.author}`, defaults.authorIMG, )
+      .setFooter(`${defaults.author}`, defaults.authorIMG,)
     return embed
   }
   client.getUserFromMention = (mention) => {
@@ -258,8 +258,26 @@ module.exports = (client) => {
     }
     return false;
   };
+  client.unloadAPIModule = async (moduleName) => {
+    let _module;
+    if(client.apis.has(moduleName)){
+      _module = client.apis.get(moduleName);
+    }
+    if(!_module) return `${moduleName} isnt a valid child of APIS`
+    const fullpath = `../apis/${moduleName}`
+    const mod = require.cache[require.resolve(fullpath)];
+    delete require.cache[require.resolve(`${fullpath}.js`)]
+    for (let i = 0; i < mod.parent.children.length; i++) {
+      if (mod.parent.children[i] === mod) {
+        mod.parent.children.splice(i, 1);
+        break;
+      }
+    }
+    return false;
+  }
+  
   client.getSettings = (guild) => {
-    return client.HueMap.lookUp(guild).then(value => {return value})
+    return client.HueMap.lookUp(guild).then(value => { return value })
   };
   client.awaitReply = async (msg, question, limit = 60000) => {
     const filter = (m) => m.author.id === msg.author.id;
@@ -307,7 +325,7 @@ module.exports = (client) => {
     console.error(err);
   });
   process.on("unhandledRejection", async (err) => {
-    if(err.message == "Missing Permissions") return // ksfhg SHUT UP ABOUT MISSING PERMISSIONS OR I WILL DROP KICK YOU IN THE BALLS
+    if (err.message == "Missing Permissions") return // ksfhg SHUT UP ABOUT MISSING PERMISSIONS OR I WILL DROP KICK YOU IN THE BALLS
     const clean = await client.clean(client, err);
     client.channels.cache.get(client.config.errorChannel).send(`\`\`\`js\n${clean.substring(0, 1500)}\n\`\`\``)
     const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");

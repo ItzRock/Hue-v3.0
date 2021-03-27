@@ -1,7 +1,7 @@
 const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
 module.exports = async (client) => {
-    client.apis = {}
+    client.apis = new Map()
     const dbModules = await readdir("./src/api/")
     dbModules.forEach(module => {
         client.logger.api(`Loading API Module: ${module}`)
