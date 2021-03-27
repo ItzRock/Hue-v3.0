@@ -143,7 +143,7 @@ module.exports = (client) => {
         const thumbURL = thumbnailRaw.data[0].imageUrl
 
 
-        let description = `\`${DiscordTag}\` verified as: \`${RobloxUsername}\`\nID: \`${RobloxID}\`\nGuild:\`${server}\`\nUsing: \`${type}\`\nExtra Details: \`${ExtraDetails}\``
+        let description = `\`${DiscordTag}\` verified as: \`${RobloxUsername}\`\nID: \`${RobloxID}\`\nGuild:\`${server}\`\nUsing: \`${type}\`\nExtra Details: ${ExtraDetails}`
         const embed = new MessageEmbed()
             .setAuthor(`${clientUser} Verification System`, avatar)
             .setFooter(`${clientUser}`, avatar)

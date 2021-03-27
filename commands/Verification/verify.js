@@ -22,7 +22,7 @@ exports.run = async (client, message, args, level) => {
     const logs = client.getChannel(message.guild, message.settings.logs.value);
 
     const alreadyInDB = await client.database.verify.count(message.author.id) >= 1
-
+    let extraDetails = ``
     const pending = new MessageEmbed()
         .setAuthor(clientUsername, avatarURL)
         .setFooter(clientUsername, avatarURL)
@@ -76,6 +76,7 @@ exports.run = async (client, message, args, level) => {
                             .setTimestamp()
                         return message.channel.send(groupEmbed)
                     } else{
+                        extraDetails = `${extraDetails}\nVerified By API`
                         return verify(IDS[0], username, avatar, "API Verification");
                     }
                 }
@@ -231,26 +232,33 @@ exports.run = async (client, message, args, level) => {
         if(client.activeVerifications.has(id.toString())){
             client.activeVerifications.delete(id.toString())
         }
+        if(extraDetails == ``) extraDetails = `\`None\``
+        else extraDetails = `\n\`\`\`\n${extraDetails}\n\`\`\``
         const embed = new MessageEmbed()
             .setAuthor(clientUsername, avatarURL)
             .setFooter(clientUsername, avatarURL)
             .setTimestamp()
             .setColor(client.embedColour("safe"))
             .setTitle(`${client.config.emojis.check} Successfully Verified`)
-            .setDescription(`\`${message.author.tag}\` has verified as \`${username}\``)
+            .setDescription(`\`${message.author.tag}\` has verified as \`${username}\`\nExtra Details: ${extraDetails}`)
             .setThumbnail(thumbURL)
-        if(logs !== undefined) logs.send(embed)
-        message.channel.send(embed)
-        client.database.verify.event(message.author.tag, username, id, method, `None`, message.guild.name)
+        client.database.verify.event(message.author.tag, username, id, method, extraDetails, message.guild.name)
         addRoles(username)
         findRolesinGuild(id)
         client.verification.bindRoles(message.member, id)
         // Add to db here soon
         await client.database.verify.write(username, id, message.author.id)
+
+        if(logs !== undefined) logs.send(embed)
+        message.channel.send(embed)
     }
 
     async function addRoles(username){
-        await message.member.roles.add(verifiedRole);
+        try {
+            await message.member.roles.add(verifiedRole);
+        } catch (error) {
+            `${extraDetails}\nCRITICAL ERROR. Failed to add verified Roles for user. (${error.name} : ${error.message})`
+        }
         try {
             if(unverifiedRole !== undefined || message.member.roles.get(unverifiedRole.id)) await message.member.roles.remove(unverifiedRole);
         } catch (error) {    
@@ -262,17 +270,21 @@ exports.run = async (client, message, args, level) => {
                     await message.member.setNickname(username)
                 }
             }
-        } catch (error) {}   
+        } catch (error) {
+            `${extraDetails}\nFailed to set nickname. (${error.name} : ${error.message})`
+        }   
     }
     async function findRolesinGuild(robloxID){
         try {
             if(message.settings.findRoles.value == true){
+                extraDetails = `${extraDetails}\nFind Roles Enabled. Adding Roles.`
                 const groupID = message.settings.groupID.value
                 if(groupID == undefined) return;
                 const rank = await noblox.getRankNameInGroup(groupID, robloxID);
                 if(rank == "Guest") return;
                 message.guild.roles.cache.forEach(role => {
                     if(role.name.toLowerCase() == rank.toLowerCase()){
+                        extraDetails = `${extraDetails}\nAdded ${role.name} because it matched their group rank.`
                         message.member.roles.add(role);
                     }
                 })
@@ -304,6 +316,7 @@ exports.run = async (client, message, args, level) => {
                 return msg.edit(groupEmbed)
             }
         }
+        extraDetails = `${extraDetails}\nRecord Found in Hue DB` 
         message.member.roles.add(verifiedRole);
         findRolesinGuild(data.RobloxID)
         client.verification.bindRoles(message.member, data.RobloxID)
@@ -311,14 +324,17 @@ exports.run = async (client, message, args, level) => {
         addRoles(updatedName)
         const thumbnailRaw = await client.apis.https.get(`https://thumbnails.roblox.com/v1/users/avatar?format=Png&isCircular=false&size=720x720&userIds=${data.RobloxID}`)
         const thumbURL = thumbnailRaw.data[0].imageUrl
+        if(extraDetails == ``) extraDetails = `\`None\``
+        else extraDetails = `\n\`\`\`\n${extraDetails}\n\`\`\``
         const embed = new MessageEmbed()
             .setAuthor(clientUsername, avatarURL)
             .setFooter(clientUsername, avatarURL)
             .setTimestamp()
             .setColor(client.embedColour("safe"))
             .setTitle(`${client.config.emojis.check} Successfully Verified`)
-            .setDescription(`\`${message.author.tag}\` has verified as \`${updatedName}\``)
-            .setThumbnail(thumbURL)
+            .setDescription(`\`${message.author.tag}\` has verified as \`${updatedName}\`\nExtra Details: ${extraDetails}`)
+            .setThumbnail(thumbURL);
+
         msg.edit(embed)
         if(logs !== undefined) logs.send(embed)
     }
