@@ -43,7 +43,7 @@ exports.run = async (client, message, args, level) => {
     if(results[0] == false) return message.channel.send(results[1]);
     message.channel.send(`${client.config.emojis.check} Successfully Verified \`${user.user.tag}\` as \`${RobloxUsername}\``)
     client.verification.bindRoles(user, UserID)
-    client.database.verify.event(user.user.tag, RobloxUsername, UserID, "Manual Verification", `Verified By ${message.author.tag}`)
+    client.database.verify.event(user.user.tag, RobloxUsername, UserID, "Manual Verification", `Verified By ${message.author.tag}`, message.guild.name)
     // Edit roles
 
     try {

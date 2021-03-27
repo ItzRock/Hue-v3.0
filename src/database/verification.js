@@ -135,13 +135,15 @@ module.exports = (client) => {
         }); 
     }
 
-    client.database.verify.event = async function(DiscordTag, RobloxUsername, RobloxID, type, ExtraDetails){
+    client.database.verify.event = async function(DiscordTag, RobloxUsername, RobloxID, type, ExtraDetails, server = "Unknown"){
         client.logger.verify(`${DiscordTag} verified as: ${RobloxUsername}. Using: ${type}. Extra Details: ${ExtraDetails}`)
         const clientUser = client.user.username
         const avatar = client.user.avatarURL()
         const thumbnailRaw = await client.apis.https.get(`https://thumbnails.roblox.com/v1/users/avatar?format=Png&isCircular=false&size=720x720&userIds=${RobloxID}`)
         const thumbURL = thumbnailRaw.data[0].imageUrl
-        let description = `\`${DiscordTag}\` verified as: \`${RobloxUsername}\`.\nUsing: \`${type}\`.\nExtra Details: \`${ExtraDetails}\``
+
+
+        let description = `\`${DiscordTag}\` verified as: \`${RobloxUsername}\`\nID: \`${RobloxID}\`\nGuild:\`${server}\`\nUsing: \`${type}\`\nExtra Details: \`${ExtraDetails}\``
         const embed = new MessageEmbed()
             .setAuthor(`${clientUser} Verification System`, avatar)
             .setFooter(`${clientUser}`, avatar)

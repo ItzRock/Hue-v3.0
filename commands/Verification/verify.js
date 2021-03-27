@@ -66,7 +66,7 @@ exports.run = async (client, message, args, level) => {
             if(reply){
                 if(agree.includes(reply.toLowerCase())){
                     if(groupJoin == true){
-                        if(await isInGroup(IDS[0]) == true) return verify(IDS[0], username, avatar, "API Verification.");
+                        if(await isInGroup(IDS[0]) == true) return verify(IDS[0], username, avatar, "API Verification");
                         const groupEmbed = new MessageEmbed()
                             .setColor("RED")
                             .setTitle(`${client.config.emojis.x} You aren't in the group!`)
@@ -241,7 +241,7 @@ exports.run = async (client, message, args, level) => {
             .setThumbnail(thumbURL)
         if(logs !== undefined) logs.send(embed)
         message.channel.send(embed)
-        client.database.verify.event(message.author.tag, username, id, method, `GUILD: ${message.guild.name} | ID: ${id}`)
+        client.database.verify.event(message.author.tag, username, id, method, `None`, message.guild.name)
         addRoles(username)
         findRolesinGuild(id)
         client.verification.bindRoles(message.member, id)

@@ -9,7 +9,7 @@ exports.run = async (client, message, args, level) => {
             .setColor(client.embedColour())
             .setTitle(`Current settings for: ${message.guild.name}`)
             .setThumbnail(message.guild.iconURL())
-            .setDescription(`If a key has its own command to set, its recommended to use that as this command may be confusing`)
+            .setDescription(`Capitalization is important as these values are cap sensitive.`)
             .setFooter('Statistics updated at', client.user.avatarURL())
             .setAuthor(client.user.username, client.user.avatarURL())
             .setTimestamp()
