@@ -20,7 +20,7 @@ const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir); 
 const fs = require('fs')
 
-//Enmap to store data
+//map to store data
 client.settings = {}
 client.commands = new Map();
 client.aliases = new Map();
