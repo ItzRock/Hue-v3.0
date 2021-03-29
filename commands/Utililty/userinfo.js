@@ -5,7 +5,7 @@ exports.run = async (client, message, args, level) => {
         lookup(message.author, message.member)
     } else {
         const rawuser = client.findUser(message, args[0])
-        if(rawuser[0] == false) return message.channel.send(`${client.config.emojis.x}${rawuser[1]}`)
+        if(rawuser[0] == false) return message.channel.send(`${rawuser[1]}`)
         const member = rawuser[1]
         lookup(member.user, member)
     }

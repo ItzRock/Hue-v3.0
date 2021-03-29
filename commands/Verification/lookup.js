@@ -40,7 +40,7 @@ exports.run = async (client, message, args, level) => {
             .addField("Old Names", `\`${OldNames.substring(0, 999)}\``, true)
             .addField("Stats", `Friends: \`${playerInfo.friendCount}\`\nFollowers: \`${playerInfo.followerCount}\``, true)
             .addField("Hue DB Info", `${hueDesc}`, true)
-            .addField("Description", `${desc}`)
+            .addField("Description", `\`\`\`\n${desc}\n\`\`\``)
         message.channel.send(embed)
     } catch (error) {
         const embed = client.errorEmbed(error)
@@ -51,7 +51,7 @@ exports.run = async (client, message, args, level) => {
 exports.conf = {
     enabled: true,
     guildOnly: false,
-    aliases: ["robloxsearch", "find", "rblxseach"],
+    aliases: ["robloxsearch", "find", "rblxseach", "robloxinfo"],
     permLevel: "User",
     disablable: true,
     premium: false

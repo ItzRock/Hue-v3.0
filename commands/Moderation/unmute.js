@@ -42,7 +42,7 @@ exports.run = async (client, message, args, level) => {
     if (user[1].user.id === client.user.id) {
         return message.channel.send(`why was i muted in the first place`)
     };
-    if (user[1].roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID) {
+    if (user[1].roles.highest.position > message.member.roles.highest.position && message.author.id !== message.guild.ownerID) {
         return message.channel.send(`You can't ${filename} people higher role than yourself!`);
     };
     let reason = args.slice(1).join(" ");
@@ -76,7 +76,7 @@ exports.run = async (client, message, args, level) => {
     roles.forEach(role => {
         try{
             user[1].roles.add(role)
-        }catch(err){/* Probably no permissions */}
+        }catch(err){}
     })
    user[1].roles.remove(mutedRole)
    client.enmap.remove(message, mutedUserEntry, "mutedUsers")

@@ -45,7 +45,7 @@ exports.run = async (client, message, args, level) => {
     if (user[1].user.id === message.author.id) {
         return message.channel.send(`I don't think you want to ${filename} yourself`)
     };
-    if (user[1].roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID) {
+    if (user[1].roles.highest.position > message.member.roles.highest.position && message.author.id !== message.guild.ownerID) {
         return message.channel.send(`You can't ${filename} people higher role than yourself!`);
     };
     let reason = args.slice(1).join(" ");

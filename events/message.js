@@ -53,9 +53,9 @@ module.exports = async (client, message) => {
       message.flags.push(args.shift().slice(1));
     }
     if(message.channel.type == "dm"){
-      client.logger.cmd(`GUILD: ${message.channel.type} | L${level} ${message.author.username} ran ${cmd.help.name} ${args.join(" ")}`);
+      client.logger.cmd(`GUILD: ${message.channel.type} | L${level} ${message.author.username} ran ${cmd.help.name}`);
     }
-    else client.logger.cmd(`GUILD: ${message.guild.name} | L${level} ${message.author.username} ran ${cmd.help.name} ${args.join(" ")}`);
+    else client.logger.cmd(`GUILD: ${message.guild.name} | L${level} ${message.author.username} ran ${cmd.help.name}`);
     try {
       cmd.run(client, message, args, level); 
     } catch (error) {
