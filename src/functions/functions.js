@@ -122,7 +122,7 @@ module.exports = (client) => {
       .setFooter(clientUsername, avatarURL)
       .setTimestamp()
       .setColor("RED")
-      .setTitle(`${client.config.emojis.x} An Error has occurred`)
+      .setTitle(`${client.config.emojis.exclamation} An Error has occurred`)
       .setDescription(`${error.name}: ${error.message}`)
     return embed
   }
@@ -322,7 +322,6 @@ module.exports = (client) => {
     } catch (err) {
       console.log(`Uncaught Exception: ${errorMsg}`);
     }
-    console.error(err);
   });
   process.on("unhandledRejection", async (err) => {
     if (err.message == "Missing Permissions") return // ksfhg SHUT UP ABOUT MISSING PERMISSIONS OR I WILL DROP KICK YOU IN THE BALLS

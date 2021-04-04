@@ -59,8 +59,10 @@ exports.run = async (client, message, args, level) => {
         if(mutedUser.member.id == user[1].user.id) bool = true; else bool = false
         
     }
-    if(bool == false) return message.channel.send(`This user is not muted`)
     message.channel.send(LOGEmbed)
+    if(bool == false) {
+        return user[1].roles.remove(mutedRole)
+    }
     /*
         Insert Muting scripts here
     */

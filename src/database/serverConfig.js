@@ -158,7 +158,7 @@ module.exports = (client) => {
           db.collection(collection).insertOne(items, function (err, res) {
             if (err) resolve(err);
             resolve(true);
-            return client.close()
+            return mongoClient.close()
           });
           
         }

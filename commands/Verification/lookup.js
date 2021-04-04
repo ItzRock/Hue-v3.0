@@ -6,7 +6,7 @@ require("moment-duration-format");
 
 exports.run = async (client, message, args, level) => {
     const settings = message.settings;
-    if(settings["verification"].value !== true) return message.channel.send(`${client.config.emojis.exclamation} This command is only available in servers with ${client.user.username}'s verification system enabled.`)
+    if(settings["verification"].value !== true && message.channel.type !== "dm") return message.channel.send(`${client.config.emojis.exclamation} This command is only available in servers with ${client.user.username}'s verification system enabled.`)
     if(!args[0]) return message.channel.send(`${client.config.emojis.x} Invalid Arguments: \`${client.getArgs(filename)}\``)
     const msg = await message.channel.send(`${client.config.emojis.exclamation} Request Pending.`)
     

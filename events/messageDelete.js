@@ -38,7 +38,7 @@ module.exports = async (client, message) => {
         .setTitle(`Message deleted!`)
         .addFields(
             { name: 'Message author: ', value: `${message.author}`, inline: true  },
-            { name: 'Deleted content: ', value: `${messageContent}`, inline: true  },
+            { name: 'Deleted content: ', value: `${messageContent.substring(0, 999)}`, inline: true  },
             { name: 'Channel: ', value: `${message.channel}`  },
         )
     if (attachmentArray.length) {

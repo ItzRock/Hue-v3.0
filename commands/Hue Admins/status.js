@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
     if(!args[1] | !args[0]) return message.channel.send(`Invalid Arguments: ${client.getArgs(filename)}`)
-    client.activeStatus = `${args.slice(1).join(" ")} | Hue v3.1`
+    client.activeStatus = `${args.slice(1).join(" ")} | Hue v3.2`
             
     client.user.setActivity(client.activeStatus, {type: args[0].toUpperCase()});
 }

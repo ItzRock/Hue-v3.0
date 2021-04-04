@@ -6,7 +6,9 @@ const config = {
         "412729903893708801", // Harry
         "468791748739596298", // fingerPlace
     ],
-
+    "SupportUsers": [
+        
+    ],
     "bootMessage": `
   _    _              ____        ___  
  | |  | |            |___ \\      |__ \\ 
@@ -206,7 +208,12 @@ Made By: ItzRock (299682971374452739): https://discord.com/invite/QwgnZ83XD3
             check: (message) => message.channel.type === "text" ? (message.guild.ownerID === message.author.id ? true : false) : false
         },
         {
-            level: 5,
+            level: 8,
+            name: "Hue Support",
+            check: (message) => config.SupportUsers.includes(message.author.id)
+        },
+        {
+            level: 10,
             name: "Hue Administrator",
             check: (message) => config.AuthorizedUsers.includes(message.author.id)
         }
