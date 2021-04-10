@@ -24,10 +24,18 @@ exports.run = async (client, message, args, level) => {
         msg.edit(`${client.config.emojis.exclamation} Currently ${bucket.length} users are not verified. Working on verifying them.`)
         let index = -1
         const newBucket = []
+        let errored = 0
         const interval = setInterval(async () => {
             index++
-            const data = await checkAPI(bucket[index])
-            newBucket.push({discordID: bucket[index], IDS: data})
+            try {
+                const data = await checkAPI(bucket[index])
+                newBucket.push({discordID: bucket[index], IDS: data})
+            } catch (error) {
+                errored++
+                setTimeout(()=> {}, 1000)
+                msg.edit(`${client.config.emojis.exclamation} Currently ${bucket.length} users are not verified. Working on verifying them. (Errored ${errored})`)
+        
+            }
             if(index == bucket.length) {
                 stage3(newBucket, msg)
                 clearInterval(interval)

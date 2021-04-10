@@ -36,6 +36,9 @@ exports.run = async (client, message, args, level) => {
     if (user[1].roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID) {
         return message.channel.send(`You can't kick people higher role than yourself!`);
     };
+    if (user[1].roles.highest.position >= message.guild.me.roles.highest.position) {
+        return message.channel.send(`I can't ${filename} people with higher permissions.`);
+    };
     let reason = args.slice(1).join(" ");
     const permissionLevel = client.config.permissionLevels.find(l => l.level === level).name;
     const endEXT = `${permissionLevel} ${message.author.tag}`

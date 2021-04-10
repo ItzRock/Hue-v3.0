@@ -8,8 +8,9 @@ exports.run = async (client, message, args, level) => {
     return message.reply("You can't delete more than 100 messages at once!");
   if (amount < 1) return message.reply("You cant delete less than 0");
   amount++;
+  const channel = message.channel;
   await message.channel.messages.fetch({ limit: amount }).then((messages) => {
-    message.channel.bulkDelete(messages);
+    channel.bulkDelete(messages);
     message
       .reply(`Deleted ${amount - 1} messages :thumbsup:`)
       .then((msg) => {
