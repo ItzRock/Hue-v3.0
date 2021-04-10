@@ -10,7 +10,12 @@ exports.run = async (client, message, args, level) => {
   amount++;
   const channel = message.channel;
   await message.channel.messages.fetch({ limit: amount }).then((messages) => {
-    channel.bulkDelete(messages);
+    try {
+      channel.bulkDelete(messages);  
+    } catch (error) {
+      
+    }
+    
     message
       .reply(`Deleted ${amount - 1} messages :thumbsup:`)
       .then((msg) => {
