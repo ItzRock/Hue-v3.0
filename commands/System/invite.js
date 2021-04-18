@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
     message.channel.send(`Check your DMS!`)
-    return message.author.send(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8`)
+    return message.author.send(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=536211191`)
 }
 
 exports.conf = {

@@ -56,7 +56,9 @@ module.exports = (client) => {
 
     return text;
   };
-
+  client.invalidArgs = (cmdName) => {
+    return `${client.config.emojis.x} Invalid Arguments. Usage: \`${client.getArgs(cmdName)}\``
+  }
   client.loadCommand = (commandName) => {
     try {
       client.logger.cmd(`Loading Command: ${commandName}`);
@@ -123,7 +125,7 @@ module.exports = (client) => {
       .setTimestamp()
       .setColor("RED")
       .setTitle(`${client.config.emojis.exclamation} An Error has occurred`)
-      .setDescription(`${error.name}: ${error.message}`)
+      .setDescription(`\`${error.name}: ${error.message}\`\nIf this continues to happen please join our support server by running \`;server\``)
     return embed
   }
   client.isNum = client.isNumeric = (string) => {

@@ -107,6 +107,31 @@ module.exports = (client) => {
     if(toEdit.value.includes(toAdd)) return [false, `Attempted to write: ${toAdd} but that value was already present`]
     if(typeof(toEdit.value) !== "object") return [false, "Did you mean 'client.HueMap.edit'"]
     toEdit.value.push(toAdd)
+    const promise = new Promise((resolve, reject) => {
+      MongoClient.connect(url,{ useUnifiedTopology: true } , async function(err, client) {
+        const db = client.db(dbName);
+        const search_Query  = { GuildID: id.toString() };
+        const DB_values = { $set: {Settings: data} };
+        db.collection(collection).updateOne(search_Query, DB_values, function(err, res) {
+          if (err) resolve([false, `${err.name}: ${err.message}`]);
+          else resolve([true, 'Successfully Updated Item'])
+          return client.close()
+        });
+                
+        });
+      });
+      return await promise;
+  };
+
+  client.HueMap.removeObject = async function (id, configItem, toRemove) {
+    const data = await client.HueMap.read(id)
+    const toEdit = data[configItem]
+    if(typeof(toEdit.value) !== "object") return [false, "Did you mean 'client.HueMap.edit'"]
+    const array = []
+    toEdit.value.forEach(item => {
+      if(item.id == toRemove.id) {} else array.push(item);
+    })
+    toEdit.value = array
             const promise = new Promise((resolve, reject) => {
             MongoClient.connect(url,{ useUnifiedTopology: true } , async function(err, client) {
                 const db = client.db(dbName);
@@ -114,7 +139,7 @@ module.exports = (client) => {
                 const DB_values = { $set: {Settings: data} };
                 db.collection(collection).updateOne(search_Query, DB_values, function(err, res) {
                     if (err) resolve([false, `${err.name}: ${err.message}`]);
-                    else resolve([true, 'Successfully Updated Item'])
+                    resolve([true, 'Successfully Updated Item'])
                     return client.close()
                 });
                 
@@ -122,13 +147,14 @@ module.exports = (client) => {
         });
         return await promise;
   };
+
   client.HueMap.remove = async function (id, configItem, toRemove) {
     const data = await client.HueMap.read(id)
     const toEdit = data[configItem]
     if(typeof(toEdit.value) !== "object") return [false, "Did you mean 'client.HueMap.edit'"]
     const array = []
     toEdit.value.forEach(item => {
-      if(item !== toRemove) array.push(item)
+      if(item != toRemove) array.push(item)
     })
     toEdit.value = array
             const promise = new Promise((resolve, reject) => {

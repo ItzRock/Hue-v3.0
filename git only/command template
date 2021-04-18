@@ -1,7 +1,10 @@
 const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
+    //if(!args[0]) return message.channel.send(client.invalidArgs(filename))
+    try{
 
+    }catch(error){message.channel.send(client.errorEmbed(error))}
 }
 
 exports.conf = {
@@ -9,6 +12,7 @@ exports.conf = {
     guildOnly: true,
     aliases: [],
     permLevel: "User",
+    level: 0,
     disablable: true,
     premium: false
 };

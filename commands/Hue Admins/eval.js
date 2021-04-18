@@ -3,7 +3,10 @@ exports.run = async (client, message, args, level) => {
   try {
     const evaled = eval(code);
     const clean = await client.clean(client, evaled);
-    message.channel.send(`${client.config.emojis.check}\`Success!\`\n\`\`\`js\n${clean.substring(0, 1500)}\n\`\`\``);
+    message.channel.send(`${client.config.emojis.check}\`Success!\``, {files: [{
+      name: `eval.js`,
+      attachment: new Buffer.from(`${clean}`)
+    }]});
   } catch (err) {
     message.channel.send(`${client.config.emojis.x}\`ERROR\` \`\`\`xl\n${(await client.clean(client, err.name + ":" +err.message)).substring(0, 1500)}\n\`\`\``);
   }
