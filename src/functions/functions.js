@@ -170,7 +170,7 @@ module.exports = (client) => {
       .setColor(color)
       .setTimestamp()
       .setDescription(description);
-    return embed;
+    return embed; 
   };
   client.defaultEmbed = function () {
     const defaults = {

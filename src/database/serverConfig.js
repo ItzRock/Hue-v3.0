@@ -123,13 +123,13 @@ module.exports = (client) => {
       return await promise;
   };
 
-  client.HueMap.removeObject = async function (id, configItem, toRemove) {
+  client.HueMap.removeObject = async function (id, configItem, toRemove, objectID) {
     const data = await client.HueMap.read(id)
     const toEdit = data[configItem]
     if(typeof(toEdit.value) !== "object") return [false, "Did you mean 'client.HueMap.edit'"]
     const array = []
     toEdit.value.forEach(item => {
-      if(item.id == toRemove.id) {} else array.push(item);
+      if(item[objectID] !== toRemove[objectID]) { array.push(item); } else { console.log("Debug: Not matching") }
     })
     toEdit.value = array
             const promise = new Promise((resolve, reject) => {
@@ -138,7 +138,7 @@ module.exports = (client) => {
                 const search_Query  = { GuildID: id.toString() };
                 const DB_values = { $set: {Settings: data} };
                 db.collection(collection).updateOne(search_Query, DB_values, function(err, res) {
-                    if (err) resolve([false, `${err.name}: ${err.message}`]);
+                    if (err) { resolve([false, `${err.name}: ${err.message}`]); console.log(err) }
                     resolve([true, 'Successfully Updated Item'])
                     return client.close()
                 });

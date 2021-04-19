@@ -7,22 +7,25 @@ module.exports = (client) => {
             })
             await member.roles.add(mutedRole).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
         },
+        unmuteRecord: async function(message, toSearch){
+
+        },
         unmute: async function(message, member, mutedRole){
             await member.roles.remove(mutedRole).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))    
-            const muted = message.settings.mutedUsers.value
-            muted.forEach(async record => {
-                if(record.id == member.user.id){
-                    record.roles.forEach(async role => {
-                        await member.roles.add(role).catch( error => message.channel.send(`Failed to add role: ${error.message}`) )
+            const settings = await client.getSettings(member.guild);
+            const muted = settings.mutedUsers.value
+            muted.forEach(record => {
+                if(record.id.toString() === member.user.id.toString()){
+                    console.log(`Unmuting ${member.user.tag}. Record found.`)
+                    record.rolesIDS.forEach(async role => {
+                        await member.roles.add(role).catch( error => message.channel.send(`Failed to add role \`${message.guild.roles.cache.get(role).name}\`: ${error.message}`) )
                     })
-                    const data = await client.HueMap.removeObject(message.guild.id, "mutedUsers", record)
-                    client.logger.log(JSON.stringify(data))
-                    
+                    client.HueMap.removeObject(message.guild.id, "mutedUsers", record, "id")
                 }
             })
         },
         ban: async function(message, member){
-            
+
         }
     }
 }

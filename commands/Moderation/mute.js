@@ -1,7 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
-    return message.channel.send(`DISABLE FOR SHORT PERIOD TO REDO!`)
     if(!args[0] || !args[1] || !args[2]) return message.channel.send(client.invalidArgs(filename))
     try{
         const logs = client.getChannel(message.guild, message.settings.logs.value);
@@ -48,14 +47,12 @@ exports.run = async (client, message, args, level) => {
         if(logs !== undefined) logs.send(LOGEmbed)
         message.channel.send(LOGEmbed)    
 
-        // I WANT TO CRY, THIS IS THE ONLY WAY IT WILL WORK FOR SOME DAMN REASON.
-        serverLog().then(()=>serverLog())
-
+        serverLog()
         async function serverLog(){
-            await client.HueMap.add(message.guild.id, "mutedUsers",
+            client.HueMap.add(message.guild.id, "mutedUsers",
             { 
                 id: member.user.id, 
-                roles: member._roles,
+                rolesIDS: member._roles,
             })    
         }
         
