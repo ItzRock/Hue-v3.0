@@ -48,6 +48,11 @@ module.exports = async (client, message) => {
     }
     message.author.permissionLevels = level;
     
+    const emojis = Object.entries(client.config.emojis)
+    emojis.forEach(emoji => {
+      message[emoji[0]] = emoji[1]
+    })
+
     message.flags = [];
     while (args[0] && args[0][0] === "-") {
       message.flags.push(args.shift().slice(1));

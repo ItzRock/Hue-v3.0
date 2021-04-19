@@ -23,7 +23,9 @@ Made By: ItzRock (299682971374452739): https://discord.com/invite/QwgnZ83XD3
     "emojis": {
         check: "<:checkmark:818183944116764703>",
         exclamation: "<:exclamationMark:818183943777943553>",
-        x: "<:x_:818183944192655360>"
+        ["!"]: "<:exclamationMark:818183943777943553>",
+        x: "<:x_:818183944192655360>",
+
     },
 
     "database": ["mongodb://localhost:27017", "Hue"],

@@ -20,7 +20,9 @@ exports.run = async (client, message, args, level) => {
         if (member.user.id === message.author.id)
             return message.channel.send(`${client.config.emojis.x} I don't think you want to ${filename} yourself`)
         if (member.roles.highest.position > message.member.roles.highest.position && message.author.id !== message.guild.ownerID)
-            return message.channel.send(`${client.config.emojis.x} You can't ${filename} people higher role than yourself!`);
+            return message.channel.send(`${client.config.emojis.x} You can't ${filename} people with a higher role than yourself!`);
+        if (member.roles.highest.position > message.guild.me.roles.highest.position)
+            return message.channel.send(`${client.config.emojis.x} I can't ${filename} people with a higher role than myself!`);
 
         let reason = args.slice(2).join(" ");
 
@@ -60,8 +62,11 @@ exports.run = async (client, message, args, level) => {
 
         await client.modFunc.mute(message, member, mutedRole)
         const timeout = setTimeout(()=>{
-            client.modFunc.unmute(message, member, mutedRole)
-            message.channel.send(`\`${member.user.tag}\` Has been automatically unmuted`);
+            const stillMuted = member.roles.cache.has(mutedRole.id)
+            if(stillMuted == true){
+                client.modFunc.unmute(message, member, mutedRole)
+                message.channel.send(`\`${member.user.tag}\` Has been automatically unmuted`);
+            }
             clearTimeout(timeout)
         }, time)
     }catch(error){message.channel.send(client.errorEmbed(error))}
