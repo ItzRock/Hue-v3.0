@@ -3,44 +3,43 @@ const filename = require('path').basename(__filename).split(".")[0]
 exports.run = (client, message, args, level) => {
     // If no specific command is called, show all filtered commands.
     if (!args[0] || args[0] == "expanded" || args[0] == "all") {
-      const myCommands = [];
-      const disabledCommands = message.settings["disabled-commands"].value;
-      client.commands.forEach(cmd => {
-        if(client.levelCache[cmd.conf.permLevel] > level) return
-        if(message.channel.type == "dm" && cmd.conf.guildOnly !== true) return
-        myCommands.push(cmd)
-      });
-      let output = client.defaultEmbed()
-        .setColor(client.embedColour())
-        .setTitle(`Commands List - ${client.user.username}`)
-        .setDescription(`\`[Use ${message.settings.prefix.value}help [commandname] for details]\``)
-        .setThumbnail(client.user.avatarURL())
-        .setTimestamp();
-      if(disabledCommands.length !== 0) output.setDescription(`\`[Use ${message.settings.prefix.value}help [commandname] for details]\`\n\`Note: ${disabledCommands.length} command(s) are disabled in this guild.\``)
-      const catagories = []
-      const catagoryNames = []
-      myCommands.forEach(cmd => {
-        const catagory = cmd.help.category 
-        if(catagoryNames.includes(catagory)) return "Already have that catagory."
-        catagories.push({name: catagory, fields: []})
-        catagoryNames.push(catagory)
-      })
-        // Add the keys to the catagories
-      catagories.forEach(catagory =>{
-        myCommands.forEach(command =>{
-          if(disabledCommands.includes(command.help.name)) return; // disabled in guild
-          if(command.conf.enabled == false) return // disabled command
-          if(command.conf.premium === true && message.settings.premium.value !== true) return; // Not premium server
-          if(command.help.category != catagory.name) return; // incorrect catagory
-          catagory.fields.push(`\`${command.help.name}\`, `)
-        })
-      })
-      catagories.forEach(catagory => {
-        if(catagory.fields.length == 0) return;
-        output.addField(`${catagory.name}`, catagory.fields.join(""), true)
-      })
+        const avaliableCmds = [];
+        const mappedCommands = [];
+        const disabledCmds = message.settings["disabled-commands"].value;
+        client.commands.forEach(cmd => {
+            if (client.levelCache[cmd.conf.permLevel] > level) return;
+            if (message.channel.type == "dm" && cmd.conf.guildOnly !== true) return;
 
-      message.channel.send(output);
+            if (disabledCmds.includes(cmd.help.name)) return; // disabled in guild
+            if (cmd.conf.enabled == false) return; // disabled command
+            if (cmd.conf.premium === true && message.settings.premium.value !== true) return; // Not premium server
+            
+            avaliableCmds.push(cmd)
+        });
+
+        let output = client.defaultEmbed()
+            .setColor(client.embedColour())
+            .setTitle(`Commands List - ${client.user.username}`)
+            .setDescription(`\`[Use ${message.settings.prefix.value}help [commandname] for details]\``)
+            .setThumbnail(client.user.avatarURL())
+            .setTimestamp();
+        if (disabledCmds.length !== 0) output.setDescription(`\`[Use ${message.settings.prefix.value}help [commandname] for details]\`\n\`Note: ${disabledCommands.length} command(s) are disabled in this guild.\``)
+
+        const iteratedCategories = [];
+        avaliableCmds.forEach(cmd => {
+            const cmdCategory = cmd.help.category
+            if (iteratedCategories.includes(cmdCategory)) {
+                if (!mappedCommands[cmdCategory]) mappedCommands[cmdCategory] = {name: cmdCategory, fields: []};
+            } else iteratedCategories.push(cmdCategory); mappedCommands[cmdCategory] = {name: cmdCategory, fields: []};
+            mappedCommands[cmdCategory].fields.push(`\`${command.help.name}\`, `)
+        })
+
+        for (let cmdCategory in mappedCommands) {
+            let mappedArray = mappedCommands[cmdCategory]
+            if (mappedArray.fields.length == 0) return;
+            if (mappedArray.fields[mappedArray.fields.length]) string.replace(mappedArray.fields[mappedArray.fields.length], ",");
+            output.addField(`${mappedArray.name}`, mappedArray.fields.join(""), true)
+        }; message.channel.send(output);
     } else {
       // Show individual command's help.
       let command = args[0];
