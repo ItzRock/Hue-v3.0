@@ -20,7 +20,7 @@ exports.conf = {
     guildOnly: true,
     aliases: [],
     permLevel: "Administrator",
-    level: 10,
+    level: 7,
     disablable: true,
     premium: true
 };
