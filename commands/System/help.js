@@ -30,14 +30,14 @@ exports.run = (client, message, args, level) => {
             const cmdCategory = cmd.help.category
             if (!iteratedCategories.includes(cmdCategory)) {
                 iteratedCategories.push(cmdCategory); mappedCommands[cmdCategory] = {name: cmdCategory, fields: []}
-            }; mappedCommands[cmdCategory].fields.push(`\`${cmd.help.name}\`, `)
+            }; mappedCommands[cmdCategory].fields.push(`\`${cmd.help.name}\``)
         })
 
         for (let cmdCategory in mappedCommands) {
             let mappedArray = mappedCommands[cmdCategory]
             if (mappedArray.fields.length == 0) return;
             if (mappedArray.fields[mappedArray.fields.length]) mappedArray.fields[mappedArray.fields.length].replace(",", "");
-            output.addField(`${mappedArray.name}`, mappedArray.fields.join(""), true)
+            output.addField(`${mappedArray.name}`, mappedArray.fields.join(", "), true)
         }; message.channel.send(output);
     } else {
       // Show individual command's help.
