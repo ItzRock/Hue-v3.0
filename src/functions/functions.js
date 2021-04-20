@@ -1,6 +1,7 @@
 const { Timestamp } = require("bson");
 const { MessageEmbed } = require("discord.js");
-const noblox = require("noblox.js")
+const noblox = require("noblox.js");
+const { resolve } = require("path");
 module.exports = (client) => {
 
   client.permlevel = (message) => {
@@ -155,6 +156,14 @@ module.exports = (client) => {
       return true;
     } else return false;
   };
+  client.aiChat = async function(toSend, message, sessionID){
+    const smartestchatbot = require('smartestchatbot')
+    const bot = new smartestchatbot.Client()
+    const promise = new Promise((resolve, reject) => {
+      bot.chat({message: toSend , name: client.user.username, owner:"Anthony", user: sessionID, language:"en"}).then(reply => resolve(reply))
+    })
+    return await promise
+  }
   client.embedGen = function (
     title,
     description,

@@ -24,8 +24,8 @@ module.exports = (client) => {
                 }
             })
         },
-        ban: async function(message, member){
-
+        ban: async function(message, member, reason){
+            return await member.ban({reason : reason})
         }
     }
 }

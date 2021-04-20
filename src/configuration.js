@@ -21,10 +21,10 @@ Made By: ItzRock (299682971374452739): https://discord.com/invite/QwgnZ83XD3
     `,
 
     "emojis": {
-        check: "<:checkmark:818183944116764703>",
-        exclamation: "<:exclamationMark:818183943777943553>",
-        ["!"]: "<:exclamationMark:818183943777943553>",
-        x: "<:x_:818183944192655360>",
+        check: "<:checkmark:833771519813484614>",
+        exclamation: "<:Exclamation:833788633918996490>",
+        ["!"]: "<:Exclamation:833788633918996490>",
+        x: "<:X:833788610523824179>",
 
     },
 

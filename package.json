@@ -8,6 +8,7 @@
     "body-parser": "^1.19.0",
     "chalk": "^4.1.0",
     "cleverbot-free": "^1.0.5",
+    "derieri": "^0.0.4",
     "discord.js": "^12.5.1",
     "express": "^4.17.1",
     "moment": "^2.29.1",
@@ -17,6 +18,7 @@
     "noblox.js": "^4.8.4",
     "node-pre-gyp": "^0.17.0",
     "nodemon": "^2.0.7",
+    "smartestchatbot": "^1.0.5",
     "title-case": "^3.0.3"
   },
   "scripts": {
