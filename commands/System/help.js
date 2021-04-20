@@ -51,10 +51,11 @@ exports.run = (client, message, args, level) => {
                 { name: 'Command name', value: `\`${command.help.name}\u200b\``, inline:true },
                 { name: 'Description', value: `\`${command.help.description}\u200b\``, inline:true },
                 { name: 'Permission Level', value: `\`${command.conf.permLevel}\u200b\``, inline:true },
-                { name: 'Usage', value: `\`${command.help.usage}\u200b\`` , inline:true},
-                { name: 'Type', value: `\`${command.help.category}\u200b\`` , inline:true},
-                { name: 'Premium Only Command?', value: `\`${command.conf.premium}\u200b\`` , inline:true},
-                { name: 'Can Be Disabled?', value: `\`${command.conf.disablable}\u200b\`` , inline:true},
+                { name: 'Usage', value: `\`${command.help.usage}\u200b\``, inline:true},
+                { name: 'Aliases', value: `\`${command.conf.aliases.join(", ")}\u200b\``, inline:true},
+                { name: 'Type', value: `\`${command.help.category}\u200b\``, inline:true},
+                { name: 'Premium Only Command?', value: `\`${command.conf.premium}\u200b\``, inline:true},
+                { name: 'Can Be Disabled?', value: `\`${command.conf.disablable}\u200b\``, inline:true},
             )
             .setTimestamp()
             .setFooter(`[optional] <required>\nCommand info for: "${command.help.name}" updated at`, client.user.avatarURL());
