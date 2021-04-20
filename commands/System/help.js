@@ -28,16 +28,15 @@ exports.run = (client, message, args, level) => {
         const iteratedCategories = [];
         avaliableCmds.forEach(cmd => {
             const cmdCategory = cmd.help.category
-            if (iteratedCategories.includes(cmdCategory)) {
-                if (!mappedCommands[cmdCategory]) mappedCommands[cmdCategory] = {name: cmdCategory, fields: []};
-            } else iteratedCategories.push(cmdCategory); mappedCommands[cmdCategory] = {name: cmdCategory, fields: []};
-            mappedCommands[cmdCategory].fields.push(`\`${cmd.help.name}\`, `)
+            if (!iteratedCategories.includes(cmdCategory)) {
+                iteratedCategories.push(cmdCategory); mappedCommands[cmdCategory] = {name: cmdCategory, fields: []}
+            }; mappedCommands[cmdCategory].fields.push(`\`${cmd.help.name}\`, `)
         })
 
         for (let cmdCategory in mappedCommands) {
             let mappedArray = mappedCommands[cmdCategory]
             if (mappedArray.fields.length == 0) return;
-            if (mappedArray.fields[mappedArray.fields.length]) string.replace(mappedArray.fields[mappedArray.fields.length], ",");
+            if (mappedArray.fields[mappedArray.fields.length]) mappedArray.fields[mappedArray.fields.length].replace(",", "");
             output.addField(`${mappedArray.name}`, mappedArray.fields.join(""), true)
         }; message.channel.send(output);
     } else {
