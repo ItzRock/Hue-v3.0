@@ -42,8 +42,8 @@ exports.run = (client, message, args, level) => {
     } else {
       // Show individual command's help.
       let command = args[0];
-      if (client.commands.has(command) || client.commands.has(client.aliases.has(args[0]))) {
-        command = client.commands.get(command) || client.commands.get(client.aliases.get(args[0]));
+      if (client.commands.has(command) || client.aliases.has(command)) {
+        command = client.commands.get(command) || client.commands.get(client.aliases.get(command));
         let output = client.defaultEmbed()
             .setColor(client.embedColour())
             .setTitle(command.help.name)
