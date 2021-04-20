@@ -31,7 +31,7 @@ exports.run = (client, message, args, level) => {
             if (iteratedCategories.includes(cmdCategory)) {
                 if (!mappedCommands[cmdCategory]) mappedCommands[cmdCategory] = {name: cmdCategory, fields: []};
             } else iteratedCategories.push(cmdCategory); mappedCommands[cmdCategory] = {name: cmdCategory, fields: []};
-            mappedCommands[cmdCategory].fields.push(`\`${command.help.name}\`, `)
+            mappedCommands[cmdCategory].fields.push(`\`${cmd.help.name}\`, `)
         })
 
         for (let cmdCategory in mappedCommands) {
