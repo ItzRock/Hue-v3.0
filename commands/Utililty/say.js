@@ -30,3 +30,4 @@ exports.help = {
     description: "Make hue say whatever you want. Premium servers only for administrators to prevent dumbasses.",
     usage: `${filename} [channel] <text>`
 };
+ 
