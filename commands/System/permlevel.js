@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
     const friendly = client.config.permissionLevels.find(l => l.level === level).name;
-    message.reply(`Your permission level is: ${level} - ${friendly}`);
+    message.reply(`Your guild permission level is: ${level} - ${friendly}`);
   };
   
   exports.conf = {

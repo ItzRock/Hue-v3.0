@@ -16,7 +16,7 @@ exports.run = (client, message, args, level) => {
         .setDescription(`\`[Use ${message.settings.prefix.value}help [commandname] for details]\``)
         .setThumbnail(client.user.avatarURL())
         .setTimestamp();
-      if(disabledCommands.length !== 0) output.setDescription(`\`[Use ${message.settings.prefix.value}help [commandname] for details]\`\n\`Note: ${disabledCommands.length} Commands are disabled in this guild.\``)
+      if(disabledCommands.length !== 0) output.setDescription(`\`[Use ${message.settings.prefix.value}help [commandname] for details]\`\n\`Note: ${disabledCommands.length} command(s) are disabled in this guild.\``)
       const catagories = []
       const catagoryNames = []
       myCommands.forEach(cmd => {
