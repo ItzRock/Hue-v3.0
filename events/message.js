@@ -64,7 +64,7 @@ module.exports = async (client, message) => {
     try {
       cmd.run(client, message, args, level); 
     } catch (error) {
-      message.channel.send(`An error has occured in the command! ${error.name}: ${error.message}. PLEASE REPORT THIS!`)
+      message.channel.send(client.errorEmbed(error))
       client.logger.log(`COMMAND ERROR => ${error.name}: ${error.message}`)
     }
     return
