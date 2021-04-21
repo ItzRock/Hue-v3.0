@@ -9,8 +9,8 @@ exports.run = (client, message, args, level) => {
             if (client.levelCache[cmd.conf.permLevel] > level) return;
             if (message.channel.type == "dm" && cmd.conf.guildOnly !== true) return;
 
-            if (disabledCmds.includes(cmd.help.name)) return; // disabled in guild
-            if (cmd.conf.enabled == false) return; // disabled command
+            if (disabledCmds.includes(cmd.help.name)) return; // Disabled in guild
+            if (cmd.conf.enabled == false) return; // Disabled command
             if (cmd.conf.premium === true && message.settings.premium.value !== true) return; // Not premium server
             
             avaliableCmds.push(cmd)
@@ -51,7 +51,7 @@ exports.run = (client, message, args, level) => {
                 { name: 'Description', value: `\`${command.help.description}\u200b\``, inline:true },
                 { name: 'Permission Level', value: `\`${command.conf.permLevel}\u200b\``, inline:true },
                 { name: 'Usage', value: `\`${command.help.usage}\u200b\``, inline:true},
-                { name: 'Aliases', value: `\`${command.conf.aliases.join(", ")}\u200b\``, inline:true},
+                { name: 'Aliases', value: `\`${command.conf.aliases.join("\`, \`")}\u200b\``, inline:true},
                 { name: 'Type', value: `\`${command.help.category}\u200b\``, inline:true},
                 { name: 'Premium Only Command?', value: `\`${command.conf.premium}\u200b\``, inline:true},
                 { name: 'Can Be Disabled?', value: `\`${command.conf.disablable}\u200b\``, inline:true},
