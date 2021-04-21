@@ -47,9 +47,9 @@ exports.run = (client, message, args, level) => {
             .setTitle(command.help.name)
             .addFields(
                 { name: 'Command name', value: `\`${command.help.name}\u200b\``, inline:true },
-                { name: 'Description', value: `\`${command.help.description}\u200b\``, inline:true },
+                { name: 'Description', value: (command.help.description.length !== 0) ? `\`${command.help.description}\u200b\`` : `\`We got lazy and forgot to provide a description.\``, inline:true },
                 { name: 'Permission Level', value: `\`${command.conf.permLevel}\u200b\``, inline:true },
-                { name: 'Usage', value: `\`${command.help.usage}\u200b\``, inline:true},
+                { name: 'Usage', value: (command.help.usage.length !== 0) ? `\`${command.help.usage}\u200b\`` : "\`Figure it out(?)\`", inline:true},
                 { name: 'Aliases', value: (command.conf.aliases.length !== 0) ? `\`${command.conf.aliases.join("\`, \`")}\u200b\`` : `\`None\``, inline:true},
                 { name: 'Type', value: `\`${command.help.category}\u200b\``, inline:true},
                 { name: 'Premium Only Command?', value: `\`${command.conf.premium}\u200b\``, inline:true},
