@@ -19,10 +19,9 @@ exports.run = (client, message, args, level) => {
         let output = client.defaultEmbed()
             .setColor(client.embedColour())
             .setTitle(`Commands List - ${client.user.username}`)
-            .setDescription(`\`[Use ${message.settings.prefix.value}help [commandname] for details]\``)
+            .setDescription((disabledCmds.length === 0) ? `\`[Use ${message.settings.prefix.value}help [commandname] for details]\`` : `\`[Use ${message.settings.prefix.value}help [commandname] for details]\`\n\`Note: ${disabledCmds.length} command(s) are disabled in this guild.\``)
             .setThumbnail(client.user.avatarURL())
             .setTimestamp();
-        if (disabledCmds.length !== 0) output.setDescription(`\`[Use ${message.settings.prefix.value}help [commandname] for details]\`\n\`Note: ${disabledCommands.length} command(s) are disabled in this guild.\``)
 
         const iteratedCategories = [];
         avaliableCmds.forEach(cmd => {
