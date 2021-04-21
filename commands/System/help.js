@@ -1,4 +1,3 @@
-const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = (client, message, args, level) => {
     // If no specific command is called, show all filtered commands.
