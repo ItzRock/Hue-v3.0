@@ -73,7 +73,7 @@ exports.conf = {
 };
 exports.help = {
     name: filename,
-    category: path.basename(path.dirname(filename)),
+    category: path.dirname(filename).split(path.sep).pop(),
     description: "helps you with getting help",
     usage: `${filename} [command]`
 };
