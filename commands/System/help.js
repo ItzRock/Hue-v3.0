@@ -1,4 +1,5 @@
-const filename = require('path').basename(__filename).split(".")[0]
+const path = require('path');
+const filename = path.basename(__filename).split(".")[0]
 exports.run = (client, message, args, level) => {
     // If no specific command is called, show all filtered commands.
     if (!args[0] || args[0] == "expanded" || args[0] == "all") {
@@ -72,7 +73,7 @@ exports.conf = {
 };
 exports.help = {
     name: filename,
-    category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
+    category: path.basename(path.dirname(filename)),
     description: "helps you with getting help",
     usage: `${filename} [command]`
 };
