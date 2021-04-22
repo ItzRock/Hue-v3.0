@@ -1,16 +1,15 @@
-const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
-    if(!args[0] || !args[1] || !args[2]) return message.channel.send(client.invalidArgs(filename))
-    try{
+    if (!args[0] || !args[1] || !args[2]) return message.channel.send(client.invalidArgs(filename))
+    try {
         const logs = client.getChannel(message.guild, message.settings.logs.value);
         const mutedRole = client.getRole(message.guild, message.settings.mutedrole.value)
-        try{client.timeParser(args[1])} catch(error){ return message.channel.send(`${client.config.emojis.exclamation} Error! \`${error.message}\``) }
+        try {client.timeParser(args[1])} catch(error) { return message.channel.send(`${client.config.emojis.exclamation} Error! \`${error.message}\``) }
         const time = client.timeParser(args[1])
-        if(mutedRole == undefined) return message.channel.send(`${client.config.emojis.x} Error: cannot find muted role. Please fix this in the config`)
+        if (mutedRole == undefined) return message.channel.send(`${client.config.emojis.x} Error: cannot find muted role. Please fix this in the config`)
         
         const userSearch = client.findUser(message, args[0])
-        if(userSearch[0] == false) return message.channel.send(`${userSearch[1]}`)
+        if (userSearch[0] == false) return message.channel.send(`${userSearch[1]}`)
 
         const member = userSearch[1]
         const responseStates = {Return: "return", Pass: "pass"}
@@ -30,7 +29,7 @@ exports.run = async (client, message, args, level) => {
         const muted = message.settings.mutedUsers.value
         let MutedRole = member.roles.cache.has(mutedRole.id)
         
-        if(MutedRole == true) return message.channel.send(`${client.config.emojis.exclamation} This user is already ${filename}d.`)
+        if (MutedRole == true) return message.channel.send(`${client.config.emojis.exclamation} This user is already ${filename}d.`)
         muted.forEach(async record => {
             if(record.id == member.user.id){
                 client.HueMap.removeObject(message.guild.id, "mutedUsers", record)
@@ -39,7 +38,7 @@ exports.run = async (client, message, args, level) => {
 
         const permissionLevel = client.config.permissionLevels.find(l => l.level === level).name;
         const endEXT = `${permissionLevel} ${message.author.tag}`
-        if(!reason) reason = `No Reason Provided`
+        if (!reason) reason = `No Reason Provided`
         const LOGEmbed = client.defaultEmbed()
             .setAuthor(`${client.user.username} Moderation Action`, client.user.avatarURL())
             .setFooter(`${client.user.username}`, client.user.avatarURL())
@@ -47,7 +46,7 @@ exports.run = async (client, message, args, level) => {
             .setColor(client.embedColour())
             .setThumbnail(member.user.avatarURL())
             .setDescription(`Reason: \`${reason}\`\nAdministrator: \`${endEXT}\``);
-        if(logs !== undefined) logs.send(LOGEmbed)
+        if (logs !== undefined) logs.send(LOGEmbed)
         message.channel.send(LOGEmbed)    
 
         serverLog()
@@ -59,16 +58,16 @@ exports.run = async (client, message, args, level) => {
             })    
         }
 
-        await client.modFunc.mute(message, member, mutedRole)
+        await client.modFunc.mute(message, member, mutedRole, `Reason: \`${reason}\`\nAdministrator: \`${endEXT}\``)
         const timeout = setTimeout(()=>{
             const stillMuted = member.roles.cache.has(mutedRole.id)
             if(stillMuted == true){
-                client.modFunc.unmute(message, member, mutedRole)
+                client.modFunc.unmute(message, member, mutedRole, `Automatically unmuted by Administrator: \`${endEXT}\``)
                 message.channel.send(`\`${member.user.tag}\` Has been automatically unmuted`);
             }
             clearTimeout(timeout)
         }, time)
-    }catch(error){message.channel.send(client.errorEmbed(error))}
+    } catch(error) {message.channel.send(client.errorEmbed(error))}
 }
 
 exports.conf = {
