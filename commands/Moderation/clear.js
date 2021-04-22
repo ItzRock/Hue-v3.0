@@ -9,7 +9,7 @@ exports.run = async (client, message, args, level) => {
     if(isNaN(amount)) return message.channel.send(`${client.config.emojis.x} Please provide a number.`)
     amount = parseInt(amount);
     if(amount > clearLimit) return message.channel.send(`${client.config.emojis.x} You cannot clear more than ${clearLimit} messages.`)
-    if (amount < 1) return message.reply(`${client.config.emojis.x} You cant delete less than 0`);
+    if (amount < 1) return message.reply(`${client.config.emojis.x} You cant delete less than 1 message`);
     amount++; // this is because it will catch one less than expected.
     async function clear(clrAmount){
       await message.channel.messages.fetch({limit: clrAmount}).then(async (messages) =>{
