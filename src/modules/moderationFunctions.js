@@ -1,16 +1,16 @@
 module.exports = (client) => {
     client.modFunc = {
-        mute: async function(message, member, mutedRole){
+        mute: async function(message, member, mutedRole, reason = "Automatic mute (Bot/Integration)"){
             member.roles.cache.forEach(async role => {
                 if(role.name == "@everyone") return
                 await member.roles.remove(role).catch()
             })
 
-            await member.voice.setMute(true, "Automatic mute (Bot/Integration)").catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
+            await member.voice.setMute(true, reason).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
             await member.roles.add(mutedRole).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
         },
-        unmute: async function(message, member, mutedRole){
-            await member.voice.setMute(false, "Automatic unmute (Bot/Integration)").catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
+        unmute: async function(message, member, mutedRole, reason = "Automatic unmute (Bot/Integration)"){
+            await member.voice.setMute(false, reason).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
             await member.roles.remove(mutedRole).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))    
             
             const settings = await client.getSettings(member.guild);
@@ -25,7 +25,7 @@ module.exports = (client) => {
                 }
             })
         },
-        ban: async function(message, member, reason){
+        ban: async function(message, member, reason = "Automatic ban (Bot/Integration)"){
             return await member.ban({reason : reason})
         }
     }
