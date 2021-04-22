@@ -5,13 +5,14 @@ module.exports = (client) => {
                 if(role.name == "@everyone") return
                 await member.roles.remove(role).catch()
             })
+
+            await member.voice.setMute(true, "Automatic mute (Bot/Integration)").catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
             await member.roles.add(mutedRole).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
         },
-        unmuteRecord: async function(message, toSearch){
-
-        },
         unmute: async function(message, member, mutedRole){
+            await member.voice.setMute(false, "Automatic unmute (Bot/Integration)").catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
             await member.roles.remove(mutedRole).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))    
+            
             const settings = await client.getSettings(member.guild);
             const muted = settings.mutedUsers.value
             muted.forEach(record => {
