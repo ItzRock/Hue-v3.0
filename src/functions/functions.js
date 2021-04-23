@@ -345,7 +345,15 @@ module.exports = (client) => {
         var matchedChannelId = channelPath.match(/\d+/im)
         matchedChannelId = (Array.isArray(matchedChannelId) ? matchedChannelId[0] : client.config.errorChannel)
         try {
-            client.channels.cache.get(matchedChannelId).send(client.errorEmbed({name: "MissingPermissions", message: clean}))
+            const missingPermsChannel = client.channels.cache.get(matchedChannelId)
+            if (!missingPermsChannel || missingPermsChannel === undefined || missingPermsChannel === null) throw new Error(`Failed to fetch channel by id: ${matchedChannelId || "Unable to fetch id"}`);
+            const settings = await client.getSettings(missingPermsChannel.guild);
+           
+            if (settings.logs.value === undefined) return // No logs channel
+            const guildLogsChannel = client.getChannel(missingPermsChannel.guild, settings.logs.value);
+            if (!guildLogsChannel || guildLogsChannel === undefined || guildLogsChannel === null) return; // Logs channel not set up correctly
+            
+            guildLogsChannel.send(client.errorEmbed({name: "MissingPermissions", message: clean}))
         } catch (newErr) {
             client.channels.cache.get(client.config.errorChannel).send(`\`\`\`js\n${clean.substring(0, 1500)}\n\`\`\``)
             const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
