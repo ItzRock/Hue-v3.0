@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
-    if (!args[0]) return message.channel.send(client.invalidArgs(filename))
+    if (!args[0]) return message.channel.send(client.invalidArgs(filename));
     try {
         const logs = client.getChannel(message.guild, message.settings.logs.value);
         const mutedRole = client.getRole(message.guild, message.settings.mutedrole.value)
