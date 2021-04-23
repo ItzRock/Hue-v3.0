@@ -339,7 +339,7 @@ module.exports = (client) => {
 
     if (missingPermissionsRegex.test(clean.substring(0, 1500))) {
         const channelPathRegex = /(^\s+path:\s)(\'\/channels\/[\d]+\/[^\n]*)/im
-        var channelPath = channelPathRegex.match(clean.substring(0, 1500))
+        var channelPath = clean.substring(0, 1500).match(channelPathRegex)
         if (!channelPath || channelPath === null) return; else channelPath = (typeof(channelPath[0]) == "string" ? channelPath : channelPath.toString());
         
         var matchedChannelId = channelPath.match(/\d+/im)
