@@ -360,21 +360,24 @@ module.exports = (client) => {
                     .first();
             }
 
+            const cleanStackRegex = /(\s+at[^{]*)/im;
+            let noStackCleanedErr = clean.replace(cleanStackRegex, "")
+
             const guildLogsChannel = client.getChannel(missingPermsChannel.guild, settings.logs.value);
             if (settings.logs.value === undefined) {
                 const firstSendableChannel = getSendableChannel(missingPermsChannel.guild);
                 if (firstSendableChannel && firstSendableChannel !== undefined && firstSendableChannel !== null) {
                     firstSendableChannel.send(`<@${missingPermsChannel.guild.ownerID}> MissingPermissions to send messages to channel: ${missingPermsChannel}`)
-                    firstSendableChannel.send(client.errorEmbed({name: "MissingPermissions", message: clean}))
+                    firstSendableChannel.send(client.errorEmbed({name: "MissingPermissions", message: noStackCleanedErr}))
                 } else return; // Bot can't send messages in any channel it can see
             } else if (guildLogsChannel && guildLogsChannel !== undefined && guildLogsChannel !== null) { // Send to logs channel
                 guildLogsChannel.send(`<@${missingPermsChannel.guild.ownerID}> MissingPermissions to send messages to channel: ${missingPermsChannel}`)
-                guildLogsChannel.send(client.errorEmbed({name: "MissingPermissions", message: clean}))
+                guildLogsChannel.send(client.errorEmbed({name: "MissingPermissions", message: noStackCleanedErr}))
             } else { // Logs channel exists but isn't configured properly
                 const firstSendableChannel = getSendableChannel(missingPermsChannel.guild);
                 if (firstSendableChannel && firstSendableChannel !== undefined && firstSendableChannel !== null) {
                     firstSendableChannel.send(`<@${missingPermsChannel.guild.ownerID}> MissingPermissions to send messages to channel: ${missingPermsChannel}`)
-                    firstSendableChannel.send(client.errorEmbed({name: "MissingPermissions", message: clean}))
+                    firstSendableChannel.send(client.errorEmbed({name: "MissingPermissions", message: noStackCleanedErr}))
                 } else return; // Bot can't send messages in any channel it can see
             }
         } catch (newErr) {
