@@ -347,13 +347,26 @@ module.exports = (client) => {
         try {
             const missingPermsChannel = client.channels.cache.get(matchedChannelId)
             if (!missingPermsChannel || missingPermsChannel === undefined || missingPermsChannel === null) throw new Error(`Failed to fetch channel by id: ${matchedChannelId || "Unable to fetch id"}`);
-            const settings = await client.getSettings(missingPermsChannel.guild);
-           
-            if (settings.logs.value === undefined) return // No logs channel
+            const settings = await client.getSettings(missingPermsChannel.guild);   
+
+            function getSendableChannel(guild = missingPermsChannel.guild) {
+                return guild.channels
+                    .filter(channel => c.type === "text" && channel.permissionsFor(client.user).has("SEND_MESSAGES"))
+                    .sort((a, b) => a.position - b.position || Long.fromString(a.id).sub(Long.fromString(b.id)).toNumber())
+                    .first();
+            }
+
             const guildLogsChannel = client.getChannel(missingPermsChannel.guild, settings.logs.value);
-            if (!guildLogsChannel || guildLogsChannel === undefined || guildLogsChannel === null) return; // Logs channel not set up correctly
-            
-            guildLogsChannel.send(client.errorEmbed({name: "MissingPermissions", message: clean}))
+            if (settings.logs.value === undefined) {
+                const firstSendableChannel = getSendableChannel(missingPermsChannel.guild);
+                if (firstSendableChannel && firstSendableChannel !== undefined && firstSendableChannel !== null) {
+                    firstSendableChannel.send(`<@${missingPermsChannel.guild.ownerID}> MissingPermissions to send messages to channel: ${missingPermsChannel}`)
+                    firstSendableChannel.send(client.errorEmbed({name: "MissingPermissions", message: clean}))
+                } else return; // Bot can't send messages in any channel it can see
+            } else if (!guildLogsChannel || guildLogsChannel === undefined || guildLogsChannel === null) {
+                guildLogsChannel.send(`<@${missingPermsChannel.guild.ownerID}> MissingPermissions to send messages to channel: ${missingPermsChannel}`)
+                guildLogsChannel.send(client.errorEmbed({name: "MissingPermissions", message: clean}))
+            }
         } catch (newErr) {
             client.channels.cache.get(client.config.errorChannel).send(`\`\`\`js\n${clean.substring(0, 1500)}\n\`\`\``)
             const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
