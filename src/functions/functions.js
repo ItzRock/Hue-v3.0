@@ -1,4 +1,3 @@
-const { Timestamp } = require("bson");
 const { MessageEmbed } = require("discord.js");
 const noblox = require("noblox.js");
 const { resolve } = require("path");
@@ -335,9 +334,31 @@ module.exports = (client) => {
     }
   });
   process.on("unhandledRejection", async (err) => {
+    const missingPermissionsRegex = /(DiscordAPIError:\sMissing\sPermissions$\n)/im;
     const clean = await client.clean(client, err);
-    client.channels.cache.get(client.config.errorChannel).send(`\`\`\`js\n${clean.substring(0, 1500)}\n\`\`\``)
-    const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
-    client.logger.error(`Unhandled Rejection: ${errorMsg}`);
+
+    if (missingPermissionsRegex.test(clean.substring(0, 1500))) {
+        const channelPathRegex = /(^\s+path:\s)(\'\/channels\/[\d]+\/[^\n]*)/im
+        var channelPath = channelPathRegex.match(clean.substring(0, 1500))
+        if (!channelPath || channelPath === null) return; else channelPath = (typeof(channelPath[0]) == "string" ? channelPath : channelPath.toString());
+        
+        var matchedChannelId = channelPath.match(/\d+/im)
+        matchedChannelId = (Array.isArray(matchedChannelId) ? matchedChannelId[0] : client.config.errorChannel)
+        try {
+            client.channels.cache.get(matchedChannelId).send(client.errorEmbed({name: "MissingPermissions", message: clean}))
+        } catch (newErr) {
+            client.channels.cache.get(client.config.errorChannel).send(`\`\`\`js\n${clean.substring(0, 1500)}\n\`\`\``)
+            const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
+            client.logger.error(`Unhandled Rejection: ${errorMsg}`);
+
+            const newErrorCleaned = await client.clean(client, newErr)
+            client.channels.cache.get(client.config.errorChannel).send(`Another exception caught while trying to process the previous rejection: \`\`\`js\n${newErrorCleaned.substring(0, 1500)}\n\`\`\``)
+            client.logger.error(`Another exception caught while trying to process the previous rejection: ${newErr}`);
+        }
+    } else {
+        client.channels.cache.get(client.config.errorChannel).send(`\`\`\`js\n${clean.substring(0, 1500)}\n\`\`\``)
+        const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
+        client.logger.error(`Unhandled Rejection: ${errorMsg}`);
+    }
   });
 };
