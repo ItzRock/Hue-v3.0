@@ -62,7 +62,10 @@ module.exports = async (client, message) => {
     }
     else client.logger.cmd(`GUILD: ${message.guild.name} | L${level} ${message.author.username} ran ${cmd.help.name}`);
     try {
-      cmd.run(client, message, args, level); 
+      cmd.run(client, message, args, level).catch( error => {
+        message.channel.send(client.errorEmbed(error))
+        client.logger.log(`COMMAND ERROR => ${error.name}: ${error.message}`)
+      })
     } catch (error) {
       message.channel.send(client.errorEmbed(error))
       client.logger.log(`COMMAND ERROR => ${error.name}: ${error.message}`)
