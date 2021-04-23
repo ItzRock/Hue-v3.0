@@ -350,8 +350,8 @@ module.exports = (client) => {
             const settings = await client.getSettings(missingPermsChannel.guild);   
 
             function getSendableChannel(guild = missingPermsChannel.guild) {
-                if (guild.channels.has(guild.id)) return guild.channels.get(guild.id);
-                const generalChannel = guild.channels.find(channel => channel.name === "general");
+                if (guild.channels.cache.has(guild.id)) return guild.channels.get(guild.id);
+                const generalChannel = guild.channels.cache.find(channel => channel.name === "general");
                 if (generalChannel) return generalChannel;
                 
                 return guild.channels
