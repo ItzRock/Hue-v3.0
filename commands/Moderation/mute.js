@@ -25,13 +25,12 @@ exports.run = async (client, message, args, level) => {
         }
 
         let reason = args.slice(2).join(" ");
-
-        const muted = message.settings.mutedUsers.value
+        const mutedUsers = message.settings.mutedUsers.value
         let MutedRole = member.roles.cache.has(mutedRole.id)
         
         if (MutedRole == true) return message.channel.send(`${client.config.emojis.exclamation} This user is already ${filename}d.`)
-        muted.forEach(async record => {
-            if(record.id == member.user.id){
+        mutedUsers.forEach(async record => {
+            if (record.id == member.user.id){
                 client.HueMap.removeObject(message.guild.id, "mutedUsers", record)
             }
         })
@@ -61,7 +60,7 @@ exports.run = async (client, message, args, level) => {
         await client.modFunc.mute(message, member, mutedRole, `Reason: \`${reason}\`\nAdministrator: \`${endEXT}\``)
         const timeout = setTimeout(()=>{
             const stillMuted = member.roles.cache.has(mutedRole.id)
-            if(stillMuted == true){
+            if (stillMuted == true){
                 client.modFunc.unmute(message, member, mutedRole, `Automatically unmuted by Administrator: \`${endEXT}\``)
                 message.channel.send(`\`${member.user.tag}\` Has been automatically unmuted`);
             }
