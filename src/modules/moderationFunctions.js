@@ -6,11 +6,11 @@ module.exports = (client) => {
                 await member.roles.remove(role).catch()
             })
 
-            await member.voice.setMute(true, reason).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
-            await member.roles.add(mutedRole).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
+            if (member.voice.channel) {
+                await member.voice.kick(reason).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
+            }; await member.roles.add(mutedRole).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
         },
         unmute: async function(message, member, mutedRole, reason = "Automatic unmute (Bot/Integration)"){
-            await member.voice.setMute(false, reason).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
             await member.roles.remove(mutedRole).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))    
             
             const settings = await client.getSettings(member.guild);
