@@ -354,7 +354,7 @@ module.exports = (client) => {
                 const generalChannel = guild.channels.cache.find(channel => channel.name === "general");
                 if (generalChannel) return generalChannel;
                 
-                return guild.channels
+                return guild.channels.cache
                     .filter(channel => c.type === "text" && channel.permissionsFor(client.user).has("SEND_MESSAGES"))
                     .sort((a, b) => a.position - b.position || Long.fromString(a.id).sub(Long.fromString(b.id)).toNumber())
                     .first();
