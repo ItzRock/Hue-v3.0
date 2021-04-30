@@ -355,7 +355,7 @@ module.exports = (client) => {
                 if (generalChannel) return generalChannel;
                 
                 return guild.channels.cache
-                    .filter(channel => c.type === "text" && channel.permissionsFor(client.user).has("SEND_MESSAGES"))
+                    .filter(channel => channel.type === "text" && channel.permissionsFor(client.user).has("SEND_MESSAGES"))
                     .sort((a, b) => a.position - b.position || Long.fromString(a.id).sub(Long.fromString(b.id)).toNumber())
                     .first();
             }
