@@ -7,8 +7,9 @@ exports.run = async (client, message, args, level) => {
 
     const hueUsed = formatBytes(process.memoryUsage().heapUsed)
     const total = formatBytes(os.totalmem())
+    const freemem = formatBytes(os.freemem())
     const usage = formatBytes(os.totalmem() - os.freemem())
-    const percentage = Math.round(((os.totalmem() - os.freemem()) / os.totalmem()) * 100)
+    const percentage = Math.floor(((os.totalmem() - os.freemem()) / os.totalmem()) * 100)
 
     const embed = client.defaultEmbed()
         .setTitle("Hue Memory Stats")

@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "chalk": "^4.1.0",
     "cleverbot-free": "^1.0.5",
