@@ -12,13 +12,13 @@ module.exports = async (client, member) => {
                 In order to gain access to the rest of the channels please follow these steps.\n
                 **Step 1:** Read the rules,
                 **Step 2:** Join our group linked [here,](https://www.roblox.com/groups/${settings.groupID.value})
-                **Step 3:** Run \`${settings.prefix.value}verify\`.
+                **Step 3:** Run \`${settings.prefix.value}verify\`
                 **Step 4:** boom you're in
                 `
                 else desciption = `
                 In order to gain access to the rest of the channels please follow these steps.\n
                 **Step 1:** Read the rules,
-                **Step 2:** Run \`${settings.prefix.value}verify\`.
+                **Step 2:** Run \`${settings.prefix.value}verify\`
                 **Step 3:** boom you're in
                 `
                 const embed = new MessageEmbed()

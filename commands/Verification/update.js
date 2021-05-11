@@ -22,9 +22,9 @@ exports.run = async (client, message, args, level) => {
         const DBData = await client.database.verify.read(member.user.id)
         if(DBData[0] == false) return message.channel.send(`${client.config.emojis.exclamation}${DBData[1]}`)
         const dbInfo = DBData[1];
-        member.roles.cache.forEach(role => {
+        member.roles.cache.forEach(async role => {
             if(role.name !== "@everyone"){
-                try{ member.roles.remove(role); } catch(err) {}
+                try{ await member.roles.remove(role); } catch(err) {}
             }
         })
         member.roles.add(verifiedRole)

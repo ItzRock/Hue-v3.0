@@ -6,6 +6,9 @@ module.exports = async (client, oldMessage, newMessage) => {
     if (newMessage.author.bot || oldMessage.author.bot) return
     oldMessage.channel.messages.fetch({ limit: 1 }).then(messages => {
         const settings = oldMessage.settings;
+
+        if(oldMessage.pinned == false && newMessage.pinned == true || oldMessage.pinned == true && newMessage.pinned == false) return // pinned 
+
         if(settings.logs.value === undefined) return// no logs
         const logs = client.getChannel(oldMessage.guild, oldMessage.settings.logs.value);
         if(logs === undefined) return // Logs is not set up correctly
@@ -31,9 +34,10 @@ module.exports = async (client, oldMessage, newMessage) => {
             .setAuthor(`${client.user.username}`, client.user.avatarURL())
             .addFields(
                 { name: 'Original content: ', value: `${oldMessageContent.substring(0, 999)}`, inline: true},
-                { name: 'Updated content: ', value: `[${newMessageContent.substring(0, 700)}](https://discord.com/channels/${newMessage.guild.id}/${newMessage.channel.id}/${newMessage.id})`, inline: true},
+                { name: 'Updated content: ', value: `${newMessageContent.substring(0, 999)}`, inline: true},
                 { name: 'Message author: ', value: `${newMessage.author}`,},
-                { name: 'Channel: ', value: `${newMessage.channel}`,}
+                { name: 'Channel: ', value: `${newMessage.channel}`, inline: true},
+                { name: "Message Link", value: `[Message Link](https://discord.com/channels/${newMessage.guild.id}/${newMessage.channel.id}/${newMessage.id})`, inline: true}
             )
         
         if (attachmentArray.length) {

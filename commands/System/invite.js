@@ -2,7 +2,13 @@ const { MessageEmbed } = require('discord.js');
 const filename = require('path').basename(__filename).split(".")[0]
 exports.run = async (client, message, args, level) => {
     message.channel.send(`Check your DMS!`)
-    return message.author.send(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=536211191`)
+    const embed = client.defaultEmbed()
+        .setTitle(`Bot Invite.`)
+        .setThumbnail(client.user.avatarURL({format: "png", size: 2048}))
+        .addField("Full Admin Permissions", `The bot will be able to run every command without encountering errors.\n[Invite](https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8)`, true)
+        .addField("Permission Choice", `The bot was not scripted for this and may encounter errors if the bot tries to run something and doesn't have permission\n[Invite](https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=536211191)`, true)
+        
+    return message.author.send(embed)
 }
 
 exports.conf = {
