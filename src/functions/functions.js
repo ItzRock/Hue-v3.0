@@ -334,6 +334,8 @@ module.exports = (client) => {
     }
   });
   process.on("unhandledRejection", async (err) => {
+    client.logger.error(err);
+    /*
     const missingPermissionsRegex = /(DiscordAPIError:\sMissing\sPermissions$\n)/im;
     const clean = await client.clean(client, err);
 
@@ -394,5 +396,6 @@ module.exports = (client) => {
         const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
         client.logger.error(`Unhandled Rejection: ${errorMsg}`);
     }
+    */
   });
 };
