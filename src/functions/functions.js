@@ -99,6 +99,9 @@ module.exports = (client) => {
         a.push(member);
       }
     });
+    if(a.length == 0) {
+      if(guild.members.cache.get(query) !== undefined) a.push(guild.members.cache.get(query))
+    }
     return a;
   };
   client.getChannel = function (guild, channel) {
