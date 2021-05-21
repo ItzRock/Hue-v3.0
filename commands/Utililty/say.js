@@ -27,7 +27,7 @@ exports.conf = {
 exports.help = {
     name: filename,
     category: __dirname.split("\\")[__dirname.split("\\").length - 1].split("/")[__dirname.split("/").length - 1],
-    description: "Make hue say whatever you want. Premium servers only for administrators to prevent dumbasses.",
+    description: "Make hue say whatever you want (MAINLY TEST COMMAND). Premium servers only for administrators to prevent dumbasses.",
     usage: `${filename} [channel] <text>`
 };
  
