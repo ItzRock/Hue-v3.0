@@ -11,12 +11,13 @@ exports.run = async (client, message, args, level) => {
     }
 
     function lookup(user, member){
+        const icon = user.avatarURL({ format: "png", dynamic: true, size: 2048})
         const embed = client.defaultEmbed()
             .setTitle(`Info on \`${user.tag}\``)
-            .setThumbnail(user.avatarURL())
+            .setThumbnail(icon)
             .addField("Tag", user.tag, true)
             .addField("ID", user.id, true)
-            .addField("Avatar URL", `[Avatar URL](${user.avatarURL()})`, true)
+            .addField("Avatar URL", `[Avatar URL](${icon})`, true)
             .addField("Creation Date", user.createdAt, true)
             .addField("Server Join Date", member.joinedAt, true)
         message.channel.send(embed)

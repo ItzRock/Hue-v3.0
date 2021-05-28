@@ -37,7 +37,7 @@ module.exports = async (client, oldMessage, newMessage) => {
                 { name: 'Updated content: ', value: `${newMessageContent.substring(0, 999)}`, inline: true},
                 { name: 'Message author: ', value: `${newMessage.author}`,},
                 { name: 'Channel: ', value: `${newMessage.channel}`, inline: true},
-                { name: "Message Link", value: `[Message Link](https://discord.com/channels/${newMessage.guild.id}/${newMessage.channel.id}/${newMessage.id})`, inline: true}
+                { name: "Message Link", value: `[Message Link](${newMessage.url})`, inline: true}
             )
         
         if (attachmentArray.length) {

@@ -14,11 +14,15 @@ exports.run = async (client, message, args, level) => {
     async function clear(clrAmount){
       await message.channel.messages.fetch({limit: clrAmount}).then(async (messages) =>{
         const msgCache = messages
-        await message.channel.bulkDelete(messages)
-        .catch(error => {
-          message.channel.send(`${client.config.emojis.x} ${error.name} : \`${error.message}\``)
-          return failed = true;
-        })
+        try {
+          await message.channel.bulkDelete(messages)
+          .catch(error => {
+            message.channel.send(`${client.config.emojis.x} ${error.name} : \`${error.message}\``)
+            return failed = true;
+          })
+        } catch (error) {
+          
+        }
         if(failed == true) return;
         const msg = await message.channel.send(`${client.config.emojis.check} Successfully Deleted ${clrAmount - 1} messages.`)
         await msg.delete({ timeout: 5000 }).catch(/* uh idk*/);
