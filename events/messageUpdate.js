@@ -1,51 +1,36 @@
-const { MessageEmbed } = require('discord.js');
+module.exports = async (client, oldMessage, message) =>{
+    if(message.channel.type == "dm") return;
+    const settings = oldMessage.settings;
+    if(settings == undefined) return;
+    const logs = client.getChannel(message.guild, settings.logs.value);
+    if(
+        settings == undefined ||
+        logs == undefined ||
+        message.author.bot || 
+        oldMessage.pinned == false && message.pinned == true || 
+        oldMessage.pinned == true && message.pinned == false
+    ) return;
 
-
-module.exports = async (client, oldMessage, newMessage) => {
-    if(oldMessage.channel.type === "dm") return
-    if (newMessage.author.bot || oldMessage.author.bot) return
-    oldMessage.channel.messages.fetch({ limit: 1 }).then(messages => {
-        const settings = oldMessage.settings;
-
-        if(oldMessage.pinned == false && newMessage.pinned == true || oldMessage.pinned == true && newMessage.pinned == false) return // pinned 
-
-        if(settings.logs.value === undefined) return// no logs
-        const logs = client.getChannel(oldMessage.guild, oldMessage.settings.logs.value);
-        if(logs === undefined) return // Logs is not set up correctly
-
-        const attachmentArray = oldMessage.attachments.array()
-        var oldMessageContent = `*None*`
-        var newMessageContent = `*None*`
-
-        if (oldMessage.content) {
-            oldMessageContent = oldMessage.content
-        } if (newMessage.content) {
-            newMessageContent = newMessage.content
-        }
-
-        if (newMessageContent === oldMessageContent && newMessageContent !== `*None*`) {
-            return
-        }
-        let embed = new MessageEmbed()
-            .setColor(client.embedColour())
-            .setTimestamp()
-            .setFooter(client.user.username, client.user.avatarURL())
-            .setTitle(`Message updated!`)
-            .setAuthor(`${client.user.username}`, client.user.avatarURL())
-            .addFields(
-                { name: 'Original content: ', value: `${oldMessageContent.substring(0, 999)}`, inline: true},
-                { name: 'Updated content: ', value: `${newMessageContent.substring(0, 999)}`, inline: true},
-                { name: 'Message author: ', value: `${newMessage.author}`,},
-                { name: 'Channel: ', value: `${newMessage.channel}`, inline: true},
-                { name: "Message Link", value: `[Message Link](${newMessage.url})`, inline: true}
-            )
-        
-        if (attachmentArray.length) {
-            attachmentArray.forEach((attachment, attachmentNum) => {
-                embed.addField(`Attachment ${attachmentNum}: `, attachment.proxyURL)
-            });
-            embed.setImage(attachmentArray[0].proxyURL)
-        }
-        logs.send(embed)
-    })
+    const content = {
+        old: oldMessage.content || "None",
+        new: message.content || "None",
+        attachments: oldMessage.attachments.array()
+    }
+    const embed = client.defaultEmbed()
+        .setTitle("Updated Message.")
+        .setThumbnail(message.author.avatarURL({ format: "png", dynamic: true, size: 2048}))
+        .addFields(
+            { name: 'Original content: ', value: `${content.old.substring(0, 999)}`, inline: true},
+            { name: 'Updated content: ', value: `${content.new.substring(0, 999)}`, inline: true},
+            { name: 'Message author: ', value: `${message.author}\n(${message.author.tag})`, inline: false  },
+            { name: 'Channel: ', value: `${message.channel}`, inline: true},
+            { name: "Message Link", value: `[Message Link](${message.url})`, inline: true}
+        );
+    if(content.attachments.length) {
+        content.attachments.forEach((attachment, index) => {
+            embed.addField(`Attachment ${index}: `, attachment.proxyURL)
+        });
+        embed.setImage(content.attachments[0].proxyURL)
+    }
+    await logs.send(embed).catch(()=>{})
 }

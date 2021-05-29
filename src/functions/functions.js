@@ -59,6 +59,18 @@ module.exports = (client) => {
   client.invalidArgs = (cmdName) => {
     return `${client.config.emojis.x} Invalid Arguments. Usage: \`${client.getArgs(cmdName)}\``
   }
+  client.loadEvent = (eventName) => {
+    try{
+      client.logger.event(`Loading Event: ${eventName}`);
+      const event = require("../../events/" + eventName)
+      client.events.set(eventName, event)
+      return false
+    }catch(e){
+      client.logger.error(e);
+      return `Unable to load command ${eventName}: ${e}`;
+    }
+  }
+
   client.loadCommand = (commandName) => {
     try {
       client.logger.cmd(`Loading Command: ${commandName}`);
@@ -271,6 +283,20 @@ module.exports = (client) => {
     }
     return false;
   };
+  client.unloadEvent = async (eventName) => {
+    if(!client.events.has(eventName)) `The command \`${eventName}\` doesn"t seem to exist, nor is it an alias. Try again!`;
+    const mod = require.cache[require.resolve(`../../events/${eventName}`)]
+    delete require.cache[
+      require.cache[require.resolve(`../../events/${eventName}`)]
+    ]
+    for (let i = 0; i < mod.parent.children.length; i++) {
+      if (mod.parent.children[i] === mod) {
+        mod.parent.children.splice(i, 1);
+        break;
+      }
+    }
+    return false;
+  }
   client.unloadAPIModule = async (moduleName) => {
     let _module;
     if(client.apis.has(moduleName)){

@@ -22,7 +22,10 @@ const fs = require('fs')
 
 //map to store data
 client.settings = {}
+
 client.commands = new Map();
+client.events = new Map()
+
 client.aliases = new Map();
 client.activeVerifications = new Map()
 client.clearToVerify = new Map()
@@ -66,11 +69,10 @@ const boot = async function(){
     client.logger.log(`Loading a total of ${evtFiles.length} events.`); // logs number of events found
     evtFiles.forEach(file => { // for each item found in the directory it will run the following on it
         const eventName = file.split(".")[0]; // splits the name
-        client.logger.event(`Loading Event: ${eventName}`); // logs the event is being loaded
-        const event = require(`./events/${file}`); // requires that event
-        client.on(eventName, event.bind(null, client)); // honestly, i dont know but it works.
+        const response = client.loadEvent(eventName); 
+        if (response) console.log(response);
+        if(client.events.has(eventName)) client.on(eventName, client.events.get(eventName).bind(null, client));
     });
-
     client.levelCache = {}; // god i dont want to explain how this works
     for (let i = 0; i < client.config.permissionLevels.length; i++) {
         const thisLevel = client.config.permissionLevels[i];

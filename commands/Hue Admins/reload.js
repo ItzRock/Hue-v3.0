@@ -12,8 +12,14 @@ exports.run = async (client, message, args, level) => {
     
       return message.reply(`The command \`${command.help.name}\` has been reloaded`);
     }
-    case "api": {
+    case "event": {
+      let response = await client.unloadEvent(`${args[1]}`)
+      if(response) return message.reply(`Error Unloading: ${response}`);
 
+      response = client.loadEvent(args[1])
+      if (response) return message.reply(`Error Loading: ${response}`);
+
+      return message.reply(`The Event \`${args[1]}\` has been reloaded`)
     }
     default: {
       const command = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0]));

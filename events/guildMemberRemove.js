@@ -7,7 +7,7 @@ module.exports = async (client, member) => {
     const embed = client.defaultEmbed()
         .setTitle(`Member Leave`)
         .setColor("RED")
-        .setThumbnail(member.user.avatarURL())
+        .setThumbnail(member.user.avatarURL({ format: "png", dynamic: true, size: 2048}))
         .addFields(
             {name: "User:", value: `\`${member.user.tag}\``, inline: true},
         )
