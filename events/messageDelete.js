@@ -15,9 +15,9 @@ module.exports = async (client, message) =>{
     }
 
     const fetchedLogs = (await message.guild.fetchAuditLogs({limit: 1, type: 'MESSAGE_DELETE'})).entries.first()
-    if(fetchedLogs.target.id == message.author.id) content.log = fetchedLogs
-
-    if(content.log.executor.bot) return;
+    if(fetchedLogs.target.id === message.author.id) {
+     if(fetchedLogs.executor.bot) return;   
+    }
 
     const embed = client.defaultEmbed()
         .setTitle("Deleted Message.")

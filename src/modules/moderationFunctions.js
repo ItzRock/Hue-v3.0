@@ -1,6 +1,16 @@
 module.exports = (client) => {
+    function generateID(){
+        return "#" + Math.floor(Math.random()*16777215).toString(16)
+    }
+    client.cases = {
+        addCase: async (guild, id, reason = "Unlogged case reason", action = "Unknown", caseID = generateID()) => {
+            client.HueMap.add(guild.id, "modcases", {name: caseID, value: { name: caseID, reason: reason, action: action, user: id }}) 
+        },
+        generateID: generateID,
+    }
     client.modFunc = {
-        mute: async function(message, member, mutedRole, reason = "Automatic mute (Bot/Integration)"){
+        mute: async function(message, member, mutedRole, reason = "Reason not provided."){
+            client.cases.addCase(member.guild, member.user.id, reason, "MUTE")
             member.roles.cache.forEach(async role => {
                 if(role.name == "@everyone") return
                 await member.roles.remove(role).catch()
@@ -25,8 +35,13 @@ module.exports = (client) => {
                 }
             })
         },
-        ban: async function(message, member, reason = "Automatic ban (Bot/Integration)"){
+        ban: async function(message, member, reason = "Reason not provided."){
+            client.cases.addCase(member.guild, member.user.id, reason, "BAN")
             return await member.ban({reason : reason})
+        },
+        kick: async function(message, member, reason = "Reason not provided."){
+            client.cases.addCase(member.guild, member.user.id, reason, "KICK")
+            return await member.kick({reason : reason})
         }
     }
 }

@@ -163,6 +163,17 @@ Made By: ItzRock (299682971374452739): https://discord.com/invite/QwgnZ83XD3
             value: [], 
             editable: false
         },
+        "modcases": {
+            name: "modcases", 
+            value: [], 
+            editable: false
+        },
+        "allowedRegister": {
+            name: "allowedRegister", 
+            value: false, 
+            editable: false
+        },
+        
     },
     permissionLevels: [
         {

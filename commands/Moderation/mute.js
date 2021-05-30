@@ -57,7 +57,7 @@ exports.run = async (client, message, args, level) => {
             })    
         }
 
-        await client.modFunc.mute(message, member, mutedRole, `Reason: \`${reason}\`\nAdministrator: \`${endEXT}\``)
+        await client.modFunc.mute(message, member, mutedRole, `${reason}\nModerator: ${message.author.tag}`)
         const timeout = setTimeout(()=>{
             const stillMuted = member.roles.cache.has(mutedRole.id)
             if (stillMuted == true){

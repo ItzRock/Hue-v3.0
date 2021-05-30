@@ -257,6 +257,13 @@ module.exports = (client) => {
         "#ff8133",
       ].random();
   };
+
+  client.arrayToMap = (array, nameIndex = "name", toSetIndex = "value") => {
+    const newMap = new Map()
+    array.forEach(index => newMap.set(index[nameIndex], index[toSetIndex]))
+    return newMap;
+  }
+
   client.unloadCommand = async (commandName) => {
     let command;
     if (client.commands.has(commandName)) {

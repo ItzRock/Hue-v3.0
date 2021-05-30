@@ -16,6 +16,9 @@ module.exports = async (client, oldMessage, message) =>{
         new: message.content || "None",
         attachments: oldMessage.attachments.array()
     }
+
+    if(content.old === content.new) return
+
     const embed = client.defaultEmbed()
         .setTitle("Updated Message.")
         .setThumbnail(message.author.avatarURL({ format: "png", dynamic: true, size: 2048}))
