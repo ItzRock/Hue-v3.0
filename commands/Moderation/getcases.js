@@ -21,7 +21,7 @@ exports.run = async (client, message, args, level) => {
         if(userCases.length == 0) return message.channel.send(embed);
 
         const cases = userCases; description = `There Are: \`${cases.length}\` Cases on this user.\`\`\``;
-        cases.forEach((case_) => {description = description + `\nCase: ${case_.name} | Action: ${case_.action}.\nReason: ${case_.reason}\n`}); description = description + "\n```"
+        cases.forEach((case_) => {description = description + `\nCase: ${case_.name} | Action: ${case_.action}.\nReason: ${case_.reason}\nModerator: ${case_.mod}\n`}); description = description + "\n```"
         embed.setDescription(description.substr(0, 999))
         message.channel.send(embed);
     }catch(error){message.channel.send(client.errorEmbed(error))}
@@ -30,7 +30,7 @@ exports.run = async (client, message, args, level) => {
 exports.conf = {
     enabled: true,
     guildOnly: true,
-    aliases: ["cases", "case", "modcases"],
+    aliases: ["cases", "modcases"],
     permLevel: "Moderator",
     disablable: true,
     premium: false

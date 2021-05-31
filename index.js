@@ -15,6 +15,7 @@
 
 const Discord = require('discord.js'); // Discord JS will be the api we use
 const client = new Discord.Client({ disableMentions: 'everyone' }); // Init a client.
+require("discord-buttons")(client)
 
 const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir); 

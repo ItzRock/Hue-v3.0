@@ -36,7 +36,7 @@ exports.run = async (client, message, args, level) => {
             .setTitle(`\`${member.user.tag}\` has been ${filename}ned from \`${message.guild.name}\``)
             .setDescription(`Reason: \`${reason}\`\nAdministrator: \`${endEXT}\``)
         await member.send(DM).catch(/* DMs were closed */)
-        await client.modFunc.ban(message,member,`${reason}\nModerator: ${message.author.tag}`).catch(err => {
+        await client.modFunc.ban(message,member,reason, message.author.tag).catch(err => {
             return message.reply(`Unable to ban \`${member.user.tag}\` \`${err.message}\` `);
         })
         message.channel.send(loggedEmbed)
