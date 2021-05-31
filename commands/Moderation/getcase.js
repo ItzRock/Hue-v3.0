@@ -11,11 +11,12 @@ exports.run = async (client, message, args, level) => {
         const embed = client.defaultEmbed()
             .setTitle(`Case \`${args[0]}\``)
             .setDescription(`\`\`\`\nUser: ${_case.user}\nAction: ${_case.action}.\nReason: ${_case.reason}\nModerator: ${_case.mod}\n\`\`\``)
+        const renameButton = new MessageButton().setStyle("blurple").setLabel("Edit Case").setID(`ACTION=RENAMECASE%CASE=${_case.name}%AUTHORISED=${message.author.id}`)
         const deleteButton = new MessageButton().setStyle("red").setLabel("Delete Case").setID(`ACTION=DELETECASE%CASE=${_case.name}%AUTHORISED=${message.author.id}`)
 
         message.channel.send({
             embed: embed,
-            buttons: [deleteButton]
+            buttons: [renameButton, deleteButton]
         })
 
     }catch(error){message.channel.send(client.errorEmbed(error))}
