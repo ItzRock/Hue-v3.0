@@ -50,6 +50,7 @@ exports.run = async (client, message, args, level) => {
 
         serverLog()
         async function serverLog(){
+            console.log("adding to db")
             client.HueMap.add(message.guild.id, "mutedUsers",
             { 
                 id: member.user.id, 
