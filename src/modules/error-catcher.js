@@ -28,7 +28,7 @@ module.exports = (client) => {
         
         const cleanStackRegex = /(\s+at[^{]*)/im;
         const regexMatches = {
-            MissingPermissions = {
+            MissingPermissions : {
                 Regex : /(DiscordAPIError:\sMissing\sPermissions$\n)/im,
                 Function : async function(rejectionChannel) {
                     const guildSettings = await client.getSettings(rejectionChannel.guild);   
