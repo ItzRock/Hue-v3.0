@@ -9,7 +9,6 @@ module.exports = (client) => {
         }
     });
     process.on("unhandledRejection", async (err) => {
-        console.log("woah it did work???");
         function getSendableChannel(guild) {
             if (guild.channels.cache.has(guild.id)) return guild.channels.get(guild.id);
             const generalChannel = guild.channels.cache.find(channel => channel.name === "general");
@@ -31,7 +30,7 @@ module.exports = (client) => {
         const regexMatches = {
             MissingPermissions = {
                 Regex : /(DiscordAPIError:\sMissing\sPermissions$\n)/im,
-                Function : function(rejectionChannel) {
+                Function : async function(rejectionChannel) {
                     const guildSettings = await client.getSettings(rejectionChannel.guild);   
                     let noStackCleanedErr = clean.replace(cleanStackRegex, "")
 
@@ -97,7 +96,7 @@ module.exports = (client) => {
         for (let [rejectionName, rejectionData] of Object.entries(matchedRejections)) {
             const rejectionFunction = regexMatches[rejectionName] ? regexMatches[rejectionName].Function : undefined;
             try {
-                rejectionFunction(rejectionData.RejectionChannel);
+                await rejectionFunction(rejectionData.RejectionChannel);
             } catch (newError) {
                 logRejectionToConsole(err, cleanedErr);
     
