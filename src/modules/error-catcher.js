@@ -68,9 +68,11 @@ module.exports = (client) => {
         let matchedRejections = {};
         for (let [rejectionName, rejectionTable] of Object.entries(regexMatches)) {
             const matchedRejection = rejectionTable.Regex ? rejectionTable.Regex.test(cleanedErr.substring(0, 1500)) : undefined
+            console.log(`continue case 1 ${matchedRejection}`)
             if (matchedRejection === undefined || !matchedRejection) continue;
             
             let channelPath, channelId = cleanedErr.substring(0, 1500).match(channelPathRegex)
+            console.log(`continue case 2 ${channelPath}`)
             if (!channelPath || channelPath === undefined || channelPath === null) continue;
             else channelPath = (typeof(channelPath[0]) == "string" ? channelPath[0] : channelPath[0].toString());
 
@@ -83,12 +85,14 @@ module.exports = (client) => {
                 continue;
             };
 
+            console.log(`finished case 1`)
             matchedRejections[rejectionName] = {
                 RejectionChannel : rejectionChannel,
             };
         }
 
         if (Object.keys(matchedRejections).length <= 0) {
+            console.log(`length <= 0, calling console rejection log case 1`)
             logRejectionToConsole(err, cleanedErr);
             return;
         };
@@ -96,8 +100,10 @@ module.exports = (client) => {
         for (let [rejectionName, rejectionData] of Object.entries(matchedRejections)) {
             const rejectionFunction = regexMatches[rejectionName] ? regexMatches[rejectionName].Function : undefined;
             try {
+                console.log(`calling rejection function for ${rejectionName}`)
                 await rejectionFunction(rejectionData.RejectionChannel);
             } catch (newError) {
+                console.log(`calling console rejection log case 2`)
                 logRejectionToConsole(err, cleanedErr);
     
                 const newErrorCleaned = await client.clean(client, newError)
