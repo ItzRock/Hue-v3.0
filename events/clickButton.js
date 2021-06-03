@@ -21,7 +21,7 @@ module.exports = async (client, button) => {
                 const case_ = caseMap.get(details.CASE)
                 button.message.author.id = details.AUTHORISED
                 await button.reply.send(`What should I rename the reason to.`)
-                const response = await client.awaitReply(button.message, "`Send Message Input`")
+                const response = await client.awaitReply(button.message, "`Send Message Input`", 600000)
                 if(response == false){
                     button.reply.edit('Error. Message Timeout');
                     client.cases.addCase(button.message.guild, case_.user, case_.reason, case_.action, case_.mod, details.CASE)

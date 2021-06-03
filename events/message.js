@@ -6,8 +6,8 @@ module.exports = async (client, message) => {
     try {client.HueMap.lookUp(message.guild);} catch (error) {} // initialize it
     const settings = message.settings = await client.HueMap.lookUp(message.guild);
   
-    const prefixMention = new RegExp(`^<@!?${client.user.id}>( |)$`);
-    if (message.content.match(prefixMention)) {
+    
+    if (message.content.includes(`<@!${client.user.id}>`)) {
       return message.reply(`:wave: hiii!! My prefix is: \`${settings.prefix.value}\``);
     }
     // not for us
