@@ -9,6 +9,7 @@ module.exports = (client) => {
         }
     });
     process.on("unhandledRejection", async (err) => {
+        console.log("woah it did work???");
         function getSendableChannel(guild) {
             if (guild.channels.cache.has(guild.id)) return guild.channels.get(guild.id);
             const generalChannel = guild.channels.cache.find(channel => channel.name === "general");
