@@ -70,7 +70,7 @@ module.exports = (client) => {
             const matchedRejection = rejectionTable.Regex ? rejectionTable.Regex.test(cleanedErr.substring(0, 1500)) : undefined
             if (matchedRejection === undefined || !matchedRejection) continue;
             
-            const channelPath, channelId = cleanedErr.substring(0, 1500).match(channelPathRegex)
+            let channelPath, channelId = cleanedErr.substring(0, 1500).match(channelPathRegex)
             if (!channelPath || channelPath === undefined || channelPath === null) continue;
             else channelPath = (typeof(channelPath[0]) == "string" ? channelPath[0] : channelPath[0].toString());
 
