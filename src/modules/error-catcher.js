@@ -90,7 +90,6 @@ module.exports = (client) => {
         }
 
         if (Object.keys(matchedRejections).length <= 0) {
-            console.log(`logging rejection to console case 1`)
             logRejectionToConsole(err, cleanedErr);
             return;
         };
@@ -100,7 +99,6 @@ module.exports = (client) => {
             try {
                 await rejectionFunction(rejectionData.Rejection, rejectionData.RejectionChannel);
             } catch (newError) {
-                console.log(`logging rejection to console case 2`)
                 logRejectionToConsole(err, cleanedErr);
     
                 const newErrorCleaned = await client.clean(client, newError)
