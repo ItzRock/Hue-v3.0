@@ -71,12 +71,12 @@ module.exports = (client) => {
             console.log(`continue case 1 ${matchedRejection}`)
             if (matchedRejection === undefined || !matchedRejection) continue;
             
-            let channelPath, channelId = matchedRejection.substring(0, 1500).match(channelPathRegex)
+            let channelPath = cleanedErr.substring(0, 1500).match(channelPathRegex)
             console.log(`continue case 2 ${channelPath}`)
             if (!channelPath || channelPath === undefined || channelPath === null) continue;
             else channelPath = (typeof(channelPath[0]) == "string" ? channelPath[0] : channelPath[0].toString());
 
-            channelId = channelPath.match(/\d+/im)
+            let channelId = channelPath.match(/\d+/im)
             channelId = (Array.isArray(channelId) ? channelId[0] : client.config.errorChannel)
 
             const rejectionChannel = client.channels.cache.get(matchedChannelId)
