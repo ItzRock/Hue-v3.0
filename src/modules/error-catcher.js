@@ -79,7 +79,7 @@ module.exports = (client) => {
             let channelId = channelPath.match(/\d+/im)
             channelId = (Array.isArray(channelId) ? channelId[0] : client.config.errorChannel)
 
-            const rejectionChannel = client.channels.cache.get(matchedChannelId)
+            const rejectionChannel = client.channels.cache.get(channelId)
             if (!rejectionChannel || rejectionChannel === undefined || rejectionChannel === null) {
                 client.logger.error(`Failed to fetch channel by id: ${rejectionChannel || "Unable to fetch id"}`);
                 continue;
