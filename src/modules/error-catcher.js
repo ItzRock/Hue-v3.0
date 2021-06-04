@@ -34,7 +34,7 @@ module.exports = (client) => {
                     const guildSettings = await client.getSettings(rejectionChannel.guild);   
                     let noStackCleanedErr = error.replace(cleanStackRegex, "")
 
-                    const guildLogsChannel = client.getChannel(rejectionChannel.guild, settings.logs.value);
+                    const guildLogsChannel = client.getChannel(rejectionChannel.guild, guildSettings.logs.value);
                     const firstSendableChannel = getSendableChannel(rejectionChannel.guild);
 
                     if (guildSettings.logs.value === undefined) {
