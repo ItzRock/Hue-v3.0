@@ -8,16 +8,18 @@ exports.run = async (client, message, args, level) => {
         if(userSearch[0] == false) return message.channel.send(`${userSearch[1]}`)
 
         const member = userSearch[1]
-        if (member.user.id === message.guild.owner.id) 
-            return message.channel.send(`${client.config.emojis.x} You cannot ${filename} the owner!`)
-        if (member.user.id === client.user.id)
-            return message.channel.send(`${client.config.emojis.x} I'd prefer you don't ${filename} me`)
-        if (member.user.id === message.author.id)
-            return message.channel.send(`${client.config.emojis.x} I don't think you want to ${filename} yourself`)
-        if (member.roles.highest.position > message.member.roles.highest.position && message.author.id !== message.guild.ownerID)
-            return message.channel.send(`${client.config.emojis.x} You can't ${filename} people with a higher role than yourself!`);
-        if (member.roles.highest.position > message.guild.me.roles.highest.position)
-            return message.channel.send(`${client.config.emojis.x} I can't ${filename} people with a higher role than myself!`);
+
+        const determineReturnResponse = {
+            [member.user.id === message.guild.owner.id ? responseStates.Return : responseStates.Pass]: `${client.config.emojis.x} You cannot ${filename} the owner!`,
+            [member.user.id === client.user.id ? responseStates.Return : responseStates.Pass]: `${client.config.emojis.x} I'd prefer you don't ${filename} me`,
+            [member.user.id === message.author.id ? responseStates.Return : responseStates.Pass]: `${client.config.emojis.x} I don't think you want to ${filename} yourself`,
+            [(member.roles.highest.position > message.member.roles.highest.position && message.author.id !== message.guild.ownerID) ? responseStates.Return : responseStates.Pass]: `${client.config.emojis.x} You can't ${filename} people with a higher role than yourself!`,
+            [member.roles.highest.position > message.guild.me.roles.highest.position ? responseStates.Return : responseStates.Pass]: `${client.config.emojis.x} I can't ${filename} people with a higher role than myself!`,
+            [message.member.bannable]: `${message.x} This user is not ${filename}able`
+        }; for (var state in determineReturnResponse) {
+            var returnResponse = determineReturnResponse[state];
+            if (state === responseStates.Return) return message.channel.send(returnResponse);
+        }
 
         let reason = args.slice(1).join(" ");
         const permissionLevel = client.config.permissionLevels.find(l => l.level === level).name;

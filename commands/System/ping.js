@@ -15,7 +15,7 @@ exports.run = async (client, message, args, level) => {
   connections.Server = `${new Date() - curTime} ms.`
   const finish = client.defaultEmbed()
     .setTitle(`🏓 Pong!`)
-    .setDescription(`${message["check"]} Hue v3.2 Connection: \`${connections.Discord}\`\n${message["check"]} Hue Server v1.0 Connection: \`${connections.Server}\`\n${message["check"]} API Latency: \`${connections.API}\``)
+    .setDescription(`${message["check"]} Hue v3.2 Connection To Discord: \`${connections.Discord}\`\n${message["check"]} Bot Connection to Hue Server v1.0: \`${connections.Server}\`\n${message["check"]} Bot API Latency: \`${connections.API}\``)
   msg.edit({embed: finish});
 };
   

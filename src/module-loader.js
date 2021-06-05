@@ -8,6 +8,7 @@ module.exports = async (client) => {
         client.logger.module(`Loading Module: ${module}`)
         try {require(`./modules/${module}`)(client)} catch (error){
             client.logger.error(`Failed to load module: ${module}. (${error.name} : ${error.message})`)
+            client.logger.error(error)
         }
     })
 }
