@@ -60,6 +60,13 @@ module.exports = (client) => {
                     }
                 },
             },
+            UnknownMessage : {
+                Regex : /(DiscordAPIError:\sUnknown\sMessage$\n)/im,
+                Function : async function(error, rejectionChannel) {
+                    console.log("it worked, probably");
+                    return;
+                },
+            },
         };
         
         const cleanedErr = await client.clean(client, err);
