@@ -1,3 +1,4 @@
+const rejectionMessageTimeout = new Set();
 module.exports = (client) => {
     // Harry do stuff here
     process.on("uncaughtException", (err) => {
@@ -84,6 +85,8 @@ module.exports = (client) => {
             const matchedRejection = rejectionTable.Regex ? rejectionTable.Regex.test(cleanedErr.substring(0, 1500)) : undefined
             if (matchedRejection === undefined || !matchedRejection) continue;
             
+            if (rejectionMessageTimeout.has(rejectionName)) continue; 
+            
             let channelPath = cleanedErr.substring(0, 1500).match(channelPathRegex)
             if (!channelPath || channelPath === undefined || channelPath === null) continue;
             else channelPath = (typeof(channelPath[0]) == "string" ? channelPath[0] : channelPath[0].toString());
@@ -111,6 +114,8 @@ module.exports = (client) => {
         for (let [rejectionName, rejectionData] of Object.entries(matchedRejections)) {
             const rejectionFunction = regexMatches[rejectionName] ? regexMatches[rejectionName].Function : undefined;
             try {
+                rejectionMessageTimeout.add(rejectionName);
+                setTimeout(function(){ rejectionMessageTimeout.delete(rejectionName) }, 5000);
                 await rejectionFunction(rejectionData.Rejection, rejectionData.RejectionChannel);
             } catch (newError) {
                 await logRejectionToConsole(err, cleanedErr);
