@@ -73,6 +73,7 @@ module.exports = (client) => {
         
         let matchedRejections = {};
         for (let [rejectionName, rejectionTable] of Object.entries(regexMatches)) {
+            client.logger.log(`${rejectionName} :: ${rejectionTable} :: wow!`);
             const matchedRejection = rejectionTable.Regex ? rejectionTable.Regex.test(cleanedErr.substring(0, 1500)) : undefined
             if (matchedRejection === undefined || !matchedRejection) continue;
             
