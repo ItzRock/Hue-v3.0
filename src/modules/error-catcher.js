@@ -16,7 +16,7 @@ module.exports = (client) => {
 
             return guild.channels.cache
                 .filter(channel => channel.type === "text" && channel.permissionsFor(client.user).has("SEND_MESSAGES"))
-                .sort((a, b) => a.position - b.position || parseInt(a.id) - parseInt(b.id) // Long.fromString(a.id).sub(Long.fromString(b.id)).toNumber())
+                .sort((a, b) => a.position - b.position || parseInt(a.id) - parseInt(b.id)) // Long.fromString(a.id).sub(Long.fromString(b.id)).toNumber())
                 .first();
         }
 
