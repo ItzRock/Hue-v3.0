@@ -140,7 +140,7 @@ module.exports = (client) => {
       .setTimestamp()
       .setColor("RED")
       .setTitle(`${client.config.emojis.exclamation} An Error has occurred`)
-      .setDescription(`\`${error.name}: ${error.message}\`\nIf this continues to happen please join our support server by running \`;server\``)
+      .setDescription(`\`${error.name === "" ? error.name : error.name + ':'} ${error.message}\`\nIf this continues to happen please join our support server by running \`;server\``)
     return embed
   }
   client.isNum = client.isNumeric = (string) => {
