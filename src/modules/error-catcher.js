@@ -26,10 +26,10 @@ module.exports = (client) => {
             client.logger.error(`Unhandled Rejection: ${errorMsg}`);
         }
         
-        async function sendEmbed(channel, rejectedChannel) {
+        async function sendEmbed(channel, rejectedChannel, err) {
             if (channel && channel !== undefined && channel !== null) {
                 await channel.send(`<@${channel.guild.ownerID}> MissingPermissions to send messages to channel: ${rejectedChannel}`)
-                await channel.send(client.errorEmbed({name: "", message: noStackCleanedErr}))
+                await channel.send(client.errorEmbed({name: "", message: err}))
                 return true;
             } else return false; // Bot can't send messages in any channel it can see
         };
@@ -48,7 +48,7 @@ module.exports = (client) => {
                     let immediateReturn = false
                     if (guildSettings.logs.value === undefined) {
                         
-                        immediateReturn = !(await sendEmbed(firstSendableChannel, rejectionChannel));
+                        immediateReturn = !( await sendEmbed(firstSendableChannel, rejectionChannel, noStackCleanedErr) );
                         if (immediateReturn === true) return;
                    
                     } else if (guildLogsChannel && guildLogsChannel !== undefined && guildLogsChannel !== null) { // Send to logs channel
@@ -56,12 +56,12 @@ module.exports = (client) => {
                         guildLogsChannel.send(`<@${rejectionChannel.guild.ownerID}> MissingPermissions to send messages to channel: ${rejectionChannel}`)
                         guildLogsChannel.send(client.errorEmbed({name: "", message: noStackCleanedErr}))
                        
-                        immediateReturn = !(await sendEmbed(firstSendableChannel, rejectionChannel));
+                        immediateReturn = !( await sendEmbed(firstSendableChannel, rejectionChannel, noStackCleanedErr) );
                         if (immediateReturn === true) return;
 
                     } else { // Logs channel exists but isn't configured properly
                        
-                        immediateReturn = !( await sendEmbed(firstSendableChannel, rejectionChannel));
+                        immediateReturn = !( await sendEmbed(firstSendableChannel, rejectionChannel, noStackCleanedErr) );
                         if (immediateReturn === true) return;
 
                     
