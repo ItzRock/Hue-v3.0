@@ -63,7 +63,6 @@ module.exports = (client) => {
             UnknownMessage : {
                 Regex : /(DiscordAPIError:\sUnknown\sMessage$\n)/im,
                 Function : async function(error, rejectionChannel) {
-                    await rejectionChannel.send(`I caught an unknown message error! ${error} :: ${rejectionChannel}`);
                     return;
                 },
             },
