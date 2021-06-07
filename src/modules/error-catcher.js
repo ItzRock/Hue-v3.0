@@ -9,7 +9,7 @@ module.exports = (client) => {
         }
     });
     process.on("unhandledRejection", async (err) => {
-        function getSendableChannel(guild) {
+        async function getSendableChannel(guild) {
             if (guild.channels.cache.has(guild.id)) return guild.channels.get(guild.id);
             const generalChannel = guild.channels.cache.find(channel => channel.name === "general");
             if (generalChannel) return generalChannel;
@@ -20,11 +20,19 @@ module.exports = (client) => {
                 .first();
         }
 
-        function logRejectionToConsole(err, cleanedErr) {
+        async function logRejectionToConsole(err, cleanedErr) {
             client.channels.cache.get(client.config.errorChannel).send(`\`\`\`js\n${cleanedErr.substring(0, 1500)}\n\`\`\``)
             const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
             client.logger.error(`Unhandled Rejection: ${errorMsg}`);
         }
+        
+        async function sendEmbed(channel, rejectedChannel) {
+            if (channel && channel !== undefined && channel !== null) {
+                await channel.send(`<@${channel.guild.ownerID}> MissingPermissions to send messages to channel: ${rejectedChannel}`)
+                await firstSendableChannel.send(client.errorEmbed({name: "", message: noStackCleanedErr}))
+                return true;
+            } else return false; // Bot can't send messages in any channel it can see
+        };
         
         const cleanStackRegex = /(\s+at[^{]*)/im;
         const regexMatches = {
@@ -32,33 +40,30 @@ module.exports = (client) => {
                 Regex : /(DiscordAPIError:\sMissing\sPermissions$\n)/im,
                 Function : async function(error, rejectionChannel) {
                     const guildSettings = await client.getSettings(rejectionChannel.guild);   
-                    let noStackCleanedErr = error.replace(cleanStackRegex, "\n")
+                    let noStackCleanedErr = error.replace(cleanStackRegex, " :: ")
 
                     const guildLogsChannel = client.getChannel(rejectionChannel.guild, guildSettings.logs.value);
-                    const firstSendableChannel = getSendableChannel(rejectionChannel.guild);
-
-                    async function sendEmbed(channel, rejectedChannel) {
-                        if (channel && channel !== undefined && channel !== null) {
-                            channel.send(`<@${channel.guild.ownerID}> MissingPermissions to send messages to channel: ${rejectedChannel}`)
-                            firstSendableChannel.send(client.errorEmbed({name: "MissingPermissions\n", message: noStackCleanedErr}))
-
-                        } else return; // Bot can't send messages in any channel it can see
-                    };
+                    const firstSendableChannel = await getSendableChannel(rejectionChannel.guild);
                     
+                    let immediateReturn = false
                     if (guildSettings.logs.value === undefined) {
                         
-                        await sendEmbed(firstSendableChannel, rejectionChannel);
+                        immediateReturn = !(await sendEmbed(firstSendableChannel, rejectionChannel));
+                        if (immediateReturn === true) return;
                    
                     } else if (guildLogsChannel && guildLogsChannel !== undefined && guildLogsChannel !== null) { // Send to logs channel
                         
                         guildLogsChannel.send(`<@${rejectionChannel.guild.ownerID}> MissingPermissions to send messages to channel: ${rejectionChannel}`)
-                        guildLogsChannel.send(client.errorEmbed({name: "MissingPermissions\n", message: noStackCleanedErr}))
+                        guildLogsChannel.send(client.errorEmbed({name: "", message: noStackCleanedErr}))
                        
-                        await sendEmbed(firstSendableChannel, rejectionChannel);
+                        immediateReturn = !(await sendEmbed(firstSendableChannel, rejectionChannel));
+                        if (immediateReturn === true) return;
 
                     } else { // Logs channel exists but isn't configured properly
                        
-                        await sendEmbed(firstSendableChannel, rejectionChannel);
+                        immediateReturn = !( await sendEmbed(firstSendableChannel, rejectionChannel));
+                        if (immediateReturn === true) return;
+
                     
                     }
                 },
@@ -99,7 +104,7 @@ module.exports = (client) => {
         }
 
         if (Object.keys(matchedRejections).length <= 0) {
-            logRejectionToConsole(err, cleanedErr);
+            await logRejectionToConsole(err, cleanedErr);
             return;
         };
         
@@ -108,7 +113,7 @@ module.exports = (client) => {
             try {
                 await rejectionFunction(rejectionData.Rejection, rejectionData.RejectionChannel);
             } catch (newError) {
-                logRejectionToConsole(err, cleanedErr);
+                await logRejectionToConsole(err, cleanedErr);
     
                 const newErrorCleaned = await client.clean(client, newError)
                 client.channels.cache.get(client.config.errorChannel).send(`Another exception caught while trying to process the previous rejection: \`\`\`js\n${newErrorCleaned.substring(0, 1500)}\n\`\`\``)
