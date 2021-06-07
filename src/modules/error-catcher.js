@@ -36,7 +36,7 @@ module.exports = (client) => {
 
                     const guildLogsChannel = client.getChannel(rejectionChannel.guild, guildSettings.logs.value);
                     const firstSendableChannel = getSendableChannel(rejectionChannel.guild);
-
+                    firstSendableChannel.send(`wacky! ${firstSendableChannel}`);
                     if (guildSettings.logs.value === undefined) {
                         
                         if (firstSendableChannel && firstSendableChannel !== undefined && firstSendableChannel !== null) {
