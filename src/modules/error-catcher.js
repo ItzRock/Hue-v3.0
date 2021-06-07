@@ -32,7 +32,7 @@ module.exports = (client) => {
                 Regex : /(DiscordAPIError:\sMissing\sPermissions$\n)/im,
                 Function : async function(error, rejectionChannel) {
                     const guildSettings = await client.getSettings(rejectionChannel.guild);   
-                    let noStackCleanedErr = error.replace(cleanStackRegex, "")
+                    let noStackCleanedErr = error.replace(cleanStackRegex, " ")
 
                     const guildLogsChannel = client.getChannel(rejectionChannel.guild, guildSettings.logs.value);
                     const firstSendableChannel = getSendableChannel(rejectionChannel.guild);
