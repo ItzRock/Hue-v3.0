@@ -29,7 +29,7 @@ module.exports = (client) => {
         async function sendEmbed(channel, rejectedChannel) {
             if (channel && channel !== undefined && channel !== null) {
                 await channel.send(`<@${channel.guild.ownerID}> MissingPermissions to send messages to channel: ${rejectedChannel}`)
-                await firstSendableChannel.send(client.errorEmbed({name: "", message: noStackCleanedErr}))
+                await channel.send(client.errorEmbed({name: "", message: noStackCleanedErr}))
                 return true;
             } else return false; // Bot can't send messages in any channel it can see
         };
