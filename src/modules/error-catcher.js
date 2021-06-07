@@ -32,31 +32,34 @@ module.exports = (client) => {
                 Regex : /(DiscordAPIError:\sMissing\sPermissions$\n)/im,
                 Function : async function(error, rejectionChannel) {
                     const guildSettings = await client.getSettings(rejectionChannel.guild);   
-                    let noStackCleanedErr = error.replace(cleanStackRegex, " ")
+                    let noStackCleanedErr = error.replace(cleanStackRegex, "\n")
 
                     const guildLogsChannel = client.getChannel(rejectionChannel.guild, guildSettings.logs.value);
                     const firstSendableChannel = getSendableChannel(rejectionChannel.guild);
-                    firstSendableChannel.send(`wacky! ${firstSendableChannel}`);
-                    if (guildSettings.logs.value === undefined) {
-                        
-                        if (firstSendableChannel && firstSendableChannel !== undefined && firstSendableChannel !== null) {
-                            firstSendableChannel.send(`<@${rejectionChannel.guild.ownerID}> MissingPermissions to send messages to channel: ${rejectionChannel}`)
-                            firstSendableChannel.send(client.errorEmbed({name: "MissingPermissions", message: noStackCleanedErr}))
+
+                    async function sendEmbed(channel, rejectedChannel) {
+                        if (channel && channel !== undefined && channel !== null) {
+                            channel.send(`<@${channel.guild.ownerID}> MissingPermissions to send messages to channel: ${rejectedChannel}`)
+                            firstSendableChannel.send(client.errorEmbed({name: "MissingPermissions\n", message: noStackCleanedErr}))
 
                         } else return; // Bot can't send messages in any channel it can see
+                    };
+                    
+                    if (guildSettings.logs.value === undefined) {
+                        
+                        await sendEmbed(firstSendableChannel, rejectionChannel);
                    
                     } else if (guildLogsChannel && guildLogsChannel !== undefined && guildLogsChannel !== null) { // Send to logs channel
                         
                         guildLogsChannel.send(`<@${rejectionChannel.guild.ownerID}> MissingPermissions to send messages to channel: ${rejectionChannel}`)
-                        guildLogsChannel.send(client.errorEmbed({name: "MissingPermissions", message: noStackCleanedErr}))
+                        guildLogsChannel.send(client.errorEmbed({name: "MissingPermissions\n", message: noStackCleanedErr}))
+                       
+                        await sendEmbed(firstSendableChannel, rejectionChannel);
 
                     } else { // Logs channel exists but isn't configured properly
-                        
-                        if (firstSendableChannel && firstSendableChannel !== undefined && firstSendableChannel !== null) {
-                            firstSendableChannel.send(`<@${rejectionChannel.guild.ownerID}> MissingPermissions to send messages to channel: ${rejectionChannel}`)
-                            firstSendableChannel.send(client.errorEmbed({name: "MissingPermissions", message: noStackCleanedErr}))
-
-                        } else return; // Bot can't send messages in any channel it can see
+                       
+                        await sendEmbed(firstSendableChannel, rejectionChannel);
+                    
                     }
                 },
             },
@@ -73,7 +76,6 @@ module.exports = (client) => {
         
         let matchedRejections = {};
         for (let [rejectionName, rejectionTable] of Object.entries(regexMatches)) {
-            client.logger.log(`${rejectionName} :: ${rejectionTable} :: wow!`);
             const matchedRejection = rejectionTable.Regex ? rejectionTable.Regex.test(cleanedErr.substring(0, 1500)) : undefined
             if (matchedRejection === undefined || !matchedRejection) continue;
             
