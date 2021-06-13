@@ -8,8 +8,12 @@ module.exports = (client) => {
         const data = new Promise((resolve, reject) => {
             https.get(url, (res) =>{
                 res.on('data', async (raw) => { // do function when get data
-                const output = JSON.parse(raw);
-                resolve(output)
+                    try {
+                        const output = JSON.parse(raw);
+                        resolve(output)
+                    } catch (error) {
+                        reject(error)
+                    }
                 })
             }).on('error', (e) => {
                 reject(e)
