@@ -8,6 +8,7 @@ exports.run = async (client, message, args, level) => {
         if(userSearch[0] == false) return message.channel.send(`${userSearch[1]}`)
 
         const member = userSearch[1]
+        const responseStates = {Return: "return", Pass: "pass"}
         const determineReturnResponse = {
             [member.user.id === message.guild.owner.id ? responseStates.Return : responseStates.Pass]: `${client.config.emojis.x} You cannot ${filename} the owner!`,
             [member.user.id === client.user.id ? responseStates.Return : responseStates.Pass]: `${client.config.emojis.x} I'd prefer you don't ${filename} me`,
