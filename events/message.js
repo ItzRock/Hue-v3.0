@@ -1,3 +1,4 @@
+const timeout = new Map()
 module.exports = async (client, message) => {
     // Like said in the index most of this comes from hue 2.0 which comes from a guide bot, this file is just a complete rip from hue 2 which hasnt changed much from the orginial https://github.com/AnIdiotsGuide/guidebot/blob/master/events/message.js
 
@@ -60,10 +61,8 @@ module.exports = async (client, message) => {
     while (args[0] && args[0][0] === "-") {
       message.flags.push(args.shift().slice(1));
     }
-    if(message.channel.type == "dm"){
-      client.logger.cmd(`GUILD: ${message.channel.type} | L${level} ${message.author.username} ran ${cmd.help.name}`);
-    }
-    else client.logger.cmd(`GUILD: ${message.guild.name} | L${level} ${message.author.username} ran ${cmd.help.name}`);
+    const guildType = message.channel.type == "dm" ? message.channel.type : message.guild.name
+    client.logger.cmd(`GUILD: ${guildType} | L${level} ${message.author.username} ran ${cmd.help.name}`);
     try {
       await cmd.run(client, message, args, level)
     } catch (error) {

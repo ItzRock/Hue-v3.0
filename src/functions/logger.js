@@ -7,6 +7,9 @@ client.login(require("../keys.json").main)
 const channelLogging = "819036071777140746" // CHANGE OR ELSE THIS WILL NOT WORK FOR YOU
 
 const fs = require("fs")
+if (!fs.existsSync("./logs")){
+  fs.mkdirSync("./logs");
+}
 const filename = `${moment().format("YYYY-MM-DD HH;mm;ss")}.txt`.toString();
 fs.writeFile(`./logs/${filename}`, "[LOGS]", function(err){
   if(err){console.log("oh god something broke: " + err);}
