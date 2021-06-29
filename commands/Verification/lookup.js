@@ -25,8 +25,7 @@ exports.run = async (client, message, args, level) => {
                 hueDesc = `**Discord Tag**: \`${disUser.tag}\`\n**Discord ID**: \`${disUser.id}\`\n\n<@${disUser.id}>`
             } else hueDesc = `**Discord ID**: ${hueDB[1].DiscordID}`
         }
-        let desc = "No Description"
-        if(playerInfo.blurb.substring(0, 999) !== "") desc = playerInfo.blurb.substring(0, 999)
+        let desc = playerInfo.blurb.substring(0, 999) !== "" ? playerInfo.blurb.substring(0, 999) : "No Description";
 
         const miliseconds = parseInt(playerInfo.age) * 24 * 60 * 60 * 1000;
         const duration = moment.duration(miliseconds).format("Y [years], M [months]");
@@ -37,10 +36,10 @@ exports.run = async (client, message, args, level) => {
             .addField("Roblox Username", `[${playerInfo.username}](https://www.roblox.com/users/${user}/profile)`, true)
             .addField("Roblox ID", user, true)
             .addField("Account Age", `${duration} old\n(${playerInfo.joinDate.getFullYear()}-${playerInfo.joinDate.getMonth() + 1}-${playerInfo.joinDate.getDate()})`, true)
-            .addField("Old Names", `\`${OldNames.substring(0, 999)}\``, true)
+            .addField("Old Names", `\`\`\`\n${OldNames.substring(0, 999)}\`\`\``, true)
             .addField("Stats", `Friends: \`${playerInfo.friendCount}\`\nFollowers: \`${playerInfo.followerCount}\``, true)
-            .addField("Hue DB Info", `${hueDesc}`, true)
-            .addField("Description", `\`\`\`\n${desc}\n\`\`\``)
+            .addField("Description", `\`\`\`\n${desc}\n\`\`\``);
+        hueDB[0] == true ? embed.addField("Hue DB Info", `${hueDesc}`, true) : undefined;
         message.channel.send(embed)
     } catch (error) {
         const embed = client.errorEmbed(error)

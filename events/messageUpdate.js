@@ -23,9 +23,10 @@ module.exports = async (client, oldMessage, message) =>{
         .setTitle("Updated Message.")
         .setThumbnail(message.author.avatarURL({ format: "png", dynamic: true, size: 2048}))
         .addFields(
-            { name: 'Original content: ', value: `${content.old.substring(0, 999)}`, inline: true},
-            { name: 'Updated content: ', value: `${content.new.substring(0, 999)}`, inline: true},
-            { name: 'Message author: ', value: `${message.author}\n(${message.author.tag})`, inline: false  },
+            { name: 'Original content: ', value: `>>> ${content.old.substring(0, 999)}`, inline: true},
+            { name: 'Updated content: ', value: `>>> ${content.new.substring(0, 999)}`, inline: true},
+            { name: "** **", value: "** **", inline:true},
+            { name: 'Message author: ', value: `${message.author}\n(${message.author.tag})`, inline: true  },
             { name: 'Channel: ', value: `${message.channel}`, inline: true},
             { name: "Message Link", value: `[Message Link](${message.url})`, inline: true}
         );

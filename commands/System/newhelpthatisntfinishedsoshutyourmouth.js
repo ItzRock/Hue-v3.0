@@ -7,7 +7,7 @@ function isWhole(num){
 exports.run = async (client, message, args, level) => {
     try{
         const disabledCmds = message.settings["disabled-commands"].value;
-        const header = (disabledCmds.length === 0) ? `\`[Use ${message.settings.prefix.value}help [command OR category] for details]\`` : `\`[Use ${message.settings.prefix.value}help [command OR category] for details]\`\n\`Note: ${disabledCmds.length} command(s) are disabled in this guild.\``
+        const header = (disabledCmds.length === 0) ? `\`[Use ${message.settings.prefix.value}help [command OR category OR all] for details]\`` : `\`[Use ${message.settings.prefix.value}help [command OR category] for details]\`\n\`Note: ${disabledCmds.length} command(s) are disabled in this guild.\``
 
         const data = await readdir("./commands/")
         const categoryDescriptions = {

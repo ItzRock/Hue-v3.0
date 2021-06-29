@@ -2,9 +2,10 @@ const keys = require("./keys.json");
 const config = {
 
     "AuthorizedUsers": [
-        "299682971374452739", // Me
+        "299682971374452739", // Anthony
         "412729903893708801", // Harry
         "468791748739596298", // fingerPlace
+        "273867501006225419" // Terry
     ],
     "SupportUsers": [
         

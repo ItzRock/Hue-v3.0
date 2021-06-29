@@ -23,9 +23,9 @@ module.exports = async (client, message) =>{
         .setTitle("Deleted Message.")
         .setThumbnail(message.author.avatarURL({ format: "png", dynamic: true, size: 2048}))
         .addFields(
-            { name: 'Message author: ', value: `${message.author}\n(${message.author.tag})`, inline: false },
-            { name: 'Message Content: ', value: `${content.content.substring(0, 999)}`, inline: true},
+            { name: 'Message Content: ', value: `>>> ${content.content.substring(0, 999)}`, inline: false},
             { name: 'Channel: ', value: `${message.channel}`, inline: true},
+            { name: 'Message author: ', value: `${message.author}\n(${message.author.tag})`, inline: true },
         );
     if(content.attachments.length) {
         content.attachments.forEach((attachment, index) => {
