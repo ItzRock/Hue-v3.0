@@ -7,7 +7,7 @@ module.exports = (client) => {
             MongoClient.connect(url, { useUnifiedTopology: true }, function(err, client){
                 const database = client.db(dbName)
                 database.collection(collection).find().toArray(function(err, results) {
-                    if(err) resolve(err)
+                    if(err) reject(err)
                     else return resolve(results)
                 })
             })

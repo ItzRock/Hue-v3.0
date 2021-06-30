@@ -36,7 +36,8 @@ module.exports = (client) => {
         const msg = await message.channel.send(`\`${GameAction}\`\n${':black_large_square:'.repeat(10)}\n:black_large_square:${discordMap[0].join("")}:black_large_square:\n:black_large_square:${discordMap[1].join("")}:black_large_square:\n:black_large_square:${discordMap[2].join("")}:black_large_square:\n:black_large_square:${discordMap[3].join("")}:black_large_square:\n:black_large_square:${discordMap[4].join("")}:black_large_square:\n${':black_large_square:'.repeat(10)}`)
         update()
         function inReach(){
-             // shit code time
+            // shit code time
+            // you still wrote it ¯\_(ツ)_/¯ -Harry
             try{if(map[player.y][player.x + 1] == 2) return true;}catch(err){return false}
             try{if(map[player.y][player.x - 1] == 2) return true;}catch(err){return false}
             try{if(map[player.y + 1][player.x] == 2) return true;}catch(err){return false}

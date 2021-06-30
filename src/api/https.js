@@ -1,5 +1,3 @@
-const { resolve } = require("path")
-
 module.exports = (client) => {
     const https = require("https")
     const http = require("http")

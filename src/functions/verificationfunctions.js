@@ -4,7 +4,7 @@ module.exports = (client) => {
     /*
 
     I dont think these do anything at all
-
+    Correction: "they do do stuff" ~Anthony (6/30/2021)
 
     */
     client.verification = {}

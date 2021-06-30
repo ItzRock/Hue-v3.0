@@ -64,8 +64,7 @@ module.exports = (client) => {
                        
                         immediateReturn = !( await sendEmbed(firstSendableChannel, rejectionChannel, noStackCleanedErr) );
                         if (immediateReturn === true) return;
-
-                    
+                        
                     }
                 },
             },

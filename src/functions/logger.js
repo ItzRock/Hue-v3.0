@@ -4,16 +4,22 @@ const discord = require('discord.js')
 const client = new discord.Client()
 client.login(require("../keys.json").main)
 
+// Shouldn't we make that more clear in the next version -Harry
 const channelLogging = "819036071777140746" // CHANGE OR ELSE THIS WILL NOT WORK FOR YOU
+
+
+// This file has horrible indents (fix!!!! (never)) -Harry
 
 const fs = require("fs")
 if (!fs.existsSync("./logs")){
   fs.mkdirSync("./logs");
 }
+
 const filename = `${moment().format("YYYY-MM-DD HH;mm;ss")}.txt`.toString();
 fs.writeFile(`./logs/${filename}`, "[LOGS]", function(err){
   if(err){console.log("oh god something broke: " + err);}
 })
+
 exports.log = (content, type = "log",) => {
   const timestamp = `[${moment().format("YYYY-MM-DD HH:mm")}]:`;
   const full = `${timestamp} ${type.toUpperCase()} ${content}` 
@@ -60,7 +66,7 @@ exports.log = (content, type = "log",) => {
     }
     default: throw new TypeError("Logger type must be either warn, debug, log, ready, cmd or error.");
   }
-}; 
+};
 
 exports.error = (...args) => this.log(...args, "error");
 
@@ -77,6 +83,9 @@ exports.cmd = (...args) => this.log(...args, "cmd");
 exports.api = (...args) => this.log(...args, "API");
 
 exports.data = (...args) => this.log(...args, "DATA");
+
 exports.event = (...args) => this.log(...args, "EVENT");
+
 exports.module = (...args) => this.log(...args, "module");
+
 exports.ready = (...args) => this.log(...args, "ready");

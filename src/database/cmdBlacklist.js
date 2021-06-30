@@ -1,4 +1,3 @@
-const { MessageEmbed } = require('discord.js');
 module.exports = (client) => {
     const MongoClient = require('mongodb').MongoClient;
     const url = client.config.database[0]

@@ -14,7 +14,7 @@ module.exports = (client) => {
                         username: username,
                         email: username,
                         encryptedPassword: cryptedPass,
-                        role: "Panel Administrator",
+                        role: "Verification", // Revert to Panel Administrator if everything breaks
                         discordID: id
                     };
                     db.collection(collections).insertOne(items, function(err, res) {

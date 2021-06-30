@@ -1,6 +1,9 @@
 const { MessageEmbed } = require("discord.js");
 const noblox = require("noblox.js");
 const { resolve } = require("path");
+
+// This file has horrible indents (fix!!!! (never)) -Harry
+
 module.exports = (client) => {
 
   client.permlevel = (message) => {
@@ -67,7 +70,7 @@ module.exports = (client) => {
       return false
     }catch(e){
       client.logger.error(e);
-      return `Unable to load command ${eventName}: ${e}`;
+      return `Unable to load event ${eventName}: ${e}`;
     }
   }
 
