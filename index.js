@@ -8,7 +8,7 @@
 
     While i wrote a bunch of this, its not all me.
 
-    Contributors:
+    Contributor(s):
     HarryXChen3 https://github.com/HarryXChen3
 
 */
