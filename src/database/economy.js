@@ -12,7 +12,7 @@ module.exports = (client) => {
                     const db = mongoClient.db(dbName);
                     let items = { DiscordID: userID.toString(), Wealth: "0", Bank: "0", BankCap: "0"};
                     db.collection(collection).insertOne(items, function(err, res) {
-                        if (err) resolve(err);
+                        if(err) reject(err)
                         resolve(true)
                         return mongoClient.close()
                     });
@@ -31,7 +31,7 @@ module.exports = (client) => {
                     let myquery  = { DiscordID: userID.toString() };
                     let newvalues = { $set: {Wealth: parseInt(amount)} };
                     db.collection(collection).updateOne(myquery, newvalues, function(err, res) {
-                        if (err) resolve([false, err]);
+                        if(err) reject(err)
                         resolve([true])
                         return mongoClient.close()
                     });
@@ -46,11 +46,12 @@ module.exports = (client) => {
             const total = Math.floor(parseInt(data.Wealth) + parseInt(amount))
             const promise = new Promise((resolve, reject) => {
                 MongoClient.connect(url,{ useUnifiedTopology: true } , async function(err, mongoClient) {
+                    if(err) reject(err)
                     const db = mongoClient.db(dbName);
                     let myquery  = { DiscordID: userID.toString() };
                     let newvalues = { $set: {Wealth: total} };
                     db.collection(collection).updateOne(myquery, newvalues, function(err, res) {
-                        if (err) resolve([false, err]);
+                        if(err) reject(err)
                         resolve([true])
                         return mongoClient.close()
                     });
@@ -65,11 +66,12 @@ module.exports = (client) => {
             const total = parseInt(data.Wealth) - parseInt(amount)      
             const promise = new Promise((resolve, reject) => {
                 MongoClient.connect(url,{ useUnifiedTopology: true } , async function(err, mongoClient) {
+                    if(err) reject(err)
                     const db = mongoClient.db(dbName);
                     let myquery  = { DiscordID: userID.toString() };
                     let newvalues = { $set: {Wealth: total} };
                     db.collection(collection).updateOne(myquery, newvalues, function(err, res) {
-                        if (err) resolve([false, err]);
+                        if(err) reject(err)
                         resolve([true])
                         return mongoClient.close()
                     });
@@ -85,7 +87,7 @@ module.exports = (client) => {
                     const db = mongoClient.db(dbName);
                     let query = { DiscordID: userID.toString() };
                     db.collection(collection).find(query).toArray(async function(err, result) {
-                        if (err) throw err;
+                        if(err) reject(err)
                         if(result.length < 1){
                             const result = await client.database.economy.newUser(userID)
                             if(result) return resolve(await client.database.economy.read(userID))
@@ -108,7 +110,7 @@ module.exports = (client) => {
                     let myquery  = { DiscordID: userID.toString() };
                     let newvalues = { $set: {Bank: money} };
                     db.collection("economies").updateOne(myquery, newvalues, function(err, res) {
-                        if (err) resolve([false, err]);
+                        if(err) reject(err)
                         else resolve([true])
                         return mongoClient.close()
                     });
@@ -137,7 +139,7 @@ module.exports = (client) => {
                     let myquery  = { DiscordID: userID.toString() };
                     let newvalues = { $set: {BankCap: money} };
                     db.collection("economies").updateOne(myquery, newvalues, function(err, res) {
-                        if (err) resolve([false, err]);
+                        if(err) reject(err)
                         else resolve([true])
                         return mongoClient.close()
                     });

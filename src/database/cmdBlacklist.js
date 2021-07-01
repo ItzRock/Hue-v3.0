@@ -10,6 +10,7 @@ module.exports = (client) => {
                     const db = mongoclient.db(dbName);
                     let query = { DiscordID: userID.toString() };
                     db.collection(collections).find(query).toArray(function(err, result) {
+                        if(err) reject(err)
                         if(result.length == 0) return resolve(false)
                         if(commandName == undefined) return resolve(result[0])
                         if(result[0].All_Commands === true) return resolve(true);

@@ -9,7 +9,7 @@ module.exports = (client) => {
             MongoClient.connect(url,{ useUnifiedTopology: true } , function(err, client) {
                 const db = client.db(dbName);
                 db.collection("items").find().toArray(function(err, result) {
-                    if (err) throw err;
+                    if(err) reject(err)
                     resolve(result)
                     return client.close()
                 });
@@ -26,7 +26,7 @@ module.exports = (client) => {
                 const db = client.db(dbName);
                 let query = { DiscordID: discordID.toString() };
                 db.collection("items").deleteOne(query, function(err, obj) {
-                    if (err) throw err;
+                    if(err) reject(err)
                     resolve('Successfully Removed')
                     return client.close()
                 });
@@ -55,7 +55,7 @@ module.exports = (client) => {
                 const db = client.db(dbName);
                 let items = { DiscordID: discordID.toString(), ItemName: item.toString()};
                 db.collection("inventories").insertOne(items, function(err, res) {
-                    if (err) console.log(err);;
+                    if(err) reject(err)
                     resolve(true)
                     return client.close()
                 });
@@ -71,7 +71,7 @@ module.exports = (client) => {
                 const db = client.db(dbName);
                 let query = { DiscordID: discordID.toString() };
                 db.collection("inventories").find(query).toArray(function(err, result) {
-                    if (err) throw err;
+                    if(err) reject(err)
                     resolve(result)
                     return client.close()
                 });
@@ -87,7 +87,7 @@ module.exports = (client) => {
                 const db = client.db(dbName);
                 let query = { DiscordID: discordID.toString(), ItemName: item.toString() };
                 db.collection("inventories").findOneAndDelete(query, function(err, obj) {
-                    if (err) resolve(err);
+                    if(err) reject(err)
                     resolve(true)
                     return client.close()
                 });

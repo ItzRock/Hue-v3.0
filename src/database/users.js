@@ -18,7 +18,7 @@ module.exports = (client) => {
                         discordID: id
                     };
                     db.collection(collections).insertOne(items, function(err, res) {
-                        if (err) resolve([false, `${err.name}: ${err.message}`]);
+                        if(err) reject(err)
                         resolve([true, 'Successfully Added'])
                         return client.close()
                     });

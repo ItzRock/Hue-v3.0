@@ -38,12 +38,12 @@ client.logger = require('./src/functions/logger')
 // Lets log a fancy boot logo so i can say  "i worked on hue today"
 const logo = client.config.bootMessage;
 client.logger.log(logo)
-/* Lets load our Functions */ // Writing this at hue v3.2 i know this is a cluster fuck and ill deal with this another date
+/* Lets load our Functions */ 
+// Writing this at hue v3.2 i know this is a cluster fuck and ill deal with this another date
 require("./src/functions/verificationfunctions")(client)
 require("./src/databaseLoader")(client)
 require("./src/api-loader")(client)
 require("./src/module-loader")(client)
-require("./src/gamesLoader")(client)
 require("./src/functions/functions")(client)
 require("./src/functions/server-settings")(client)
 
