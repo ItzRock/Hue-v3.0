@@ -134,7 +134,7 @@ exports.run = async (client, message, args, level) => {
                 }
                 await pendingMSG.delete()
                 if(groupJoin == true){
-                    if(await isInGroup(ID) == true) return setYourStatus(ID, Username, avatar) //chooseMethod(ID, Username, avatar);
+                    if(await isInGroup(ID) == true) return chooseMethod(ID, Username, avatar);
                     const groupEmbed = new MessageEmbed()
                         .setColor("RED")
                         .setTitle(`${client.config.emojis.x} You aren't in the group!`)
@@ -144,7 +144,7 @@ exports.run = async (client, message, args, level) => {
                         .setTimestamp()
                     return message.channel.send(groupEmbed)
                 } else{
-                    return setYourStatus(ID, Username, avatar) //chooseMethod(ID, Username, avatar);
+                    return chooseMethod(ID, Username, avatar);
                 }
             }
         }

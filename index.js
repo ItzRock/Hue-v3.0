@@ -34,7 +34,7 @@ client.clearToVerify = new Map()
 client.config = require('./src/configuration')
 
 console.log(`Loading Logger. if you see a bunch of errors create a logs folder`);
-client.logger = require('./src/functions/logger')
+client.logger = require('./src/functions/logger')(client)
 // Lets log a fancy boot logo so i can say  "i worked on hue today"
 const logo = client.config.bootMessage;
 client.logger.log(logo)
@@ -84,4 +84,3 @@ const boot = async function(){
     });
 }
 boot()
-module.exports = client;
