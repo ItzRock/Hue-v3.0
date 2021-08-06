@@ -30,12 +30,12 @@ exports.run = async (client, message, args, level) => {
             .setAuthor(`${client.user.username} Moderation Action`, client.user.avatarURL())
             .setTitle(`You have been ${filename}ed from \`${message.guild.name}\``)
             .setThumbnail(message.guild.iconURL())
-            .setDescription(`Reason: \`${reason}\`\nAdministrator: \`${endEXT}\``);
+            .setDescription(`Reason: \`${loggedReason}\`\nAdministrator: \`${endEXT}\``);
         const loggedEmbed = client.defaultEmbed()
             .setAuthor(`${client.user.username} Moderation Action`, client.user.avatarURL())
             .setThumbnail(member.user.avatarURL())
             .setTitle(`\`${member.user.tag}\` has been ${filename}ed from \`${message.guild.name}\``)
-            .setDescription(`Reason: \`${reason}\`\nAdministrator: \`${endEXT}\``)
+            .setDescription(`Reason: \`${loggedReason}\`\nAdministrator: \`${endEXT}\``)
         await member.send(DM).catch(/* DMs were closed */)
         await client.modFunc.kick(message,member,reason, message.author.tag).catch(err => {
             return message.reply(`Unable to kick \`${member.user.tag}\` \`${err.message}\` `);
