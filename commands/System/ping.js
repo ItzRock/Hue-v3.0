@@ -12,8 +12,9 @@ exports.run = async (client, message, args, level) => {
   connections.Discord = `${msg.createdTimestamp - message.createdTimestamp}ms.`
   try{
     const curTime = new Date()
-    const data = await client.apis.https.get("https://api.itzrock.xyz/v1/status")
-    connections.Server = `${new Date() - curTime} ms.`
+    const data = client.apis.https.get("https://api.itzrock.xyz/v1/status")
+    data.catch(()=> {connections.Server = false})
+    data.then(()=> {connections.Server = `${new Date() - curTime} ms.`})
   } catch(err) {
     connections.Server = false
   }

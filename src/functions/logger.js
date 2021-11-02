@@ -30,7 +30,7 @@ module.exports = (client) => {
           log: full
         }
       })
-      data.catch(error => { console.log(error.data) })
+      data.catch(error => {})
     } catch (error) {
       
     }

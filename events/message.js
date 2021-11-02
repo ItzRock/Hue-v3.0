@@ -8,9 +8,9 @@ module.exports = async (client, message) => {
     const settings = message.settings = await client.HueMap.lookUp(message.guild);
   
     
-    if (message.content.includes(`<@!${client.user.id}>`)) {
+    /*if (message.content.includes(`<@!${client.user.id}>`)) {
       return message.reply(`:wave: hiii!! My prefix is: \`${settings.prefix.value}\``);
-    }
+    }*/
     // not for us
     if (message.content.indexOf(settings.prefix.value) !== 0) return;
 

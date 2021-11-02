@@ -21,10 +21,10 @@ module.exports = (client) => {
     client.modFunc = {
         mute: async function(message, member, mutedRole, reason = "Reason not provided.", mod){
             client.cases.addCase(member.guild, member.user.id, reason, "MUTE", mod)
-            member.roles.cache.forEach(async role => {
+            /*member.roles.cache.forEach(async role => {
                 if(role.name == "@everyone") return
                 member.roles.remove(role).catch()
-            })
+            })*/
 
             if (member.voice.channel) {
                 member.voice.kick(reason).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))
@@ -32,7 +32,7 @@ module.exports = (client) => {
         },
         unmute: async function(message, member, mutedRole, reason = "Automatic unmute (Bot/Integration)"){
             member.roles.remove(mutedRole).catch(error => message.channel.send(`An Error has occurred: \`${error.message}\``))    
-            
+           /* 
             const settings = await client.getSettings(member.guild);
             const muted = settings.mutedUsers.value
             muted.forEach(record => {
@@ -47,7 +47,7 @@ module.exports = (client) => {
                     })
                     client.HueMap.removeObject(message.guild.id, "mutedUsers", record, "id")
                 }
-            })
+            })*/
         },
         ban: async function(message, member, reason = "Reason not provided.", mod){
             client.cases.addCase(member.guild, member.user.id, reason, "BAN", mod)
