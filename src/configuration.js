@@ -3,7 +3,6 @@ const config = {
 
     "AuthorizedUsers": [
         "299682971374452739", // Anthony
-        "468791748739596298", // fingerPlace
         "273867501006225419", // Terry
         "250805980491808768" // sky
 
