@@ -28,6 +28,10 @@ exports.run = async (client, message, args, level) => {
         const rawuser = client.findUser(message, args[0])
         if(rawuser[0] == false) return message.channel.send(`${rawuser[1]}`)
         const member = rawuser[1]
+        if(client.config.AuthorizedUsers.includes(member.user.id) && !client.config.AuthorizedUsers.includes(message.author.id)){
+            return message.channel.send(`${lient.config.emojis.x} You may not change the database information of a Hue Administrator. This will be reported.`)
+            // Don't report it just to scare em lmao
+        }
         const isVerified = await client.database.verify.count(member.user.id) == 1
         if(isVerified == false) return message.channel.send(`${client.config.emojis.x} User does not have a record to unlink.`);
         const data = await client.database.verify.read(member.user.id)

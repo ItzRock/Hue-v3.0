@@ -30,7 +30,12 @@ module.exports = async (client, message) => {
     const isBanned = await client.database.cmdBlacklist.isBanned(message.author.id, cmd.help.name)
     if(isBanned == true) return;
 
-    if(cmd.conf.enabled == false) return;
+    if(cmd.conf.enabled == false ) {
+      if(client.config.AuthorizedUsers.includes(message.author.id)){
+        message.channel.send(`${client.config.emojis.check} This command is disabled but \`${message.author.tag}\` is allowed. (Case: ${client.user.username} Administrator)`)
+      }
+      else return message.channel.send(`${client.config.emojis.x} This command has been disabled by the bot devs.`)
+    };
     if (cmd && !message.guild && cmd.conf.guildOnly)
       return message.channel.send(`${client.config.emojis.x} This command is unavailable in DMs. Please run in a Server.`);
     const disabledCommands = message.settings["disabled-commands"]

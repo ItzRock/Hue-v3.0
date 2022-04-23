@@ -24,7 +24,9 @@ exports.run = async (client, message, args, level) => {
             .addField('Roblox Username', `\`${data.RobloxUsername}\``, true)
             .addField('Roblox ID', `\`${data.RobloxID}\``, true)
             .addField('Roblox Profile Link', `[Profile Found Here](https://www.roblox.com/users/${data.RobloxID}/profile)`, true)
-        await msg.delete()
+            .addField('Roblox Username on Record', `\`${data.UsernameOnRecord}\``, true)
+            
+            await msg.delete()
         message.channel.send(embed)
     } else { // Other Users
         const rawuser = client.findUser(message, args[0])
@@ -34,6 +36,7 @@ exports.run = async (client, message, args, level) => {
         }
         const user = rawuser[1]
         const rawdata = await client.database.verify.read(user.user.id)
+
         if(rawdata[0] == false) {
             await msg.delete()
             return message.channel.send(`${client.config.emojis.exclamation}${rawdata[1]}`)
@@ -51,7 +54,10 @@ exports.run = async (client, message, args, level) => {
             .addField('Roblox Username', `\`${data.RobloxUsername}\``, true)
             .addField('Roblox ID', `\`${data.RobloxID}\``, true)
             .addField('Roblox Profile Link', `[Profile Found Here](https://www.roblox.com/users/${data.RobloxID}/profile)`, true)
-        await msg.delete()
+            .addField('Roblox Username on Record', `\`${data.UsernameOnRecord}\``, true)
+            
+
+            await msg.delete()
         message.channel.send(embed)
     }
 }

@@ -1,5 +1,10 @@
 module.exports = (client) => {
     client.ai = {
+        Cleverbot: async function(msg, params){
+            const cleverbot = require("cleverbot-free");
+            const response = cleverbot(msg, params.context)
+            return response
+        },
         Derieri: async function(msg, params){
             const Derieri = require('derieri');
             const deri = new Derieri.Client({

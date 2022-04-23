@@ -17,6 +17,7 @@ module.exports = (client) => {
                     if(result.length < 1){
                         resolve([false, " Error: This user was not found in the database."])
                     } else {
+                        result[0].UsernameOnRecord = result[0].RobloxUsername
                         result[0].RobloxUsername = await noblox.getUsernameFromId(result[0].RobloxID)
                         resolve([true, result[0]])
                     }

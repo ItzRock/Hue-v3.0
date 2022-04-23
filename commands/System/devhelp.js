@@ -158,7 +158,7 @@ exports.conf = {
     enabled: true,
     guildOnly: true,
     aliases: ["asd"],
-    permLevel: "User",
+    permLevel: "Hue Administrator",
     disablable: true,
     premium: false
 };

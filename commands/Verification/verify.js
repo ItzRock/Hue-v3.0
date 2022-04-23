@@ -150,6 +150,7 @@ exports.run = async (client, message, args, level) => {
         }
 
         async function chooseMethod(ID, Username, avatar){
+            return setYourStatus(ID, Username, avatar);
             const embed = client.defaultEmbed()
                 .setTitle(`Step 2. Pick a method of verification.`)
                 .setDescription(`**Please pick a method of verification.**\nReact with 🎮 for game verification.\nReact with 📄 for description verification.`)
@@ -203,7 +204,7 @@ exports.run = async (client, message, args, level) => {
                 .setColor(client.embedColour("safe"))
                 .setThumbnail(avatar)
                 .setTitle(`Step 3: Modify your About section of your profile`)
-                .setDescription(`In order to prove you own this account, please either set or set the last line of your [**description / about**](https://www.roblox.com/users/${ID}) to\n\`${status}\`\nand then reply with \`done\` once you have done so, [Example](http://cdn.itzrock.xyz/hue/example.png)`)
+                .setDescription(`In order to prove you own this account, please either set or set the last line of your [**description / about**](https://www.roblox.com/users/${ID}) to\n\`${status}\`\nand then reply with \`done\` once you have done so.`)
             const waitForResponse = await client.awaitReply(message, setStatusEmbed, 300000);
             if(waitForResponse){
                 return checkDescriptionIfCorrect(ID, Username, avatar)

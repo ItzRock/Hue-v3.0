@@ -9,7 +9,7 @@
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "chalk": "^4.1.0",
-    "cleverbot-free": "^1.0.5",
+    "cleverbot-free": "^1.1.11",
     "derieri": "^0.0.4",
     "discord-buttons": "^2.4.1",
     "discord.js": "^12.5.1",
