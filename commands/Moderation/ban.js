@@ -11,7 +11,7 @@ exports.run = async (client, message, args, level) => {
         const responseStates = {Return: "return", Pass: "pass"}
         const determineReturnResponse = {
             [member.user.id === message.guild.owner.id ? responseStates.Return : responseStates.Pass]: `${client.config.emojis.x} You cannot ${filename} the owner!`,
-            [member.user.id === client.user.id ? responseStates.Return : responseStates.Pass]: `${client.config.emojis.x} I'd prefer you don't ${filename} me`,
+            [member.user.id === client.user.id ? responseStates.Return : responseStates.Pass]: `Sleep with one eye open tonight.`,
             [member.user.id === message.author.id ? responseStates.Return : responseStates.Pass]: `${client.config.emojis.x} I don't think you want to ${filename} yourself`,
             [(member.roles.highest.position > message.member.roles.highest.position && message.author.id !== message.guild.ownerID) ? responseStates.Return : responseStates.Pass]: `${client.config.emojis.x} You can't ${filename} people with a higher role than yourself!`,
             [member.roles.highest.position > message.guild.me.roles.highest.position ? responseStates.Return : responseStates.Pass]: `${client.config.emojis.x} I can't ${filename} people with a higher role than myself!`,
