@@ -1,7 +1,7 @@
 exports.run = async (client, message, args, level) => {
   const connections = {
     Discord: "pending",
-    Server: "pending",
+    Server: "Offline.",
     API: "pending"
   }
   const pending = client.defaultEmbed()
@@ -12,9 +12,9 @@ exports.run = async (client, message, args, level) => {
   connections.Discord = `${msg.createdTimestamp - message.createdTimestamp}ms.`
   try{
     const curTime = new Date()
-    const data = client.apis.https.get("https://api.itzrock.xyz/v1/status")
-    data.catch(()=> {connections.Server = false})
-    data.then(()=> {connections.Server = `${new Date() - curTime} ms.`})
+    //const data = client.apis.https.get("https://api.itzrock.xyz/v1/status")
+    //data.catch(()=> {connections.Server = false})
+   // /data.then(()=> {connections.Server = `${new Date() - curTime} ms.`})
   } catch(err) {
     connections.Server = false
   }
