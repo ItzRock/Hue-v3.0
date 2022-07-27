@@ -3,10 +3,6 @@ const config = {
 
     "AuthorizedUsers": [
         "299682971374452739", // Anthony
-        "273867501006225419", // Terry
-        "250805980491808768" // sky
-
-        
     ],
     "SupportUsers": [
         "412729903893708801" // Harry
